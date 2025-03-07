@@ -1,192 +1,213 @@
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/context/AuthContext';
-import { useTranslation } from '@/hooks/useTranslation';
-import { Sailboat, Menu, X, User, LogOut } from 'lucide-react';
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { Sailboat, UserCircle, Globe, LogIn, Menu } from "lucide-react";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
-  const { user, signOut } = useAuth();
-  const { t } = useTranslation();
+  const { t, language, setLanguage, supportedLanguages } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [session, setSession] = useState<any>(null);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const closeMenu = () => setIsMenuOpen(false);
+  // Check for session on mount
+  useState(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  });
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-10">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2">
-          <Sailboat className="h-8 w-8 text-primary" />
-          <span className="text-xl font-semibold">{t('general.appName')}</span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="text-gray-700 hover:text-primary transition-colors">
-            {t('navigation.home')}
-          </Link>
-          <Link to="/businesses" className="text-gray-700 hover:text-primary transition-colors">
-            {t('navigation.businesses')}
-          </Link>
-          <Link to="/about" className="text-gray-700 hover:text-primary transition-colors">
-            {t('navigation.about')}
-          </Link>
-          <Link to="/contact" className="text-gray-700 hover:text-primary transition-colors">
-            {t('navigation.contact')}
-          </Link>
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center">
+              <Sailboat className="h-8 w-8 mr-2 text-primary" />
+              <span className="text-xl font-bold">{t("general.appName")}</span>
+            </Link>
+            
+            <nav className="hidden md:flex ml-10 space-x-4">
+              <Link to="/" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+                {t("navigation.home")}
+              </Link>
+              <Link to="/businesses" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+                {t("navigation.businesses")}
+              </Link>
+              <Link to="/about" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+                {t("navigation.about")}
+              </Link>
+              <Link to="/contact" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+                {t("navigation.contact")}
+              </Link>
+            </nav>
+          </div>
           
-          <a 
-            href="https://dockdive.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors"
-          >
-            <Sailboat className="mr-1 h-4 w-4" />
-            {t('navigation.sellYourBoat')}
-          </a>
-
-          {user ? (
+          <div className="hidden md:flex items-center space-x-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="ml-2">
-                  <User className="h-5 w-5" />
+                <Button variant="ghost" size="sm" className="flex items-center">
+                  <Globe className="h-4 w-4 mr-2" />
+                  {supportedLanguages.find(lang => lang.code === language)?.name}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link to="/profile">{t('navigation.profile')}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/dashboard">{t('navigation.dashboard')}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/my-businesses">{t('navigation.myBusinesses')}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={signOut}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  {t('auth.signOut')}
-                </DropdownMenuItem>
+              <DropdownMenuContent>
+                {supportedLanguages.map(lang => (
+                  <DropdownMenuItem key={lang.code} onClick={() => setLanguage(lang.code)}>
+                    {lang.name}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <div className="flex space-x-2">
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/auth?mode=signin">{t('auth.signIn')}</Link>
-              </Button>
-              <Button asChild size="sm">
-                <Link to="/auth?mode=signup">{t('auth.signUp')}</Link>
-              </Button>
-            </div>
-          )}
-        </nav>
-
-        {/* Mobile Menu Button */}
-        <button onClick={toggleMenu} className="md:hidden text-gray-600">
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="md:hidden py-4 px-4 bg-white shadow-md">
-          <nav className="flex flex-col space-y-4">
-            <Link 
-              to="/" 
-              className="text-gray-700 hover:text-primary py-2" 
-              onClick={closeMenu}
-            >
-              {t('navigation.home')}
-            </Link>
-            <Link 
-              to="/businesses" 
-              className="text-gray-700 hover:text-primary py-2" 
-              onClick={closeMenu}
-            >
-              {t('navigation.businesses')}
-            </Link>
-            <Link 
-              to="/about" 
-              className="text-gray-700 hover:text-primary py-2" 
-              onClick={closeMenu}
-            >
-              {t('navigation.about')}
-            </Link>
-            <Link 
-              to="/contact" 
-              className="text-gray-700 hover:text-primary py-2" 
-              onClick={closeMenu}
-            >
-              {t('navigation.contact')}
-            </Link>
             
             <a 
               href="https://dockdive.com" 
               target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center text-blue-600 hover:text-blue-800 py-2"
-              onClick={closeMenu}
+              rel="noopener noreferrer" 
+              className="text-primary hover:underline flex items-center"
             >
-              <Sailboat className="mr-2 h-4 w-4" />
-              {t('navigation.sellYourBoat')}
+              <Sailboat className="h-4 w-4 mr-1" />
+              {t("navigation.sellYourBoat")}
             </a>
-
-            {user ? (
-              <>
-                <Link 
-                  to="/profile" 
-                  className="text-gray-700 hover:text-primary py-2" 
-                  onClick={closeMenu}
-                >
-                  {t('navigation.profile')}
-                </Link>
-                <Link 
-                  to="/dashboard" 
-                  className="text-gray-700 hover:text-primary py-2" 
-                  onClick={closeMenu}
-                >
-                  {t('navigation.dashboard')}
-                </Link>
-                <Link 
-                  to="/my-businesses" 
-                  className="text-gray-700 hover:text-primary py-2" 
-                  onClick={closeMenu}
-                >
-                  {t('navigation.myBusinesses')}
-                </Link>
-                <button 
-                  onClick={() => {
-                    signOut();
-                    closeMenu();
-                  }} 
-                  className="flex items-center text-red-600 hover:text-red-800 py-2"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  {t('auth.signOut')}
-                </button>
-              </>
+            
+            {session ? (
+              <Link to="/profile">
+                <Button variant="ghost" size="sm" className="flex items-center">
+                  <UserCircle className="h-4 w-4 mr-2" />
+                  {t("navigation.profile")}
+                </Button>
+              </Link>
             ) : (
-              <div className="flex flex-col space-y-2">
-                <Button asChild variant="outline" onClick={closeMenu}>
-                  <Link to="/auth?mode=signin">{t('auth.signIn')}</Link>
+              <Link to="/auth">
+                <Button variant="outline" size="sm" className="flex items-center">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  {t("auth.signIn")}
                 </Button>
-                <Button asChild onClick={closeMenu}>
-                  <Link to="/auth?mode=signup">{t('auth.signUp')}</Link>
-                </Button>
-              </div>
+              </Link>
             )}
-          </nav>
+            
+            {session && (
+              <Link to="/dashboard">
+                <Button variant="default" size="sm">
+                  {t("navigation.dashboard")}
+                </Button>
+              </Link>
+            )}
+          </div>
+          
+          <div className="md:hidden">
+            <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <Menu className="h-6 w-6" />
+            </Button>
+          </div>
         </div>
-      )}
+        
+        {isMenuOpen && (
+          <div className="md:hidden mt-4 pb-4">
+            <nav className="flex flex-col space-y-2">
+              <Link 
+                to="/" 
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t("navigation.home")}
+              </Link>
+              <Link 
+                to="/businesses" 
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t("navigation.businesses")}
+              </Link>
+              <Link 
+                to="/about" 
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t("navigation.about")}
+              </Link>
+              <Link 
+                to="/contact" 
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t("navigation.contact")}
+              </Link>
+              
+              <div className="py-2 border-t border-gray-200 mt-2">
+                <div className="flex items-center space-x-2 px-3 py-2">
+                  <Globe className="h-4 w-4" />
+                  <select 
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value as any)}
+                    className="text-sm bg-transparent"
+                  >
+                    {supportedLanguages.map(lang => (
+                      <option key={lang.code} value={lang.code}>
+                        {lang.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <a 
+                  href="https://dockdive.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center text-primary hover:underline px-3 py-2"
+                >
+                  <Sailboat className="h-4 w-4 mr-2" />
+                  {t("navigation.sellYourBoat")}
+                </a>
+                
+                {session ? (
+                  <>
+                    <Link 
+                      to="/profile" 
+                      className="flex items-center px-3 py-2 text-gray-700 hover:text-primary"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <UserCircle className="h-4 w-4 mr-2" />
+                      {t("navigation.profile")}
+                    </Link>
+                    <Link 
+                      to="/dashboard" 
+                      className="flex items-center px-3 py-2 text-gray-700 hover:text-primary"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {t("navigation.dashboard")}
+                    </Link>
+                  </>
+                ) : (
+                  <Link 
+                    to="/auth" 
+                    className="flex items-center px-3 py-2 text-gray-700 hover:text-primary"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <LogIn className="h-4 w-4 mr-2" />
+                    {t("auth.signIn")}
+                  </Link>
+                )}
+              </div>
+            </nav>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

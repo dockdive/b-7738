@@ -10,6 +10,11 @@ const categories = [
   "profile",
   "business",
   "search",
+  "reviews",
+  "categories",
+  "filters",
+  "validation",
+  "alerts"
 ];
 
 // Dynamically load and merge JSON files for a given language code
@@ -36,11 +41,20 @@ function loadTranslations(lang: string): Record<string, any> {
   return merged;
 }
 
-// All supported languages
+// Supported languages - you can expand this list as needed
 export const supportedLanguages = [
   { code: "en", name: "English" },
-  { code: "nl", name: "Dutch" }
+  { code: "nl", name: "Dutch" },
+  { code: "de", name: "German" },
+  { code: "fr", name: "French" },
+  { code: "es", name: "Spanish" },
+  { code: "it", name: "Italian" },
+  { code: "pt", name: "Portuguese" },
+  { code: "ru", name: "Russian" },
+  { code: "zh", name: "Chinese" },
+  { code: "ja", name: "Japanese" }
 ] as const;
+
 export type LanguageCode = typeof supportedLanguages[number]["code"];
 
 export interface LanguageContextType {

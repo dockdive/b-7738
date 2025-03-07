@@ -1,0 +1,110 @@
+
+{
+  "categories": {
+    "title": "Bedrijfscategorieën",
+    "allCategories": "Alle Categorieën",
+    "shipping": {
+      "name": "Rederijen",
+      "description": "Vracht-, passagiers- en gespecialiseerde scheepvaartdiensten"
+    },
+    "portAuthorities": {
+      "name": "Havenautoriteiten",
+      "description": "Havenbeheer en havenoperaties"
+    },
+    "logistics": {
+      "name": "Maritieme Logistiek",
+      "description": "Supply chain en expeditie diensten"
+    },
+    "shipbuilding": {
+      "name": "Scheepsbouw & Reparatie",
+      "description": "Constructie, onderhoud en reparatie van vaartuigen"
+    },
+    "equipment": {
+      "name": "Maritieme Apparatuur Leveranciers",
+      "description": "Onderdelen, gereedschappen en apparatuur voor maritieme operaties"
+    },
+    "consultants": {
+      "name": "Maritieme Consultants",
+      "description": "Professionele advies- en consultancydiensten"
+    },
+    "training": {
+      "name": "Opleiding & Educatie",
+      "description": "Maritieme scholen, certificering en trainingsprogramma's"
+    },
+    "legal": {
+      "name": "Juridisch & Verzekeringen",
+      "description": "Maritiem recht, verzekeringen en financiële diensten"
+    },
+    "environmental": {
+      "name": "Milieudiensten",
+      "description": "Milieuvriendelijke maritieme oplossingen en compliance"
+    },
+    "offshore": {
+      "name": "Offshore Diensten",
+      "description": "Olie, gas en hernieuwbare energie marine operaties"
+    },
+    "yachting": {
+      "name": "Jachten & Boten",
+      "description": "Recreatievaartuigen, charters en jachthavens"
+    },
+    "brokers": {
+      "name": "Botenmakelaars",
+      "description": "Verkoop en aankoop van nieuwe en gebruikte vaartuigen"
+    },
+    "clubs": {
+      "name": "Watersportverenigingen",
+      "description": "Lidmaatschapsorganisaties voor watersportenthousiasten"
+    },
+    "marinas": {
+      "name": "Jachthavens",
+      "description": "Aanleg-, meer- en opslagfaciliteiten"
+    },
+    "charter": {
+      "name": "Charterbedrijven",
+      "description": "Boot- en jachtverhuur diensten"
+    },
+    "safety": {
+      "name": "Veiligheid & Beveiliging",
+      "description": "Maritieme veiligheidsuitrusting en beveiligingsdiensten"
+    },
+    "technology": {
+      "name": "Maritieme Technologie",
+      "description": "Navigatie, communicatie en maritieme software"
+    },
+    "tourism": {
+      "name": "Maritiem Toerisme",
+      "description": "Cruises, tours en wateractiviteiten"
+    }
+  },
+  "subcategories": {
+    "shipping": {
+      "cargo": "Vrachtvervoer",
+      "passenger": "Passagiersvervoer",
+      "container": "Containertransport",
+      "bulk": "Bulk Carriers",
+      "specialized": "Gespecialiseerd Transport"
+    },
+    "shipbuilding": {
+      "construction": "Nieuwbouw",
+      "repair": "Reparatie & Onderhoud",
+      "conversion": "Scheepsconversie",
+      "design": "Scheepsarchitectuur",
+      "interiors": "Maritieme Interieurs"
+    },
+    "equipment": {
+      "propulsion": "Aandrijvingssystemen",
+      "navigation": "Navigatieapparatuur",
+      "deck": "Dekuitrusting",
+      "safety": "Veiligheidsuitrusting",
+      "electronics": "Maritieme Elektronica",
+      "furnishings": "Maritieme Inrichting"
+    },
+    "yachting": {
+      "sales": "Jachtverkoop",
+      "maintenance": "Jachtonderhoud",
+      "accessories": "Bootaccessoires",
+      "charters": "Jachtcharters",
+      "management": "Jachtmanagement"
+    }
+  }
+}

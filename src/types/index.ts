@@ -1,40 +1,14 @@
 
-export type Profile = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  avatar_url: string | null;
-  company_name: string | null;
-  phone: string | null;
-  country: string | null;
-  language: string;
-  is_admin: boolean;
-  created_at: string;
-  updated_at: string;
-};
-
-export type Category = {
-  id: number;
-  name: string;
-  icon: string;
-  created_at: string;
-};
-
-export type Subcategory = {
-  id: number;
-  category_id: number;
-  name: string;
-  created_at: string;
-};
+// Business-related types
+export type BusinessStatus = "pending" | "approved" | "rejected";
 
 export type Business = {
   id: string;
-  owner_id: string;
   name: string;
-  description: string | null;
-  website: string | null;
-  email: string | null;
-  phone: string | null;
+  description: string;
+  logo_url: string | null;
+  category_id: number | null;
+  subcategory_id: number | null;
   address: string | null;
   city: string | null;
   state: string | null;
@@ -42,10 +16,11 @@ export type Business = {
   country: string | null;
   latitude: number | null;
   longitude: number | null;
-  logo_url: string | null;
-  category_id: number | null;
-  subcategory_id: number | null;
-  status: 'pending' | 'approved' | 'rejected';
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  owner_id: string;
+  status: BusinessStatus;
   is_featured: boolean;
   rating: number;
   review_count: number;
@@ -68,21 +43,72 @@ export type BusinessService = {
   created_at: string;
 };
 
+// Category-related types
+export type Category = {
+  id: number;
+  name: string;
+  icon: string;
+  created_at: string;
+};
+
+export type Subcategory = {
+  id: number;
+  category_id: number;
+  name: string;
+  created_at: string;
+};
+
+// Review-related types
 export type Review = {
   id: string;
   business_id: string;
   user_id: string;
   rating: number;
   comment: string | null;
-  is_reported: boolean;
   reply: string | null;
+  is_reported: boolean;
   created_at: string;
   updated_at: string;
 };
 
-export type Language = 'en' | 'de' | 'fr' | 'es' | 'it' | 'nl';
-
-export type Country = {
-  code: string;
-  name: string;
+// Profile-related types
+export type Profile = {
+  id: string;
+  first_name: string | null;
+  last_name: string | null;
+  avatar_url: string | null;
+  company_name: string | null;
+  phone: string | null;
+  country: string | null;
+  language: string;
+  is_admin: boolean;
+  created_at: string;
+  updated_at: string;
 };
+
+// For search and filtering
+export type BusinessFilter = {
+  category_id?: number;
+  subcategory_id?: number;
+  country?: string;
+  city?: string;
+  rating?: number;
+  search?: string;
+  sort?: "name_asc" | "name_desc" | "rating_high" | "rating_low" | "newest" | "oldest" | "most_reviewed";
+};
+
+// Profile update
+export type ProfileUpdate = {
+  first_name?: string;
+  last_name?: string;
+  company_name?: string;
+  phone?: string;
+  country?: string;
+  language?: string;
+  avatar_url?: string;
+};
+
+// Business creation and update
+export type BusinessCreate = Omit<Business, "id" | "rating" | "review_count" | "views" | "created_at" | "updated_at">;
+
+export type BusinessUpdate = Partial<Omit<Business, "id" | "owner_id" | "created_at" | "updated_at">>;

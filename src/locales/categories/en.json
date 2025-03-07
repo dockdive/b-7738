@@ -1,0 +1,110 @@
+
+{
+  "categories": {
+    "title": "Business Categories",
+    "allCategories": "All Categories",
+    "shipping": {
+      "name": "Shipping Companies",
+      "description": "Cargo, passenger, and specialty shipping services"
+    },
+    "portAuthorities": {
+      "name": "Port Authorities",
+      "description": "Harbor management and port operations"
+    },
+    "logistics": {
+      "name": "Maritime Logistics",
+      "description": "Supply chain and freight forwarding services"
+    },
+    "shipbuilding": {
+      "name": "Shipbuilding & Repair",
+      "description": "Construction, maintenance, and repair of vessels"
+    },
+    "equipment": {
+      "name": "Marine Equipment Suppliers",
+      "description": "Parts, tools, and equipment for maritime operations"
+    },
+    "consultants": {
+      "name": "Maritime Consultants",
+      "description": "Professional advisory and consulting services"
+    },
+    "training": {
+      "name": "Training & Education",
+      "description": "Maritime schools, certification, and training programs"
+    },
+    "legal": {
+      "name": "Legal & Insurance",
+      "description": "Maritime law, insurance, and financial services"
+    },
+    "environmental": {
+      "name": "Environmental Services",
+      "description": "Eco-friendly maritime solutions and compliance"
+    },
+    "offshore": {
+      "name": "Offshore Services",
+      "description": "Oil, gas, and renewable energy marine operations"
+    },
+    "yachting": {
+      "name": "Yachting & Boating",
+      "description": "Recreational vessels, charters, and marinas"
+    },
+    "brokers": {
+      "name": "Boat Brokers",
+      "description": "Sale and purchase of new and used vessels"
+    },
+    "clubs": {
+      "name": "Boating Clubs",
+      "description": "Membership organizations for boating enthusiasts"
+    },
+    "marinas": {
+      "name": "Marinas & Harbors",
+      "description": "Docking, mooring, and storage facilities"
+    },
+    "charter": {
+      "name": "Charter Companies",
+      "description": "Boat and yacht rental services"
+    },
+    "safety": {
+      "name": "Safety & Security",
+      "description": "Maritime safety equipment and security services"
+    },
+    "technology": {
+      "name": "Marine Technology",
+      "description": "Navigation, communication, and maritime software"
+    },
+    "tourism": {
+      "name": "Marine Tourism",
+      "description": "Cruises, tours, and water-based activities"
+    }
+  },
+  "subcategories": {
+    "shipping": {
+      "cargo": "Cargo Shipping",
+      "passenger": "Passenger Shipping",
+      "container": "Container Transport",
+      "bulk": "Bulk Carriers",
+      "specialized": "Specialized Transport"
+    },
+    "shipbuilding": {
+      "construction": "New Construction",
+      "repair": "Repair & Maintenance",
+      "conversion": "Vessel Conversion",
+      "design": "Naval Architecture",
+      "interiors": "Marine Interiors"
+    },
+    "equipment": {
+      "propulsion": "Propulsion Systems",
+      "navigation": "Navigation Equipment",
+      "deck": "Deck Equipment",
+      "safety": "Safety Equipment",
+      "electronics": "Marine Electronics",
+      "furnishings": "Marine Furnishings"
+    },
+    "yachting": {
+      "sales": "Yacht Sales",
+      "maintenance": "Yacht Maintenance",
+      "accessories": "Boat Accessories",
+      "charters": "Yacht Charters",
+      "management": "Yacht Management"
+    }
+  }
+}

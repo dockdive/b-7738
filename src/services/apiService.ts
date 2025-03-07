@@ -1,487 +1,584 @@
 
-import { supabase } from '@/integrations/supabase/client';
-import { Category, Subcategory, Business, BusinessImage, BusinessService, Review, Profile } from '@/types';
+import { supabase } from "@/integrations/supabase/client";
+import {
+  Business,
+  BusinessCreate,
+  BusinessFilter,
+  BusinessImage,
+  BusinessService,
+  BusinessUpdate,
+  Category,
+  Profile,
+  ProfileUpdate,
+  Review,
+  Subcategory
+} from "@/types";
 
-// Categories
-export const getCategories = async (): Promise<Category[]> => {
+// ----- Categories -----
+
+export const fetchCategories = async (): Promise<Category[]> => {
   const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .order('name');
-  
+    .from("categories")
+    .select("*")
+    .order("name");
+
   if (error) {
-    console.error('Error fetching categories:', error);
-    throw error;
+    console.error("Error fetching categories:", error);
+    throw new Error(error.message);
   }
-  
-  return data || [];
+
+  return data as Category[];
 };
 
-export const getSubcategories = async (categoryId?: number): Promise<Subcategory[]> => {
-  let query = supabase
-    .from('subcategories')
-    .select('*')
-    .order('name');
-  
+export const fetchSubcategories = async (categoryId?: number): Promise<Subcategory[]> => {
+  let query = supabase.from("subcategories").select("*");
+
   if (categoryId) {
-    query = query.eq('category_id', categoryId);
+    query = query.eq("category_id", categoryId);
   }
-  
-  const { data, error } = await query;
-  
+
+  const { data, error } = await query.order("name");
+
   if (error) {
-    console.error('Error fetching subcategories:', error);
-    throw error;
+    console.error("Error fetching subcategories:", error);
+    throw new Error(error.message);
   }
-  
-  return data || [];
+
+  return data as Subcategory[];
 };
 
-// Businesses
-export const getBusinesses = async (
-  filters: {
-    category_id?: number;
-    search?: string;
-    country?: string;
-    city?: string;
-    rating?: number;
-    featured?: boolean;
-  } = {},
-  sortBy: string = 'name',
-  page: number = 1,
-  limit: number = 10
-): Promise<{ businesses: Business[], count: number }> => {
-  let query = supabase
-    .from('businesses')
-    .select('*', { count: 'exact' })
-    .eq('status', 'approved');
-  
+// ----- Businesses -----
+
+export const fetchBusinesses = async (filters?: BusinessFilter): Promise<Business[]> => {
+  let query = supabase.from("businesses").select("*");
+
   // Apply filters
-  if (filters.category_id) {
-    query = query.eq('category_id', filters.category_id);
-  }
-  
-  if (filters.search) {
-    query = query.or(`name.ilike.%${filters.search}%,description.ilike.%${filters.search}%`);
-  }
-  
-  if (filters.country) {
-    query = query.eq('country', filters.country);
-  }
-  
-  if (filters.city) {
-    query = query.eq('city', filters.city);
-  }
-  
-  if (filters.rating) {
-    query = query.gte('rating', filters.rating);
-  }
-  
-  if (filters.featured) {
-    query = query.eq('is_featured', true);
-  }
-  
-  // Apply sorting
-  switch (sortBy) {
-    case 'nameDesc':
-      query = query.order('name', { ascending: false });
-      break;
-    case 'ratingHigh':
-      query = query.order('rating', { ascending: false });
-      break;
-    case 'ratingLow':
-      query = query.order('rating', { ascending: true });
-      break;
-    case 'newest':
-      query = query.order('created_at', { ascending: false });
-      break;
-    case 'oldest':
-      query = query.order('created_at', { ascending: true });
-      break;
-    case 'mostReviewed':
-      query = query.order('review_count', { ascending: false });
-      break;
-    default:
-      query = query.order('name', { ascending: true });
-      break;
-  }
-  
-  // Apply pagination
-  const from = (page - 1) * limit;
-  const to = from + limit - 1;
-  query = query.range(from, to);
-  
-  const { data, error, count } = await query;
-  
-  if (error) {
-    console.error('Error fetching businesses:', error);
-    throw error;
-  }
-  
-  return { 
-    businesses: (data as Business[]) || [], 
-    count: count || 0 
-  };
-};
-
-export const getBusinessById = async (id: string): Promise<Business | null> => {
-  const { data, error } = await supabase
-    .from('businesses')
-    .select('*')
-    .eq('id', id)
-    .single();
-  
-  if (error) {
-    if (error.code === 'PGRST116') { // Record not found
-      return null;
+  if (filters) {
+    if (filters.category_id) {
+      query = query.eq("category_id", filters.category_id);
     }
-    console.error('Error fetching business:', error);
-    throw error;
+    if (filters.subcategory_id) {
+      query = query.eq("subcategory_id", filters.subcategory_id);
+    }
+    if (filters.country) {
+      query = query.eq("country", filters.country);
+    }
+    if (filters.city) {
+      query = query.eq("city", filters.city);
+    }
+    if (filters.rating) {
+      query = query.gte("rating", filters.rating);
+    }
+    if (filters.search) {
+      query = query.or(
+        `name.ilike.%${filters.search}%,description.ilike.%${filters.search}%`
+      );
+    }
+
+    // Only show approved businesses in public searches
+    query = query.eq("status", "approved");
+
+    // Apply sorting
+    if (filters.sort) {
+      switch (filters.sort) {
+        case "name_asc":
+          query = query.order("name", { ascending: true });
+          break;
+        case "name_desc":
+          query = query.order("name", { ascending: false });
+          break;
+        case "rating_high":
+          query = query.order("rating", { ascending: false });
+          break;
+        case "rating_low":
+          query = query.order("rating", { ascending: true });
+          break;
+        case "newest":
+          query = query.order("created_at", { ascending: false });
+          break;
+        case "oldest":
+          query = query.order("created_at", { ascending: true });
+          break;
+        case "most_reviewed":
+          query = query.order("review_count", { ascending: false });
+          break;
+        default:
+          query = query.order("name", { ascending: true });
+      }
+    } else {
+      // Default sorting
+      query = query.order("name", { ascending: true });
+    }
+  } else {
+    // Default to showing only approved businesses
+    query = query.eq("status", "approved").order("name");
   }
-  
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Error fetching businesses:", error);
+    throw new Error(error.message);
+  }
+
+  return data as Business[];
+};
+
+export const fetchFeaturedBusinesses = async (): Promise<Business[]> => {
+  const { data, error } = await supabase
+    .from("businesses")
+    .select("*")
+    .eq("is_featured", true)
+    .eq("status", "approved")
+    .order("name");
+
+  if (error) {
+    console.error("Error fetching featured businesses:", error);
+    throw new Error(error.message);
+  }
+
+  return data as Business[];
+};
+
+export const fetchBusinessById = async (id: string): Promise<Business> => {
+  const { data, error } = await supabase
+    .from("businesses")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching business with ID ${id}:`, error);
+    throw new Error(error.message);
+  }
+
   // Increment view count
-  await supabase
-    .from('businesses')
-    .update({ views: (data.views || 0) + 1 })
-    .eq('id', id);
-  
+  incrementBusinessViews(id).catch(console.error);
+
   return data as Business;
 };
 
-export const getBusinessesByOwnerId = async (ownerId: string): Promise<Business[]> => {
-  const { data, error } = await supabase
-    .from('businesses')
-    .select('*')
-    .eq('owner_id', ownerId)
-    .order('created_at', { ascending: false });
-  
+export const incrementBusinessViews = async (id: string): Promise<void> => {
+  const { error } = await supabase.rpc("increment_business_views", {
+    business_id: id,
+  });
+
   if (error) {
-    console.error('Error fetching user businesses:', error);
-    throw error;
+    console.error(`Error incrementing views for business ${id}:`, error);
   }
-  
-  return (data as Business[]) || [];
 };
 
-export const createBusiness = async (business: Omit<Business, 'id' | 'rating' | 'review_count' | 'views' | 'created_at' | 'updated_at'> & { name: string }): Promise<Business> => {
+export const fetchUserBusinesses = async (userId: string): Promise<Business[]> => {
   const { data, error } = await supabase
-    .from('businesses')
-    .insert(business)
+    .from("businesses")
+    .select("*")
+    .eq("owner_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(`Error fetching businesses for user ${userId}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as Business[];
+};
+
+export const createBusiness = async (business: BusinessCreate): Promise<Business> => {
+  const { data, error } = await supabase
+    .from("businesses")
+    .insert([business as any])
     .select()
     .single();
-  
+
   if (error) {
-    console.error('Error creating business:', error);
-    throw error;
+    console.error("Error creating business:", error);
+    throw new Error(error.message);
   }
-  
+
   return data as Business;
 };
 
-export const updateBusiness = async (id: string, updates: Partial<Business> & { name?: string }): Promise<Business> => {
+export const updateBusiness = async (id: string, updates: BusinessUpdate): Promise<Business> => {
   const { data, error } = await supabase
-    .from('businesses')
-    .update(updates)
-    .eq('id', id)
+    .from("businesses")
+    .update(updates as any)
+    .eq("id", id)
     .select()
     .single();
-  
+
   if (error) {
-    console.error('Error updating business:', error);
-    throw error;
+    console.error(`Error updating business ${id}:`, error);
+    throw new Error(error.message);
   }
-  
+
   return data as Business;
 };
 
 export const deleteBusiness = async (id: string): Promise<void> => {
-  const { error } = await supabase
-    .from('businesses')
-    .delete()
-    .eq('id', id);
-  
+  const { error } = await supabase.from("businesses").delete().eq("id", id);
+
   if (error) {
-    console.error('Error deleting business:', error);
-    throw error;
+    console.error(`Error deleting business ${id}:`, error);
+    throw new Error(error.message);
   }
 };
 
-// Business Images
-export const getBusinessImages = async (businessId: string): Promise<BusinessImage[]> => {
+// ----- Business Images -----
+
+export const fetchBusinessImages = async (businessId: string): Promise<BusinessImage[]> => {
   const { data, error } = await supabase
-    .from('business_images')
-    .select('*')
-    .eq('business_id', businessId)
-    .order('created_at');
-  
+    .from("business_images")
+    .select("*")
+    .eq("business_id", businessId)
+    .order("created_at");
+
   if (error) {
-    console.error('Error fetching business images:', error);
-    throw error;
+    console.error(`Error fetching images for business ${businessId}:`, error);
+    throw new Error(error.message);
   }
-  
-  return data || [];
+
+  return data as BusinessImage[];
 };
 
-export const addBusinessImage = async (businessId: string, url: string): Promise<BusinessImage> => {
-  const { data, error } = await supabase
-    .from('business_images')
-    .insert({ business_id: businessId, url })
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error adding business image:', error);
-    throw error;
-  }
-  
-  return data;
-};
+export const uploadBusinessImage = async (
+  businessId: string,
+  file: File
+): Promise<BusinessImage> => {
+  // Generate a unique filename
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${businessId}/${Date.now()}.${fileExt}`;
+  const filePath = `business-images/${fileName}`;
 
-export const deleteBusinessImage = async (id: string): Promise<void> => {
-  const { error } = await supabase
-    .from('business_images')
-    .delete()
-    .eq('id', id);
-  
-  if (error) {
-    console.error('Error deleting business image:', error);
-    throw error;
-  }
-};
+  // Upload the file to storage
+  const { error: uploadError } = await supabase.storage
+    .from("business-images")
+    .upload(filePath, file);
 
-// Business Services
-export const getBusinessServices = async (businessId: string): Promise<BusinessService[]> => {
-  const { data, error } = await supabase
-    .from('business_services')
-    .select('*')
-    .eq('business_id', businessId)
-    .order('name');
-  
-  if (error) {
-    console.error('Error fetching business services:', error);
-    throw error;
+  if (uploadError) {
+    console.error("Error uploading image:", uploadError);
+    throw new Error(uploadError.message);
   }
-  
-  return data || [];
-};
 
-export const addBusinessService = async (businessId: string, name: string): Promise<BusinessService> => {
-  const { data, error } = await supabase
-    .from('business_services')
-    .insert({ business_id: businessId, name })
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error adding business service:', error);
-    throw error;
-  }
-  
-  return data;
-};
-
-export const deleteBusinessService = async (id: string): Promise<void> => {
-  const { error } = await supabase
-    .from('business_services')
-    .delete()
-    .eq('id', id);
-  
-  if (error) {
-    console.error('Error deleting business service:', error);
-    throw error;
-  }
-};
-
-// Reviews
-export const getBusinessReviews = async (businessId: string): Promise<Review[]> => {
-  const { data, error } = await supabase
-    .from('reviews')
-    .select('*')
-    .eq('business_id', businessId)
-    .order('created_at', { ascending: false });
-  
-  if (error) {
-    console.error('Error fetching business reviews:', error);
-    throw error;
-  }
-  
-  return data || [];
-};
-
-export const addReview = async (review: Omit<Review, 'id' | 'created_at' | 'updated_at'> & { rating: number }): Promise<Review> => {
-  const { data, error } = await supabase
-    .from('reviews')
-    .insert(review)
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error adding review:', error);
-    throw error;
-  }
-  
-  // Update business rating
-  await updateBusinessRating(review.business_id as string);
-  
-  return data;
-};
-
-export const updateReview = async (id: string, updates: Partial<Review>): Promise<Review> => {
-  const { data, error } = await supabase
-    .from('reviews')
-    .update(updates)
-    .eq('id', id)
-    .select()
-    .single();
-  
-  if (error) {
-    console.error('Error updating review:', error);
-    throw error;
-  }
-  
-  // Update business rating
-  await updateBusinessRating(data.business_id);
-  
-  return data;
-};
-
-export const deleteReview = async (id: string, businessId: string): Promise<void> => {
-  const { error } = await supabase
-    .from('reviews')
-    .delete()
-    .eq('id', id);
-  
-  if (error) {
-    console.error('Error deleting review:', error);
-    throw error;
-  }
-  
-  // Update business rating
-  await updateBusinessRating(businessId);
-};
-
-// Helper function to update business rating
-const updateBusinessRating = async (businessId: string): Promise<void> => {
-  // Get all reviews for the business
-  const { data, error } = await supabase
-    .from('reviews')
-    .select('rating')
-    .eq('business_id', businessId);
-  
-  if (error) {
-    console.error('Error fetching reviews for rating update:', error);
-    return;
-  }
-  
-  if (!data || data.length === 0) {
-    // No reviews, reset rating to 0
-    await supabase
-      .from('businesses')
-      .update({ rating: 0, review_count: 0 })
-      .eq('id', businessId);
-    return;
-  }
-  
-  // Calculate average rating
-  const totalRating = data.reduce((sum, review) => sum + review.rating, 0);
-  const averageRating = totalRating / data.length;
-  
-  // Update business
-  await supabase
-    .from('businesses')
-    .update({
-      rating: averageRating,
-      review_count: data.length
-    })
-    .eq('id', businessId);
-};
-
-// Upload image to Supabase Storage
-export const uploadImage = async (
-  file: File,
-  bucket: string = 'businesses',
-  folder: string = ''
-): Promise<string> => {
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-  const filePath = folder ? `${folder}/${fileName}` : fileName;
-  
-  const { error, data } = await supabase.storage
-    .from(bucket)
-    .upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: false
-    });
-  
-  if (error) {
-    console.error('Error uploading image:', error);
-    throw error;
-  }
-  
+  // Get the public URL
   const { data: urlData } = supabase.storage
-    .from(bucket)
+    .from("business-images")
     .getPublicUrl(filePath);
-  
-  return urlData.publicUrl;
-};
 
-// Get user profile
-export const getUserProfile = async (userId: string): Promise<Profile | null> => {
+  // Save the image record in the database
   const { data, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', userId)
-    .single();
-  
-  if (error) {
-    if (error.code === 'PGRST116') { // Record not found
-      return null;
-    }
-    console.error('Error fetching user profile:', error);
-    throw error;
-  }
-  
-  return data;
-};
-
-// Update user profile
-export const updateUserProfile = async (userId: string, updates: Partial<Profile>): Promise<Profile> => {
-  const { data, error } = await supabase
-    .from('profiles')
-    .update(updates)
-    .eq('id', userId)
+    .from("business_images")
+    .insert([
+      {
+        business_id: businessId,
+        url: urlData.publicUrl,
+      },
+    ])
     .select()
     .single();
-  
+
   if (error) {
-    console.error('Error updating user profile:', error);
-    throw error;
+    console.error("Error saving image record:", error);
+    throw new Error(error.message);
   }
-  
-  return data;
+
+  return data as BusinessImage;
 };
 
-// Create test user
-export const createTestUser = async (email: string, password: string): Promise<string> => {
-  try {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    
-    if (error) throw error;
-    
-    // Make user admin if it's the support@dockdive.com user
-    if (email === 'support@dockdive.com' && data.user) {
-      await supabase
-        .from('profiles')
-        .update({ is_admin: true })
-        .eq('id', data.user.id);
-    }
-    
-    return data.user?.id || '';
-  } catch (error) {
-    console.error('Error creating test user:', error);
-    throw error;
+export const deleteBusinessImage = async (imageId: string): Promise<void> => {
+  // First, get the image record to find the file path
+  const { data: image, error: fetchError } = await supabase
+    .from("business_images")
+    .select("*")
+    .eq("id", imageId)
+    .single();
+
+  if (fetchError) {
+    console.error(`Error fetching image ${imageId}:`, fetchError);
+    throw new Error(fetchError.message);
   }
+
+  // Extract the storage path from the URL
+  const url = new URL(image.url);
+  const storagePath = url.pathname.split("/").slice(-2).join("/");
+
+  // Delete the image from storage
+  const { error: storageError } = await supabase.storage
+    .from("business-images")
+    .remove([storagePath]);
+
+  if (storageError) {
+    console.error(`Error deleting image from storage:`, storageError);
+    // Continue to delete the database record even if storage deletion fails
+  }
+
+  // Delete the database record
+  const { error } = await supabase.from("business_images").delete().eq("id", imageId);
+
+  if (error) {
+    console.error(`Error deleting image record ${imageId}:`, error);
+    throw new Error(error.message);
+  }
+};
+
+// ----- Business Services -----
+
+export const fetchBusinessServices = async (businessId: string): Promise<BusinessService[]> => {
+  const { data, error } = await supabase
+    .from("business_services")
+    .select("*")
+    .eq("business_id", businessId)
+    .order("name");
+
+  if (error) {
+    console.error(`Error fetching services for business ${businessId}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as BusinessService[];
+};
+
+export const addBusinessService = async (
+  businessId: string,
+  name: string
+): Promise<BusinessService> => {
+  const { data, error } = await supabase
+    .from("business_services")
+    .insert([
+      {
+        business_id: businessId,
+        name,
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error adding business service:", error);
+    throw new Error(error.message);
+  }
+
+  return data as BusinessService;
+};
+
+export const deleteBusinessService = async (serviceId: string): Promise<void> => {
+  const { error } = await supabase.from("business_services").delete().eq("id", serviceId);
+
+  if (error) {
+    console.error(`Error deleting service ${serviceId}:`, error);
+    throw new Error(error.message);
+  }
+};
+
+// ----- Reviews -----
+
+export const fetchBusinessReviews = async (businessId: string): Promise<Review[]> => {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("business_id", businessId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(`Error fetching reviews for business ${businessId}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as Review[];
+};
+
+export const fetchUserReviews = async (userId: string): Promise<Review[]> => {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(`Error fetching reviews for user ${userId}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as Review[];
+};
+
+export const createReview = async (
+  review: Partial<Review>
+): Promise<Review> => {
+  const { data, error } = await supabase
+    .from("reviews")
+    .insert([review as any])
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating review:", error);
+    throw new Error(error.message);
+  }
+
+  // Update business rating and review count
+  updateBusinessRating(review.business_id as string).catch(console.error);
+
+  return data as Review;
+};
+
+export const updateReview = async (
+  id: string,
+  updates: Partial<Review>
+): Promise<Review> => {
+  const { data, error } = await supabase
+    .from("reviews")
+    .update(updates as any)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(`Error updating review ${id}:`, error);
+    throw new Error(error.message);
+  }
+
+  // Update business rating if the rating changed
+  if (updates.rating) {
+    const review = data as Review;
+    updateBusinessRating(review.business_id).catch(console.error);
+  }
+
+  return data as Review;
+};
+
+export const deleteReview = async (id: string): Promise<void> => {
+  // Get the review to determine which business rating to update
+  const { data: review, error: fetchError } = await supabase
+    .from("reviews")
+    .select("business_id")
+    .eq("id", id)
+    .single();
+
+  if (fetchError) {
+    console.error(`Error fetching review ${id}:`, fetchError);
+    throw new Error(fetchError.message);
+  }
+
+  const { error } = await supabase.from("reviews").delete().eq("id", id);
+
+  if (error) {
+    console.error(`Error deleting review ${id}:`, error);
+    throw new Error(error.message);
+  }
+
+  // Update business rating
+  updateBusinessRating(review.business_id).catch(console.error);
+};
+
+export const updateBusinessRating = async (businessId: string): Promise<void> => {
+  const { error } = await supabase.rpc("update_business_rating", {
+    business_id: businessId,
+  });
+
+  if (error) {
+    console.error(`Error updating rating for business ${businessId}:`, error);
+  }
+};
+
+export const reportReview = async (id: string): Promise<void> => {
+  const { error } = await supabase
+    .from("reviews")
+    .update({ is_reported: true })
+    .eq("id", id);
+
+  if (error) {
+    console.error(`Error reporting review ${id}:`, error);
+    throw new Error(error.message);
+  }
+};
+
+export const replyToReview = async (
+  id: string,
+  reply: string
+): Promise<Review> => {
+  const { data, error } = await supabase
+    .from("reviews")
+    .update({ reply })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(`Error replying to review ${id}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as Review;
+};
+
+// ----- User Profile -----
+
+export const fetchProfile = async (userId: string): Promise<Profile> => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching profile for user ${userId}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as Profile;
+};
+
+export const updateProfile = async (
+  userId: string,
+  updates: ProfileUpdate
+): Promise<Profile> => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .update(updates)
+    .eq("id", userId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(`Error updating profile for user ${userId}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as Profile;
+};
+
+export const uploadProfileAvatar = async (
+  userId: string,
+  file: File
+): Promise<string> => {
+  // Generate a unique filename
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${userId}/avatar.${fileExt}`;
+  const filePath = `avatars/${fileName}`;
+
+  // Upload the file to storage
+  const { error: uploadError } = await supabase.storage
+    .from("avatars")
+    .upload(filePath, file, { upsert: true });
+
+  if (uploadError) {
+    console.error("Error uploading avatar:", uploadError);
+    throw new Error(uploadError.message);
+  }
+
+  // Get the public URL
+  const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(filePath);
+
+  // Update profile with new avatar URL
+  const { error } = await supabase
+    .from("profiles")
+    .update({ avatar_url: urlData.publicUrl })
+    .eq("id", userId);
+
+  if (error) {
+    console.error("Error updating profile with avatar URL:", error);
+    throw new Error(error.message);
+  }
+
+  return urlData.publicUrl;
 };
