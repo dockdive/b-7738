@@ -192,10 +192,9 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
     longitude: business.longitude || null
   };
 
-  // Fixed the TypeScript error by correctly typing the insert operation
   const { data, error } = await supabase
     .from("businesses")
-    .insert(businessWithOwner)
+    .insert(businessWithOwner as Partial<Business>)
     .select()
     .single();
 
@@ -279,7 +278,7 @@ export const uploadBusinessImage = async (
     .insert({
       business_id: businessId,
       url: urlData.publicUrl,
-    })
+    } as Partial<BusinessImage>)
     .select()
     .single();
 
@@ -350,12 +349,10 @@ export const addBusinessService = async (
 ): Promise<BusinessService> => {
   const { data, error } = await supabase
     .from("business_services")
-    .insert([
-      {
-        business_id: businessId,
-        name,
-      },
-    ])
+    .insert({
+      business_id: businessId,
+      name,
+    } as Partial<BusinessService>)
     .select()
     .single();
 
@@ -433,7 +430,7 @@ export const createReview = async (
 
   const { data, error } = await supabase
     .from("reviews")
-    .insert(review)
+    .insert(review as Partial<Review>)
     .select()
     .single();
 
