@@ -118,7 +118,10 @@ export const getBusinesses = async (
     throw error;
   }
   
-  return { businesses: data || [], count: count || 0 };
+  return { 
+    businesses: (data as Business[]) || [], 
+    count: count || 0 
+  };
 };
 
 export const getBusinessById = async (id: string): Promise<Business | null> => {
@@ -142,7 +145,7 @@ export const getBusinessById = async (id: string): Promise<Business | null> => {
     .update({ views: (data.views || 0) + 1 })
     .eq('id', id);
   
-  return data;
+  return data as Business;
 };
 
 export const getBusinessesByOwnerId = async (ownerId: string): Promise<Business[]> => {
@@ -157,10 +160,10 @@ export const getBusinessesByOwnerId = async (ownerId: string): Promise<Business[
     throw error;
   }
   
-  return data || [];
+  return (data as Business[]) || [];
 };
 
-export const createBusiness = async (business: Partial<Business>): Promise<Business> => {
+export const createBusiness = async (business: Omit<Business, 'id' | 'rating' | 'review_count' | 'views' | 'created_at' | 'updated_at'> & { name: string }): Promise<Business> => {
   const { data, error } = await supabase
     .from('businesses')
     .insert(business)
@@ -172,10 +175,10 @@ export const createBusiness = async (business: Partial<Business>): Promise<Busin
     throw error;
   }
   
-  return data;
+  return data as Business;
 };
 
-export const updateBusiness = async (id: string, updates: Partial<Business>): Promise<Business> => {
+export const updateBusiness = async (id: string, updates: Partial<Business> & { name?: string }): Promise<Business> => {
   const { data, error } = await supabase
     .from('businesses')
     .update(updates)
@@ -188,7 +191,7 @@ export const updateBusiness = async (id: string, updates: Partial<Business>): Pr
     throw error;
   }
   
-  return data;
+  return data as Business;
 };
 
 export const deleteBusiness = async (id: string): Promise<void> => {
@@ -305,7 +308,7 @@ export const getBusinessReviews = async (businessId: string): Promise<Review[]> 
   return data || [];
 };
 
-export const addReview = async (review: Partial<Review>): Promise<Review> => {
+export const addReview = async (review: Omit<Review, 'id' | 'created_at' | 'updated_at'> & { rating: number }): Promise<Review> => {
   const { data, error } = await supabase
     .from('reviews')
     .insert(review)

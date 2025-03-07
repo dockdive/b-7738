@@ -1,0 +1,116 @@
+
+{
+  "general": {
+    "appName": "Maritieme Gids",
+    "loading": "Laden...",
+    "error": "Fout opgetreden",
+    "success": "Succes",
+    "search": "Zoeken",
+    "filter": "Filter",
+    "sort": "Sorteren",
+    "submit": "Indienen",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "view": "Bekijken",
+    "close": "Sluiten"
+  },
+  "auth": {
+    "signIn": "Inloggen",
+    "signUp": "Registreren",
+    "signOut": "Uitloggen",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "confirmPassword": "Wachtwoord bevestigen",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "resetPassword": "Wachtwoord resetten",
+    "newHere": "Nieuw hier?",
+    "createAccount": "Account aanmaken",
+    "alreadyHaveAccount": "Heb je al een account?",
+    "passwordResetSent": "E-mail voor wachtwoordreset verzonden",
+    "enterEmail": "Voer je e-mailadres in"
+  },
+  "profile": {
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "companyName": "Bedrijfsnaam",
+    "phone": "Telefoon",
+    "country": "Land",
+    "language": "Taal",
+    "updateProfile": "Profiel bijwerken"
+  },
+  "business": {
+    "name": "Bedrijfsnaam",
+    "description": "Beschrijving",
+    "website": "Website",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "address": "Adres",
+    "city": "Stad",
+    "state": "Provincie",
+    "zip": "Postcode",
+    "country": "Land",
+    "category": "Categorie",
+    "subcategory": "Subcategorie",
+    "services": "Diensten",
+    "addService": "Dienst toevoegen",
+    "removeService": "Dienst verwijderen",
+    "logo": "Logo",
+    "images": "Afbeeldingen",
+    "addBusiness": "Bedrijf toevoegen",
+    "editBusiness": "Bedrijf bewerken",
+    "viewBusiness": "Bedrijf bekijken",
+    "reviews": "Beoordelingen",
+    "rating": "Beoordeling",
+    "status": {
+      "pending": "In afwachting van goedkeuring",
+      "approved": "Goedgekeurd",
+      "rejected": "Afgewezen"
+    },
+    "pending": "Je vermelding wacht op goedkeuring",
+    "featured": "Uitgelicht"
+  },
+  "reviews": {
+    "leaveReview": "Laat een beoordeling achter",
+    "yourRating": "Jouw beoordeling",
+    "yourComment": "Jouw commentaar",
+    "submitReview": "Beoordeling indienen",
+    "updateReview": "Beoordeling bijwerken",
+    "deleteReview": "Beoordeling verwijderen",
+    "reportReview": "Beoordeling melden",
+    "replyToReview": "Reageren op beoordeling",
+    "yourReply": "Jouw reactie"
+  },
+  "search": {
+    "byName": "Zoeken op naam",
+    "byLocation": "Zoeken op locatie",
+    "byCategory": "Zoeken op categorie",
+    "byService": "Zoeken op dienst",
+    "noResults": "Geen resultaten gevonden",
+    "filterByCategory": "Filteren op categorie",
+    "filterByLocation": "Filteren op locatie",
+    "filterByRating": "Filteren op beoordeling",
+    "sortBy": {
+      "nameAsc": "Naam (A-Z)",
+      "nameDesc": "Naam (Z-A)",
+      "ratingHigh": "Hoogste beoordeling",
+      "ratingLow": "Laagste beoordeling",
+      "newest": "Nieuwste",
+      "oldest": "Oudste",
+      "mostReviewed": "Meest beoordeeld"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "businesses": "Bedrijven",
+    "about": "Over ons",
+    "contact": "Contact",
+    "profile": "Profiel",
+    "dashboard": "Dashboard",
+    "addBusiness": "Bedrijf toevoegen",
+    "myBusinesses": "Mijn bedrijven",
+    "adminPanel": "Beheerderspaneel",
+    "sellYourBoat": "Verkoop je boot"
+  }
+}

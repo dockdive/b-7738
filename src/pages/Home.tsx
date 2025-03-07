@@ -10,7 +10,7 @@ import {
   Anchor, 
   Ship, 
   Package, 
-  Tool, 
+  Wrench, 
   Sailboat 
 } from 'lucide-react';
 import { getBusinesses, getCategories } from '@/services/apiService';
