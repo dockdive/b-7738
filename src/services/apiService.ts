@@ -183,47 +183,42 @@ export const fetchUserBusinesses = async (userId: string): Promise<Business[]> =
   return data as Business[];
 };
 
-export const createBusiness = async (business: BusinessCreate): Promise<Business> => {
-  // Ensure required properties are present
-  const businessWithOwner = {
-    ...business,
-    owner_id: (await supabase.auth.getUser()).data.user?.id || '',
-    latitude: business.latitude || null,
-    longitude: business.longitude || null
-  };
+export const createBusiness = async (business: BusinessCreate): Promise<Business | null> => {
+  try {
+    // Ensure all required fields are present
+    const businessData = {
+      name: business.name,
+      category_id: business.category_id,
+      subcategory_id: business.subcategory_id,
+      description: business.description,
+      address: business.address,
+      city: business.city,
+      state: business.state,
+      zip: business.zip,
+      country: business.country,
+      phone: business.phone,
+      email: business.email,
+      website: business.website,
+      owner_id: business.owner_id,
+      status: business.status,
+      is_featured: business.is_featured,
+      logo_url: business.logo_url,
+      latitude: business.latitude,
+      longitude: business.longitude
+    };
 
-  // Fix TypeScript error by explicitly defining the object structure without type assertion
-  const { data, error } = await supabase
-    .from("businesses")
-    .insert({
-      name: businessWithOwner.name,
-      description: businessWithOwner.description,
-      logo_url: businessWithOwner.logo_url,
-      category_id: businessWithOwner.category_id,
-      subcategory_id: businessWithOwner.subcategory_id,
-      address: businessWithOwner.address,
-      city: businessWithOwner.city,
-      state: businessWithOwner.state,
-      zip: businessWithOwner.zip,
-      country: businessWithOwner.country,
-      latitude: businessWithOwner.latitude,
-      longitude: businessWithOwner.longitude,
-      phone: businessWithOwner.phone,
-      email: businessWithOwner.email,
-      website: businessWithOwner.website,
-      owner_id: businessWithOwner.owner_id,
-      status: businessWithOwner.status,
-      is_featured: businessWithOwner.is_featured
-    })
-    .select()
-    .single();
+    const { data, error } = await supabase
+      .from("businesses")
+      .insert(businessData)
+      .select()
+      .single();
 
-  if (error) {
+    if (error) throw error;
+    return data;
+  } catch (error) {
     console.error("Error creating business:", error);
-    throw new Error(error.message);
+    return null;
   }
-
-  return data as Business;
 };
 
 export const updateBusiness = async (id: string, updates: BusinessUpdate): Promise<Business> => {
@@ -545,23 +540,19 @@ export const reportReview = async (id: string): Promise<void> => {
   }
 };
 
-export const replyToReview = async (
-  id: string,
-  reply: string
-): Promise<Review> => {
-  const { data, error } = await supabase
-    .from("reviews")
-    .update({ reply })
-    .eq("id", id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error(`Error replying to review ${id}:`, error);
-    throw new Error(error.message);
+export const replyToReview = async (reviewId: string, reply: string): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('reviews')
+      .update({ reply })
+      .eq('id', reviewId);
+    
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error replying to review:', error);
+    return false;
   }
-
-  return data as Review;
 };
 
 // ----- User Profile -----

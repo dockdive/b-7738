@@ -1,0 +1,55 @@
+
+{
+  "bulkUpload": {
+    "title": "Bulk Upload",
+    "subtitle": "Upload meerdere bedrijven, categorieën of beoordelingen tegelijk met CSV-bestanden.",
+    "prepareCSV": "Bereid uw CSV voor",
+    "uploadCSV": "Upload uw CSV",
+    "requirements": "Vereisten",
+    "steps": {
+      "download": "Download de sjabloon",
+      "fill": "Vul uw gegevens in",
+      "validate": "Controleer op fouten",
+      "save": "Opslaan als CSV",
+      "select": "Selecteer uw CSV-bestand",
+      "review": "Bekijk de gegevens",
+      "upload": "Upload het bestand",
+      "confirm": "Bevestig succes"
+    },
+    "reqDetails": {
+      "format": "Alleen CSV-formaat (door komma's gescheiden)",
+      "headers": "Moet de juiste headers bevatten",
+      "required": "Verplichte velden moeten worden ingevuld",
+      "size": "Maximale bestandsgrootte 5MB"
+    },
+    "tabs": {
+      "businesses": "Bedrijven",
+      "categories": "Categorieën",
+      "reviews": "Beoordelingen"
+    },
+    "uploadSummary": "Upload Samenvatting",
+    "uploadedItems": "{count} {type} succesvol geüpload",
+    "entityTypes": {
+      "businesses": "bedrijven",
+      "categories": "categorieën",
+      "reviews": "beoordelingen"
+    }
+  },
+  "csvUpload": {
+    "title": "CSV Upload",
+    "description": "Upload {entityType} gegevens met een CSV-bestand",
+    "selectFile": "Selecteer Bestand",
+    "downloadTemplate": "Download Sjabloon",
+    "uploading": "Uploaden...",
+    "uploadButton": "Upload CSV",
+    "success": "Upload Succesvol",
+    "error": "Upload Mislukt",
+    "successMessage": "Succesvol {count} records geïmporteerd",
+    "errorGeneric": "Er is een fout opgetreden tijdens het uploaden",
+    "entityTypes": {
+      "business": "bedrijven",
+      "category": "categorieën",
+      "review": "beoordelingen"
+    }
+  }
+}

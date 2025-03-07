@@ -1,0 +1,7 @@
+
+name,description,category_id,subcategory_id,address,city,state,zip,country,phone,email,website,is_featured
+"Maritime Supplies Inc.","Quality maritime equipment and supplies.",5,21,"123 Harbor St","Portside","CA","94123","USA","+1-555-123-4567","contact@maritimesupplies.example.com","https://maritimesupplies.example.com",true
+"Harbor Boat Insurance","Comprehensive boat insurance solutions for all vessel types.",8,,"456 Marina Blvd","Baytown","FL","33456","USA","+1-555-987-6543","info@harborboatinsurance.example.com","https://harborboatinsurance.example.com",false
+"Coastal Yacht Club","Premier yacht club with full marina services and social events.",13,,"789 Shoreline Dr","Newport","RI","02840","USA","+1-555-234-5678","membership@coastalyachtclub.example.com","https://coastalyachtclub.example.com",true
+"Marine Inspections Pro","Professional vessel inspection services for buyers, sellers, and insurers.",16,,"101 Dock St","Seattle","WA","98101","USA","+1-555-345-6789","schedule@marineinspectionspro.example.com","https://marineinspectionspro.example.com",false
+"Atlantic Boat Builders","Custom boat building and restoration services.",4,1,"202 Shipyard Way","Portland","ME","04101","USA","+1-555-456-7890","builds@atlanticboatbuilders.example.com","https://atlanticboatbuilders.example.com",true

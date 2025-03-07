@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import BusinessDirectory from "./pages/BusinessDirectory";
 import BusinessDetail from "./pages/BusinessDetail";
 import AddBusiness from "./pages/AddBusiness";
+import BulkUpload from "./pages/BulkUpload";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/businesses" element={<BusinessDirectory />} />
               <Route path="/businesses/:id" element={<BusinessDetail />} />
               <Route path="/add-business" element={<AddBusiness />} />
+              <Route path="/bulk-upload" element={<BulkUpload />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="*" element={<NotFound />} />

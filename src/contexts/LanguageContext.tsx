@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { deepMerge } from "@/utils/deepMerge";
 
@@ -13,12 +14,22 @@ const categories = [
   "categories",
   "filters",
   "validation",
-  "alerts"
+  "alerts",
+  "bulkupload"
 ];
+
+// Cache for storing loaded translations
+const translationCache: Record<string, Record<string, any>> = {};
 
 // Dynamically load and merge JSON files for a given language code
 function loadTranslations(lang: string): Record<string, any> {
+  // Check if we've already loaded this language
+  if (translationCache[lang]) {
+    return translationCache[lang];
+  }
+
   const merged: Record<string, any> = {};
+  
   try {
     // First load the base translations
     const baseTranslation = require(`@/locales/${lang}.json`);
@@ -30,13 +41,17 @@ function loadTranslations(lang: string): Record<string, any> {
   // Then try to load category-specific translations if they exist
   categories.forEach(category => {
     try {
-      // Import the JSON file from the folder structure: e.g. src/locales/footer/en.json
+      // Import the JSON file from the folder structure: e.g. src/locales/category/en.json
       const translation = require(`@/locales/${category}/${lang}.json`);
       deepMerge(merged, translation);
     } catch (e) {
       // It's okay if individual category files don't exist
+      // console.debug(`No translations found for category "${category}" and language "${lang}"`);
     }
   });
+
+  // Store in cache for future use
+  translationCache[lang] = merged;
   return merged;
 }
 
@@ -63,13 +78,6 @@ export interface LanguageContextType {
   t: (key: string, options?: Record<string, string>) => string;
   supportedLanguages: ReadonlyArray<{ code: LanguageCode; name: string }>;
 }
-
-// Preload translations for each language in a cache (synchronously using require)
-const translationCache: Record<LanguageCode, Record<string, any>> = {} as any;
-supportedLanguages.forEach(langObj => {
-  const lang = langObj.code;
-  translationCache[lang] = loadTranslations(lang);
-});
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
@@ -100,6 +108,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const [language, setLanguageState] = useState<LanguageCode>(getInitialLanguage());
+  const [translations, setTranslations] = useState<Record<string, any>>({});
 
   const setLanguage = (lang: LanguageCode) => {
     try {
@@ -113,26 +122,50 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     document.documentElement.lang = language;
+    
+    // Load translations for current language
+    const loadedTranslations = loadTranslations(language);
+    setTranslations(loadedTranslations);
   }, [language]);
 
-  const getNestedValue = (obj: any, path: string) =>
-    path.split(".").reduce((current, key) => (current ? current[key] : undefined), obj);
+  const getNestedValue = (obj: any, path: string): any => {
+    if (!obj) return undefined;
+    
+    const keys = path.split(".");
+    let current = obj;
+    
+    for (const key of keys) {
+      if (current === undefined || current === null) return undefined;
+      current = current[key];
+    }
+    
+    return current;
+  };
 
   const t = (key: string, options?: Record<string, string>): string => {
-    let text = getNestedValue(translationCache[language], key);
+    // Get translation from current language
+    let text = getNestedValue(translations, key);
+    
+    // Fallback to English if translation is missing
     if (text === undefined && language !== "en") {
-      text = getNestedValue(translationCache["en"], key);
+      const enTranslations = loadTranslations("en");
+      text = getNestedValue(enTranslations, key);
     }
+    
+    // Return key if translation is still missing
     if (text === undefined) {
       console.warn(`Missing translation key: ${key}`);
       return key;
     }
+    
+    // Replace variables in the translation if options are provided
     if (options) {
       Object.entries(options).forEach(([k, v]) => {
         const regex = new RegExp(`\\{${k}\\}`, "g");
         text = text.replace(regex, v);
       });
     }
+    
     return text;
   };
 

@@ -1,0 +1,55 @@
+
+{
+  "bulkUpload": {
+    "title": "Bulk Upload",
+    "subtitle": "Upload multiple businesses, categories, or reviews at once using CSV files.",
+    "prepareCSV": "Prepare Your CSV",
+    "uploadCSV": "Upload Your CSV",
+    "requirements": "Requirements",
+    "steps": {
+      "download": "Download the template",
+      "fill": "Fill in your data",
+      "validate": "Check for errors",
+      "save": "Save as CSV",
+      "select": "Select your CSV file",
+      "review": "Review the data",
+      "upload": "Upload the file",
+      "confirm": "Confirm success"
+    },
+    "reqDetails": {
+      "format": "CSV format only (comma-separated)",
+      "headers": "Must include the correct headers",
+      "required": "Required fields must be filled",
+      "size": "Max 5MB file size"
+    },
+    "tabs": {
+      "businesses": "Businesses",
+      "categories": "Categories",
+      "reviews": "Reviews"
+    },
+    "uploadSummary": "Upload Summary",
+    "uploadedItems": "{count} {type} successfully uploaded",
+    "entityTypes": {
+      "businesses": "businesses",
+      "categories": "categories",
+      "reviews": "reviews"
+    }
+  },
+  "csvUpload": {
+    "title": "CSV Upload",
+    "description": "Upload {entityType} data using a CSV file",
+    "selectFile": "Select File",
+    "downloadTemplate": "Download Template",
+    "uploading": "Uploading...",
+    "uploadButton": "Upload CSV",
+    "success": "Upload Successful",
+    "error": "Upload Failed",
+    "successMessage": "Successfully imported {count} records",
+    "errorGeneric": "An error occurred during the upload",
+    "entityTypes": {
+      "business": "businesses",
+      "category": "categories",
+      "review": "reviews"
+    }
+  }
+}
