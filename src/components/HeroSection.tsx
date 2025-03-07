@@ -44,10 +44,10 @@ const HeroSection = () => {
       {/* Hero content */}
       <div className="container mx-auto px-4 py-16 relative z-10 text-center text-white">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-          {t("home.hero.title", "The Maritime Business Directory")}
+          {t("home.hero.title")}
         </h1>
         <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
-          {t("home.hero.subtitle", "Connect with the global maritime industry's leading companies and service providers")}
+          {t("home.hero.subtitle")}
         </p>
         
         <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
@@ -55,20 +55,20 @@ const HeroSection = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
             <Input
               type="text"
-              placeholder={t("search.businessOrService", "Search for a business or service...")}
+              placeholder={t("search.businessOrService")}
               className="pl-10 h-12 text-black"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <Button type="submit" className="h-12 px-6">
-            {t("search.search", "Search")}
+            {t("search.search")}
           </Button>
         </form>
         
         <div className="mt-12">
           <p className="mb-3 text-sm uppercase tracking-wide opacity-80">
-            {t("home.hero.trustedBy", "Trusted by leading maritime companies")}
+            {t("home.hero.trustedBy")}
           </p>
           <div className="flex flex-wrap justify-center gap-8 items-center">
             {/* Company logos as white silhouettes */}

@@ -1,0 +1,22 @@
+
+{
+  "search": {
+    "search": "Zoeken",
+    "businessOrService": "Zoek naar een bedrijf of dienst...",
+    "byName": "Zoeken op naam",
+    "byLocation": "Zoeken op locatie",
+    "byCategory": "Zoeken op categorie",
+    "byService": "Zoeken op dienst",
+    "noResults": "Geen resultaten gevonden",
+    "filterByCategory": "Filteren op categorie",
+    "filterByLocation": "Filteren op locatie",
+    "filterByRating": "Filteren op beoordeling",
+    "results": "Zoekresultaten",
+    "resultCount": "{count} bedrijven gevonden",
+    "refineSearch": "Verfijn Je Zoekopdracht",
+    "clearFilters": "Filters Wissen",
+    "searchBusinesses": "Zoek Bedrijven",
+    "advancedSearch": "Geavanceerd Zoeken",
+    "recentSearches": "Recente Zoekopdrachten"
+  }
+}

@@ -3,6 +3,11 @@
   "home": {
     "heroTitle": "Maritime Business Directory",
     "heroSubtitle": "Connect with trusted maritime businesses and services worldwide",
+    "hero": {
+      "title": "The Maritime Business Directory",
+      "subtitle": "Connect with the global maritime industry's leading companies and service providers",
+      "trustedBy": "Trusted by leading maritime companies"
+    },
     "findBusiness": "Find a Business",
     "listBusiness": "List Your Business",
     "businessesRegistered": "Registered Businesses",

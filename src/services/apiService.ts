@@ -10,10 +10,9 @@ import {
   Review,
   Profile,
   ProfileUpdate,
-  Subcategory
+  Subcategory,
+  LanguageCode
 } from "@/types";
-
-// Fix TypeScript errors in these specific functions
 
 // Create business function
 export const createBusiness = async (business: BusinessCreate): Promise<Business> => {
@@ -29,7 +28,12 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
       .single();
     
     if (error) throw new Error(error.message);
-    return data;
+    
+    // Cast the status properly
+    return {
+      ...data,
+      status: data.status as BusinessStatus
+    } as Business;
   } catch (error) {
     console.error('Error creating business:', error);
     throw error;
@@ -109,7 +113,12 @@ export const fetchBusinesses = async (filters?: BusinessFilter): Promise<Busines
     const { data, error } = await query;
     
     if (error) throw new Error(error.message);
-    return data || [];
+    
+    // Cast the status properly for each business
+    return (data || []).map(item => ({
+      ...item,
+      status: item.status as BusinessStatus
+    })) as Business[];
   } catch (error) {
     console.error('Error fetching businesses:', error);
     return [];
@@ -125,7 +134,12 @@ export const fetchBusinessById = async (id: string): Promise<Business | null> =>
       .single();
     
     if (error) throw new Error(error.message);
-    return data;
+    
+    // Cast the status properly
+    return data ? {
+      ...data,
+      status: data.status as BusinessStatus
+    } as Business : null;
   } catch (error) {
     console.error(`Error fetching business with ID ${id}:`, error);
     return null;
@@ -191,7 +205,12 @@ export const fetchFeaturedBusinesses = async (): Promise<Business[]> => {
       .limit(6);
     
     if (error) throw new Error(error.message);
-    return data || [];
+    
+    // Cast the status properly for each featured business
+    return (data || []).map(item => ({
+      ...item,
+      status: item.status as BusinessStatus
+    })) as Business[];
   } catch (error) {
     console.error('Error fetching featured businesses:', error);
     return [];
@@ -207,7 +226,12 @@ export const fetchProfile = async (userId: string): Promise<Profile> => {
       .single();
     
     if (error) throw new Error(error.message);
-    return data;
+    
+    // Cast the language properly to ensure it matches LanguageCode type
+    return {
+      ...data,
+      language: data.language as LanguageCode
+    } as Profile;
   } catch (error) {
     console.error(`Error fetching profile for user ${userId}:`, error);
     throw error;
@@ -224,7 +248,12 @@ export const updateProfile = async (userId: string, updates: ProfileUpdate): Pro
       .single();
     
     if (error) throw new Error(error.message);
-    return data;
+    
+    // Cast the language properly to ensure it matches LanguageCode type
+    return {
+      ...data,
+      language: data.language as LanguageCode
+    } as Profile;
   } catch (error) {
     console.error(`Error updating profile for user ${userId}:`, error);
     throw error;

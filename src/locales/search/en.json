@@ -1,0 +1,22 @@
+
+{
+  "search": {
+    "search": "Search",
+    "businessOrService": "Search for a business or service...",
+    "byName": "Search by name",
+    "byLocation": "Search by location",
+    "byCategory": "Search by category",
+    "byService": "Search by service",
+    "noResults": "No results found",
+    "filterByCategory": "Filter by Category",
+    "filterByLocation": "Filter by Location",
+    "filterByRating": "Filter by Rating",
+    "results": "Search Results",
+    "resultCount": "{count} businesses found",
+    "refineSearch": "Refine Your Search",
+    "clearFilters": "Clear Filters",
+    "searchBusinesses": "Search Businesses",
+    "advancedSearch": "Advanced Search",
+    "recentSearches": "Recent Searches"
+  }
+}
