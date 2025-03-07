@@ -51,6 +51,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import { fetchCategories, fetchSubcategories, createBusiness } from "@/services/apiService";
+import { assertArray } from "@/utils/typeGuards";
 import { Category, Subcategory, BusinessInput, BusinessCreate } from "@/types";
 import { supportedLanguages } from "@/contexts/LanguageContext";
 
@@ -135,16 +136,20 @@ const AddBusiness = () => {
   
   const category_id = form.watch("category_id");
   
-  const { data: categories } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories
   });
   
-  const { data: subcategories } = useQuery({
+  const categories = assertArray<Category>(categoriesData);
+  
+  const { data: subcategoriesData } = useQuery({
     queryKey: ['subcategories', category_id],
     queryFn: () => fetchSubcategories(Number(category_id)),
     enabled: !!category_id && category_id !== ""
   });
+  
+  const subcategories = assertArray<Subcategory>(subcategoriesData);
   
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -346,7 +351,7 @@ const AddBusiness = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {categories?.map((category: Category) => (
+                              {categories.map((category: Category) => (
                                 <SelectItem key={category.id} value={category.id.toString()}>
                                   {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}.name`) || category.name}
                                 </SelectItem>

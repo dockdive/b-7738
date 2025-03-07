@@ -1,14 +1,20 @@
-
 import React from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import HeroSection from '@/components/HeroSection';
-import { Search, ArrowRight, Anchor, Ship, Compass, Headphones, Tool, Shield, GraduationCap } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchFeaturedBusinesses, fetchCategories } from '@/services/apiService';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Star, MapPin, Wrench, Search, Building, Ship, Anchor } from "lucide-react";
+import { fetchFeaturedBusinesses, fetchCategories } from "@/services/apiService";
+import { assertArray } from "@/utils/typeGuards";
+import { Category, Business } from "@/types";
+import HeroSection from "@/components/HeroSection";
+import SearchBar from "@/components/SearchBar";
+import CategoryFilter from "@/components/CategoryFilter";
+import ToolCard from "@/components/ToolCard";
 
 const Home = () => {
   const { t } = useLanguage();
@@ -28,7 +34,7 @@ const Home = () => {
   // Map of category icons
   const categoryIcons: Record<string, React.ReactNode> = {
     'Shipping': <Ship className="h-6 w-6" />,
-    'Equipment': <Tool className="h-6 w-6" />,
+    'Equipment': <Wrench className="h-6 w-6" />,
     'Navigation': <Compass className="h-6 w-6" />,
     'Safety': <Shield className="h-6 w-6" />,
     'Training': <GraduationCap className="h-6 w-6" />,

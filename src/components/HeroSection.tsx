@@ -1,99 +1,95 @@
 
-import React from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Ship, Anchor, Search, Building, Users } from 'lucide-react';
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const { t } = useLanguage();
-
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/businesses?search=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+  
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-      {/* Wave SVG background */}
-      <div className="absolute inset-0 z-0 opacity-20">
-        <svg className="w-full h-full" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path 
-            fill="#ffffff" 
-            fillOpacity="1" 
-            d="M0,192L48,170.7C96,149,192,107,288,112C384,117,480,171,576,186.7C672,203,768,181,864,154.7C960,128,1056,96,1152,106.7C1248,117,1344,171,1392,197.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-          ></path>
+    <div className="relative min-h-[500px] flex items-center justify-center overflow-hidden bg-blue-900">
+      {/* Wave background SVG */}
+      <div className="absolute inset-0 z-0">
+        <svg
+          className="absolute bottom-0 w-full h-48 fill-current text-white"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            opacity=".25"
+          />
+          <path
+            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+            opacity=".5"
+          />
+          <path
+            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+          />
         </svg>
       </div>
       
-      {/* Floating boat illustrations */}
-      <div className="absolute top-1/4 left-1/6 animate-float-slow z-0 opacity-30">
-        <Ship className="text-white h-24 w-24" />
-      </div>
-      <div className="absolute bottom-1/4 right-1/6 animate-float z-0 opacity-20">
-        <Anchor className="text-white h-16 w-16" />
-      </div>
-      
-      <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            {t("home.heroTitle")}
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8">
-            {t("home.heroSubtitle")}
+      {/* Hero content */}
+      <div className="container mx-auto px-4 py-16 relative z-10 text-center text-white">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          {t("home.hero.title", "The Maritime Business Directory")}
+        </h1>
+        <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
+          {t("home.hero.subtitle", "Connect with the global maritime industry's leading companies and service providers")}
+        </p>
+        
+        <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
+          <div className="relative flex-grow">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Input
+              type="text"
+              placeholder={t("search.businessOrService", "Search for a business or service...")}
+              className="pl-10 h-12 text-black"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <Button type="submit" className="h-12 px-6">
+            {t("search.search", "Search")}
+          </Button>
+        </form>
+        
+        <div className="mt-12">
+          <p className="mb-3 text-sm uppercase tracking-wide opacity-80">
+            {t("home.hero.trustedBy", "Trusted by leading maritime companies")}
           </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/businesses">
-              <Button size="lg" className="w-full sm:w-auto gap-2">
-                <Search className="h-5 w-5" />
-                {t("home.findBusiness")}
-              </Button>
-            </Link>
-            <Link to="/add-business">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto gap-2 bg-white/10 text-white border-white/30 hover:bg-white/20">
-                <Building className="h-5 w-5" />
-                {t("home.listBusiness")}
-              </Button>
-            </Link>
-          </div>
-        </div>
-        
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-          <div className="text-center bg-white/10 backdrop-blur-sm p-6 rounded-lg">
-            <Building className="h-12 w-12 mx-auto mb-4 text-blue-300" />
-            <h3 className="text-3xl md:text-4xl font-bold mb-2">1,200+</h3>
-            <p className="text-blue-100">{t("home.businessesRegistered")}</p>
-          </div>
-          <div className="text-center bg-white/10 backdrop-blur-sm p-6 rounded-lg">
-            <Users className="h-12 w-12 mx-auto mb-4 text-blue-300" />
-            <h3 className="text-3xl md:text-4xl font-bold mb-2">25,000+</h3>
-            <p className="text-blue-100">{t("home.monthlyUsers")}</p>
-          </div>
-          <div className="text-center bg-white/10 backdrop-blur-sm p-6 rounded-lg">
-            <Search className="h-12 w-12 mx-auto mb-4 text-blue-300" />
-            <h3 className="text-3xl md:text-4xl font-bold mb-2">150,000+</h3>
-            <p className="text-blue-100">{t("home.monthlySearches")}</p>
+          <div className="flex flex-wrap justify-center gap-8 items-center">
+            {/* Company logos as white silhouettes */}
+            {/* Removed for simplicity */}
           </div>
         </div>
       </div>
       
-      {/* Adding maritime-themed custom styling */}
-      <style jsx="true">{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-float-slow {
-          animation: float-slow 8s ease-in-out infinite;
-        }
-      `}</style>
+      {/* Fix the style tag by removing the jsx property */}
+      <style>
+        {`
+          @keyframes wave {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          .wave-animation {
+            animation: wave 15s linear infinite;
+          }
+        `}
+      </style>
     </div>
   );
 };

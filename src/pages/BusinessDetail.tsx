@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -21,6 +20,7 @@ import {
   ChevronLeft
 } from "lucide-react";
 import { fetchBusinessById, fetchReviewsByBusinessId, fetchCategories } from "@/services/apiService";
+import { assertArray, assertObject } from "@/utils/typeGuards";
 import { Business, Review, Category } from "@/types";
 import { format } from "date-fns";
 
@@ -38,7 +38,7 @@ const BusinessDetail = () => {
   
   // Fetch business details
   const { 
-    data: business, 
+    data: businessData, 
     isLoading: isLoadingBusiness,
     error: businessError
   } = useQuery({
@@ -47,18 +47,27 @@ const BusinessDetail = () => {
     enabled: !!id
   });
   
+  // Apply type assertion
+  const business = assertObject<Business>(businessData);
+  
   // Fetch reviews for this business
-  const { data: reviews } = useQuery({
+  const { data: reviewsData } = useQuery({
     queryKey: ['reviews', id],
     queryFn: () => fetchReviewsByBusinessId(id as string),
     enabled: !!id
   });
   
+  // Apply type assertion
+  const reviews = assertArray<Review>(reviewsData);
+  
   // Fetch categories for category name
-  const { data: categories } = useQuery({
+  const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories
   });
+  
+  // Apply type assertion
+  const categories = assertArray<Category>(categoriesData);
   
   // Format date
   const formatDate = (dateString: string) => {

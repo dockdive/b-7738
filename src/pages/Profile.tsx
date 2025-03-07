@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useLanguage, LanguageCode } from "@/contexts/LanguageContext";
 import { useToast } from "@/components/ui/use-toast";
@@ -21,7 +20,6 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   
-  // Form state
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [companyName, setCompanyName] = useState("");
@@ -29,31 +27,25 @@ const Profile = () => {
   const [country, setCountry] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(language);
   
-  // Avatar upload
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   
-  // Active tab
   const [activeTab, setActiveTab] = useState("profile");
   
-  // Fetch profile data
   useEffect(() => {
     const loadProfile = async () => {
       try {
         setIsLoading(true);
-        // In a real app, you'd get the user ID from auth context
         const userId = "current-user-id";
         const profileData = await fetchProfile(userId);
         setProfile(profileData);
         
-        // Initialize form values
         setFirstName(profileData.first_name || "");
         setLastName(profileData.last_name || "");
         setCompanyName(profileData.company_name || "");
         setPhone(profileData.phone || "");
         setCountry(profileData.country || "");
         setSelectedLanguage(profileData.language || language);
-        
       } catch (error) {
         console.error("Error loading profile:", error);
         toast({
@@ -69,13 +61,11 @@ const Profile = () => {
     loadProfile();
   }, [t, language, toast]);
   
-  // Handle avatar file selection
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setAvatarFile(file);
       
-      // Create a preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatarPreview(reader.result as string);
@@ -84,7 +74,6 @@ const Profile = () => {
     }
   };
   
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -93,13 +82,11 @@ const Profile = () => {
     try {
       setIsUpdating(true);
       
-      // Upload avatar if selected
       let avatarUrl = profile.avatar_url;
       if (avatarFile) {
         avatarUrl = await uploadImage(profile.id, avatarFile);
       }
       
-      // Update profile
       const updatedProfile = await updateProfile(profile.id, {
         first_name: firstName,
         last_name: lastName,
@@ -112,7 +99,6 @@ const Profile = () => {
       
       setProfile(updatedProfile);
       
-      // Update language in the app if changed
       if (selectedLanguage !== language) {
         changeLanguage(selectedLanguage);
       }
@@ -157,7 +143,6 @@ const Profile = () => {
         
         <TabsContent value="profile">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Profile Information */}
             <div className="md:col-span-2">
               <Card>
                 <CardHeader>
@@ -249,7 +234,6 @@ const Profile = () => {
               </Card>
             </div>
             
-            {/* Profile Picture */}
             <div>
               <Card>
                 <CardHeader>
@@ -324,7 +308,7 @@ const Profile = () => {
                 <Input
                   id="email"
                   type="email"
-                  value="user@example.com" // In a real app, this would come from auth
+                  value="user@example.com"
                   disabled
                 />
                 <p className="text-sm text-gray-500">

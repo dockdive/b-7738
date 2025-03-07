@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -36,6 +35,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { fetchBusinesses, fetchCategories, fetchSubcategories } from "@/services/apiService";
+import { assertArray } from "@/utils/typeGuards";
 import { Business, BusinessFilter, Category, Subcategory } from "@/types";
 import { format } from "date-fns";
 
@@ -43,7 +43,6 @@ const BusinessDirectory = () => {
   const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // Get initial filters from URL params
   const initialFilters: BusinessFilter = {
     search: searchParams.get("search") || "",
     category_id: searchParams.get("category") ? Number(searchParams.get("category")) : undefined,
@@ -57,9 +56,8 @@ const BusinessDirectory = () => {
   const [filters, setFilters] = useState<BusinessFilter>(initialFilters);
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
   
-  // Fetch businesses with filters
   const { 
-    data: businesses, 
+    data: businessesData, 
     isLoading: isLoadingBusinesses,
     refetch: refetchBusinesses
   } = useQuery({
@@ -67,24 +65,26 @@ const BusinessDirectory = () => {
     queryFn: () => fetchBusinesses(filters)
   });
   
-  // Fetch categories
-  const { data: categories } = useQuery({
+  const businesses = assertArray<Business>(businessesData);
+  
+  const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories
   });
   
-  // Fetch subcategories based on selected category
-  const { data: subcategories, refetch: refetchSubcategories } = useQuery({
+  const categories = assertArray<Category>(categoriesData);
+  
+  const { data: subcategoriesData, refetch: refetchSubcategories } = useQuery({
     queryKey: ['subcategories', filters.category_id],
     queryFn: () => fetchSubcategories(filters.category_id),
     enabled: !!filters.category_id
   });
   
-  // Country and city options from businesses
+  const subcategories = assertArray<Subcategory>(subcategoriesData);
+  
   const [countries, setCountries] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   
-  // Extract unique countries and cities from businesses data
   useEffect(() => {
     if (businesses) {
       const uniqueCountries = [...new Set(businesses.map(b => b.country).filter(Boolean))];
@@ -95,7 +95,6 @@ const BusinessDirectory = () => {
     }
   }, [businesses]);
   
-  // Update URL params when filters change
   useEffect(() => {
     const params = new URLSearchParams();
     
@@ -110,23 +109,20 @@ const BusinessDirectory = () => {
     setSearchParams(params);
   }, [filters, setSearchParams]);
   
-  // Handle category change
   const handleCategoryChange = (categoryId: string) => {
     setFilters({
       ...filters,
       category_id: categoryId ? Number(categoryId) : undefined,
-      subcategory_id: undefined // Reset subcategory when category changes
+      subcategory_id: undefined
     });
     refetchSubcategories();
   };
   
-  // Handle search submit
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     refetchBusinesses();
   };
   
-  // Reset all filters
   const resetFilters = () => {
     setFilters({
       search: "",
@@ -139,7 +135,6 @@ const BusinessDirectory = () => {
     });
   };
   
-  // Format date for display
   const formatDate = (dateString: string) => {
     try {
       return format(new Date(dateString), "MMM d, yyyy");
@@ -152,7 +147,6 @@ const BusinessDirectory = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">{t("navigation.businesses")}</h1>
       
-      {/* Search and Filter Bar */}
       <div className="mb-6">
         <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow">
@@ -183,7 +177,6 @@ const BusinessDirectory = () => {
         </form>
       </div>
       
-      {/* Filters Section */}
       {isFiltersVisible && (
         <div className="bg-gray-50 p-6 rounded-lg mb-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           <div>
@@ -199,7 +192,7 @@ const BusinessDirectory = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">{t("categories.allCategories")}</SelectItem>
-                {categories?.map((category: Category) => (
+                {categories.map((category: Category) => (
                   <SelectItem key={category.id} value={category.id.toString()}>
                     {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}.name`) || category.name}
                   </SelectItem>
@@ -270,7 +263,7 @@ const BusinessDirectory = () => {
                   <SelectItem value="">{t("search.allCities")}</SelectItem>
                   {cities
                     .filter(city => {
-                      const cityBusinesses = businesses?.filter(b => b.city === city && b.country === filters.country);
+                      const cityBusinesses = businesses.filter(b => b.city === city && b.country === filters.country);
                       return cityBusinesses && cityBusinesses.length > 0;
                     })
                     .map((city) => (
@@ -335,7 +328,6 @@ const BusinessDirectory = () => {
         </div>
       )}
       
-      {/* Results Count */}
       <div className="mb-4 text-gray-600">
         {businesses && (
           <p>
@@ -344,7 +336,6 @@ const BusinessDirectory = () => {
         )}
       </div>
       
-      {/* Businesses Table */}
       <div className="bg-white rounded-lg border overflow-hidden">
         <Table>
           <TableCaption>{t("search.resultsDescription")}</TableCaption>
