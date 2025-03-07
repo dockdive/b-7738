@@ -1,3 +1,4 @@
+
 // Import the LanguageCode type from the LanguageContext
 import { LanguageCode } from "@/contexts/LanguageContext";
 
@@ -5,7 +6,7 @@ import { LanguageCode } from "@/contexts/LanguageContext";
 export type BusinessStatus = "pending" | "approved" | "rejected";
 
 // Re-export the LanguageCode type
-export { LanguageCode };
+export type { LanguageCode };
 
 export type Business = {
   id: string;

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Language } from '@/types';
+import { LanguageCode } from '@/types';
 
 // Import all locales
 const locales = {
@@ -8,21 +8,21 @@ const locales = {
 };
 
 export function useTranslation() {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<LanguageCode>('en');
   const [translations, setTranslations] = useState<Record<string, any>>({});
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     // Try to get language from localStorage
-    const savedLanguage = localStorage.getItem('language') as Language | null;
+    const savedLanguage = localStorage.getItem('language') as LanguageCode | null;
     
     // Or use browser language or default to 'en'
-    const browserLanguage = navigator.language.split('-')[0] as Language;
+    const browserLanguage = navigator.language.split('-')[0] as LanguageCode;
     const detectedLanguage = savedLanguage || browserLanguage || 'en';
     
     // Make sure it's a supported language
-    const finalLanguage: Language = Object.keys(locales).includes(detectedLanguage) 
-      ? detectedLanguage as Language 
+    const finalLanguage: LanguageCode = Object.keys(locales).includes(detectedLanguage) 
+      ? detectedLanguage as LanguageCode 
       : 'en';
     
     setLanguage(finalLanguage);
@@ -47,7 +47,7 @@ export function useTranslation() {
     loadTranslations();
   }, []);
 
-  const changeLanguage = (newLanguage: Language) => {
+  const changeLanguage = (newLanguage: LanguageCode) => {
     if (Object.keys(locales).includes(newLanguage)) {
       setLanguage(newLanguage);
       localStorage.setItem('language', newLanguage);

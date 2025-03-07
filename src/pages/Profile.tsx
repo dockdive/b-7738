@@ -226,7 +226,7 @@ const Profile = () => {
                       <Label htmlFor="language">{t("profile.language")}</Label>
                       <Select
                         value={selectedLanguage}
-                        onValueChange={(value) => setSelectedLanguage(value as Language)}
+                        onValueChange={(value) => setSelectedLanguage(value as LanguageCode)}
                       >
                         <SelectTrigger id="language">
                           <SelectValue placeholder={t("profile.selectLanguage")} />

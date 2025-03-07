@@ -2,7 +2,7 @@
 import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Profile } from '@/types';
+import { Profile, LanguageCode } from '@/types';
 
 type User = {
   id: string;
@@ -76,7 +76,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (error) throw error;
       
-      setProfile(data);
+      // Ensure that language is a valid LanguageCode
+      const profileData = data as any;
+      const validLanguage = profileData.language as LanguageCode || 'en';
+      
+      setProfile({
+        ...profileData,
+        language: validLanguage
+      } as Profile);
     } catch (error) {
       console.error('Error fetching profile:', error);
     } finally {
