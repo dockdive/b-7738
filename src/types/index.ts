@@ -1,4 +1,3 @@
-
 // Business-related types
 export type BusinessStatus = "pending" | "approved" | "rejected";
 
@@ -120,25 +119,10 @@ export type BusinessCreate = Omit<Business, "id" | "rating" | "review_count" | "
 export type BusinessUpdate = Partial<Omit<Business, "id" | "owner_id" | "created_at" | "updated_at">>;
 
 // Add BusinessInput type for the AddBusiness page
-export type BusinessInput = {
-  name: string;
-  category_id: number;
-  subcategory_id?: number;
-  description: string;
+export type BusinessInput = Omit<Business, "id" | "rating" | "review_count" | "views" | "created_at" | "updated_at"> & {
   services: string[];
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
-  phone: string;
-  email: string;
-  website: string;
-  opening_hours: string;
   primary_language: string;
   additional_languages: string[];
-  is_featured: boolean;
-  status: BusinessStatus;
-  logo_url: string;
+  opening_hours: string;
   images: string[];
 };

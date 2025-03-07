@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { deepMerge } from "@/utils/deepMerge";
 
@@ -60,6 +59,7 @@ export type LanguageCode = typeof supportedLanguages[number]["code"];
 export interface LanguageContextType {
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
+  changeLanguage: (lang: LanguageCode) => void;
   t: (key: string, options?: Record<string, string>) => string;
   supportedLanguages: ReadonlyArray<{ code: LanguageCode; name: string }>;
 }
@@ -137,7 +137,13 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, supportedLanguages }}>
+    <LanguageContext.Provider value={{ 
+      language, 
+      setLanguage, 
+      changeLanguage: setLanguage,
+      t, 
+      supportedLanguages 
+    }}>
       {children}
     </LanguageContext.Provider>
   );

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -52,10 +51,9 @@ import {
   ChevronRight
 } from "lucide-react";
 import { fetchCategories, fetchSubcategories, createBusiness } from "@/services/apiService";
-import { Category, Subcategory, BusinessInput } from "@/types";
+import { Category, Subcategory, BusinessInput, BusinessCreate } from "@/types";
 import { supportedLanguages } from "@/contexts/LanguageContext";
 
-// Define the form schema with Zod
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Business name must be at least 2 characters.",
@@ -97,7 +95,6 @@ const formSchema = z.object({
   }),
 });
 
-// Define the type for the form values
 type FormValues = z.infer<typeof formSchema>;
 
 const AddBusiness = () => {
@@ -112,7 +109,6 @@ const AddBusiness = () => {
   const [services, setServices] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // Initialize the form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -130,36 +126,31 @@ const AddBusiness = () => {
       email: "",
       website: "",
       opening_hours: "",
-      primary_language: "en", // Default language is English
+      primary_language: "en",
       additional_languages: [],
       is_featured: false,
       agreed_to_terms: false,
     },
   });
   
-  // Watch category_id to fetch subcategories
   const category_id = form.watch("category_id");
   
-  // Fetch categories
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories
   });
   
-  // Fetch subcategories based on selected category
   const { data: subcategories } = useQuery({
     queryKey: ['subcategories', category_id],
     queryFn: () => fetchSubcategories(Number(category_id)),
     enabled: !!category_id && category_id !== ""
   });
   
-  // Handle logo file selection
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setLogoFile(file);
       
-      // Create a preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setLogoPreview(reader.result as string);
@@ -168,7 +159,6 @@ const AddBusiness = () => {
     }
   };
   
-  // Handle adding a service
   const handleAddService = () => {
     if (serviceInput.trim() && !services.includes(serviceInput.trim())) {
       const updatedServices = [...services, serviceInput.trim()];
@@ -178,16 +168,13 @@ const AddBusiness = () => {
     }
   };
   
-  // Handle removing a service
   const handleRemoveService = (index: number) => {
     const updatedServices = services.filter((_, i) => i !== index);
     setServices(updatedServices);
     form.setValue("services", updatedServices);
   };
   
-  // Navigate between steps
   const goToNextStep = () => {
-    // Validate the current step's fields
     if (activeStep === 1) {
       form.trigger(["name", "category_id", "description"]);
       if (
@@ -216,7 +203,6 @@ const AddBusiness = () => {
     }
   };
   
-  // Handle form submission
   const onSubmit = async (values: FormValues) => {
     if (!values.agreed_to_terms) {
       toast({
@@ -230,41 +216,34 @@ const AddBusiness = () => {
     setIsSubmitting(true);
     
     try {
-      // Create the business input object
-      const businessInput: BusinessInput = {
+      const businessData: BusinessCreate = {
         name: values.name,
         category_id: Number(values.category_id),
-        subcategory_id: values.subcategory_id ? Number(values.subcategory_id) : undefined,
+        subcategory_id: values.subcategory_id ? Number(values.subcategory_id) : null,
         description: values.description,
-        services: values.services || [],
         address: values.address,
         city: values.city,
-        state: values.state || "",
-        zip: values.zip || "",
+        state: values.state || null,
+        zip: values.zip || null,
         country: values.country,
-        phone: values.phone || "",
+        phone: values.phone || null,
         email: values.email,
-        website: values.website || "",
-        opening_hours: values.opening_hours || "",
-        primary_language: values.primary_language,
-        additional_languages: values.additional_languages || [],
+        website: values.website || null,
+        owner_id: '',
+        status: "pending",
         is_featured: values.is_featured,
-        status: "pending", // New businesses start as pending
-        // In a real application, you would handle logo upload separately
-        logo_url: "",
-        images: [],
+        logo_url: null,
+        latitude: null,
+        longitude: null
       };
       
-      // Submit the business
-      const result = await createBusiness(businessInput);
+      const result = await createBusiness(businessData);
       
-      // Show success message
       toast({
         title: t("addBusiness.submissionSuccessful"),
         description: t("addBusiness.businessUnderReview"),
       });
       
-      // Navigate to the dashboard
       navigate("/dashboard");
     } catch (error) {
       console.error("Error submitting business:", error);
@@ -334,7 +313,6 @@ const AddBusiness = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Step 1: Basic Information */}
               {activeStep === 1 && (
                 <>
                   <FormField
@@ -464,7 +442,6 @@ const AddBusiness = () => {
                 </>
               )}
               
-              {/* Step 2: Contact Information */}
               {activeStep === 2 && (
                 <>
                   <FormField
@@ -610,7 +587,6 @@ const AddBusiness = () => {
                 </>
               )}
               
-              {/* Step 3: Additional Information */}
               {activeStep === 3 && (
                 <>
                   <div>
@@ -734,7 +710,7 @@ const AddBusiness = () => {
                   {t("general.previous")}
                 </Button>
               ) : (
-                <div></div> // Empty div to maintain spacing
+                <div></div>
               )}
               
               {activeStep < 3 ? (

@@ -183,9 +183,17 @@ export const fetchUserBusinesses = async (userId: string): Promise<Business[]> =
 };
 
 export const createBusiness = async (business: BusinessCreate): Promise<Business> => {
+  // Ensure required properties are present
+  const businessWithOwner = {
+    ...business,
+    owner_id: (await supabase.auth.getUser()).data.user?.id || '',
+    latitude: business.latitude || null,
+    longitude: business.longitude || null
+  };
+
   const { data, error } = await supabase
     .from("businesses")
-    .insert([business as any])
+    .insert([businessWithOwner])
     .select()
     .single();
 
@@ -598,3 +606,4 @@ export const uploadProfileAvatar = async (
 
   return urlData.publicUrl;
 };
+
