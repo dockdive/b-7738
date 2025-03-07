@@ -546,7 +546,7 @@ export const replyToReview = async (reviewId: string, reply: string): Promise<bo
   try {
     const { error } = await supabase
       .from('reviews')
-      .update({ reply })
+      .update({ reply: reply })
       .eq('id', reviewId);
     
     if (error) throw error;
