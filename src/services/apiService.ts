@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -11,7 +12,8 @@ import {
   ProfileUpdate,
   Review,
   Subcategory,
-  LanguageCode
+  LanguageCode,
+  BusinessStatus
 } from "@/types";
 
 // ----- Categories -----
@@ -200,7 +202,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
       email: business.email,
       website: business.website,
       owner_id: business.owner_id,
-      status: business.status,
+      status: business.status as BusinessStatus,
       is_featured: business.is_featured,
       logo_url: business.logo_url,
       latitude: business.latitude,
