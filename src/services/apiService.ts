@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -546,7 +545,7 @@ export const replyToReview = async (reviewId: string, reply: string): Promise<bo
   try {
     const { error } = await supabase
       .from('reviews')
-      .update({ reply }) // Using object shorthand property syntax
+      .update({ reply: reply }) // Fix: Use explicit property assignment instead of shorthand
       .eq('id', reviewId);
     
     if (error) throw error;
