@@ -1,7 +1,11 @@
+// Import the LanguageCode type from the LanguageContext
+import { LanguageCode } from "@/contexts/LanguageContext";
+
 // Business-related types
 export type BusinessStatus = "pending" | "approved" | "rejected";
 
-export type Language = string;
+// Re-export the LanguageCode type
+export { LanguageCode };
 
 export type Business = {
   id: string;
@@ -28,9 +32,9 @@ export type Business = {
   views: number;
   created_at: string;
   updated_at: string;
-  services?: string[]; // Add services as optional array
-  images?: string[]; // Add images as optional array
-  opening_hours?: string; // Add opening_hours as optional
+  services?: string[]; // Services as optional array
+  images?: string[]; // Images as optional array
+  opening_hours?: string; // Opening hours as optional
 };
 
 export type BusinessImage = {
@@ -85,7 +89,7 @@ export type Profile = {
   company_name: string | null;
   phone: string | null;
   country: string | null;
-  language: string;
+  language: LanguageCode;
   is_admin: boolean;
   created_at: string;
   updated_at: string;
@@ -109,7 +113,7 @@ export type ProfileUpdate = {
   company_name?: string;
   phone?: string;
   country?: string;
-  language?: string;
+  language?: LanguageCode;
   avatar_url?: string;
 };
 
@@ -119,10 +123,10 @@ export type BusinessCreate = Omit<Business, "id" | "rating" | "review_count" | "
 export type BusinessUpdate = Partial<Omit<Business, "id" | "owner_id" | "created_at" | "updated_at">>;
 
 // Add BusinessInput type for the AddBusiness page
-export type BusinessInput = Omit<Business, "id" | "rating" | "review_count" | "views" | "created_at" | "updated_at"> & {
+export type BusinessInput = Omit<Business, "id" | "rating" | "review_count" | "views" | "created_at" | "updated_at" | "owner_id"> & {
   services: string[];
-  primary_language: string;
-  additional_languages: string[];
+  primary_language: LanguageCode;
+  additional_languages: LanguageCode[];
   opening_hours: string;
   images: string[];
 };

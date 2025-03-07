@@ -10,7 +10,8 @@ import {
   Profile,
   ProfileUpdate,
   Review,
-  Subcategory
+  Subcategory,
+  LanguageCode
 } from "@/types";
 
 // ----- Categories -----
@@ -569,8 +570,7 @@ export const updateProfile = async (
   return data as Profile;
 };
 
-export const uploadImage = uploadProfileAvatar;
-
+// Helper functions for profile image upload
 export const uploadProfileAvatar = async (
   userId: string,
   file: File
@@ -607,3 +607,5 @@ export const uploadProfileAvatar = async (
   return urlData.publicUrl;
 };
 
+// Export uploadImage as an alias to uploadProfileAvatar for backward compatibility
+export const uploadImage = uploadProfileAvatar;

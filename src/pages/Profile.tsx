@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage, LanguageCode } from "@/contexts/LanguageContext";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { fetchProfile, updateProfile, uploadImage } from "@/services/apiService";
-import { Profile as ProfileType, Language } from "@/types";
+import { Profile as ProfileType } from "@/types";
 import { supportedLanguages } from "@/contexts/LanguageContext";
 
 const Profile = () => {
@@ -26,7 +27,7 @@ const Profile = () => {
   const [companyName, setCompanyName] = useState("");
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>(language);
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(language);
   
   // Avatar upload
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
