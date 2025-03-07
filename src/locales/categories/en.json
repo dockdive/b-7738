@@ -1,110 +1,87 @@
 
 {
   "categories": {
-    "title": "Business Categories",
     "allCategories": "All Categories",
+    "allSubcategories": "All Subcategories",
     "shipping": {
-      "name": "Shipping Companies",
-      "description": "Cargo, passenger, and specialty shipping services"
+      "name": "Shipping & Transport",
+      "description": "Companies that provide shipping and transport services for maritime needs"
     },
-    "portAuthorities": {
+    "portauthorities": {
       "name": "Port Authorities",
-      "description": "Harbor management and port operations"
+      "description": "Official port management and regulatory entities"
     },
     "logistics": {
       "name": "Maritime Logistics",
-      "description": "Supply chain and freight forwarding services"
+      "description": "Companies specializing in maritime logistics and supply chain management"
     },
     "shipbuilding": {
       "name": "Shipbuilding & Repair",
-      "description": "Construction, maintenance, and repair of vessels"
+      "description": "Shipyards and companies offering vessel construction and repair services"
     },
     "equipment": {
-      "name": "Marine Equipment Suppliers",
-      "description": "Parts, tools, and equipment for maritime operations"
+      "name": "Marine Equipment",
+      "description": "Suppliers of equipment and parts for maritime vessels"
     },
     "consultants": {
       "name": "Maritime Consultants",
-      "description": "Professional advisory and consulting services"
+      "description": "Consultants providing expertise in maritime operations and management"
     },
     "training": {
       "name": "Training & Education",
-      "description": "Maritime schools, certification, and training programs"
+      "description": "Institutions offering maritime education and professional training"
     },
     "legal": {
       "name": "Legal & Insurance",
-      "description": "Maritime law, insurance, and financial services"
+      "description": "Maritime legal services, insurance, and risk management"
     },
     "environmental": {
       "name": "Environmental Services",
-      "description": "Eco-friendly maritime solutions and compliance"
+      "description": "Companies focused on marine environmental protection and compliance"
     },
     "offshore": {
       "name": "Offshore Services",
-      "description": "Oil, gas, and renewable energy marine operations"
-    },
-    "yachting": {
-      "name": "Yachting & Boating",
-      "description": "Recreational vessels, charters, and marinas"
-    },
-    "brokers": {
-      "name": "Boat Brokers",
-      "description": "Sale and purchase of new and used vessels"
-    },
-    "clubs": {
-      "name": "Boating Clubs",
-      "description": "Membership organizations for boating enthusiasts"
+      "description": "Services for offshore installations, platforms, and wind farms"
     },
     "marinas": {
       "name": "Marinas & Harbors",
-      "description": "Docking, mooring, and storage facilities"
+      "description": "Leisure boat facilities, marinas, and harbors"
     },
-    "charter": {
-      "name": "Charter Companies",
-      "description": "Boat and yacht rental services"
+    "yachting": {
+      "name": "Yachting & Leisure",
+      "description": "Yacht and leisure boat services, charters, and management"
     },
     "safety": {
       "name": "Safety & Security",
       "description": "Maritime safety equipment and security services"
     },
-    "technology": {
-      "name": "Marine Technology",
-      "description": "Navigation, communication, and maritime software"
+    "navigation": {
+      "name": "Navigation Systems",
+      "description": "Navigation equipment, charts, and systems for vessels"
     },
-    "tourism": {
-      "name": "Marine Tourism",
-      "description": "Cruises, tours, and water-based activities"
+    "suppliers": {
+      "name": "Ship Suppliers",
+      "description": "Companies providing general supplies for ships and boats"
+    },
+    "brokers": {
+      "name": "Ship Brokers",
+      "description": "Brokers for buying, selling, and chartering maritime vessels"
+    },
+    "maintenance": {
+      "name": "Maintenance Services",
+      "description": "Specialized maintenance and repair services for marine equipment"
+    },
+    "digitalservices": {
+      "name": "Digital & IT Services",
+      "description": "Technology and digital solutions for maritime operations"
+    },
+    "crewing": {
+      "name": "Crewing & Manning",
+      "description": "Services for vessel crewing, manning, and maritime employment"
+    },
+    "bunkering": {
+      "name": "Bunkering & Fueling",
+      "description": "Maritime fuel supply and bunkering services"
     }
-  },
-  "subcategories": {
-    "shipping": {
-      "cargo": "Cargo Shipping",
-      "passenger": "Passenger Shipping",
-      "container": "Container Transport",
-      "bulk": "Bulk Carriers",
-      "specialized": "Specialized Transport"
-    },
-    "shipbuilding": {
-      "construction": "New Construction",
-      "repair": "Repair & Maintenance",
-      "conversion": "Vessel Conversion",
-      "design": "Naval Architecture",
-      "interiors": "Marine Interiors"
-    },
-    "equipment": {
-      "propulsion": "Propulsion Systems",
-      "navigation": "Navigation Equipment",
-      "deck": "Deck Equipment",
-      "safety": "Safety Equipment",
-      "electronics": "Marine Electronics",
-      "furnishings": "Marine Furnishings"
-    },
-    "yachting": {
-      "sales": "Yacht Sales",
-      "maintenance": "Yacht Maintenance",
-      "accessories": "Boat Accessories",
-      "charters": "Yacht Charters",
-      "management": "Yacht Management"
-    }
-  }
+  }  
 }

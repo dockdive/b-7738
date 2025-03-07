@@ -2,14 +2,27 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Sailboat, UserCircle, Globe, LogIn, Menu } from "lucide-react";
+import { 
+  Sailboat, 
+  UserCircle, 
+  Globe, 
+  LogIn, 
+  Menu, 
+  Home, 
+  Building2, 
+  Info, 
+  MessageCircle, 
+  LayoutDashboard,
+  Plus,
+  Ship
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
@@ -18,7 +31,7 @@ const Header = () => {
   const [session, setSession] = useState<any>(null);
 
   // Check for session on mount
-  useState(() => {
+  useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
@@ -30,29 +43,33 @@ const Header = () => {
     });
 
     return () => subscription.unsubscribe();
-  });
+  }, []);
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <Sailboat className="h-8 w-8 mr-2 text-primary" />
+              <Ship className="h-8 w-8 mr-2 text-primary" />
               <span className="text-xl font-bold">{t("general.appName")}</span>
             </Link>
             
             <nav className="hidden md:flex ml-10 space-x-4">
-              <Link to="/" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+              <Link to="/" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center">
+                <Home className="h-4 w-4 mr-2" />
                 {t("navigation.home")}
               </Link>
-              <Link to="/businesses" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+              <Link to="/businesses" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center">
+                <Building2 className="h-4 w-4 mr-2" />
                 {t("navigation.businesses")}
               </Link>
-              <Link to="/about" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+              <Link to="/about" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center">
+                <Info className="h-4 w-4 mr-2" />
                 {t("navigation.about")}
               </Link>
-              <Link to="/contact" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md">
+              <Link to="/contact" className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center">
+                <MessageCircle className="h-4 w-4 mr-2" />
                 {t("navigation.contact")}
               </Link>
             </nav>
@@ -102,11 +119,20 @@ const Header = () => {
             )}
             
             {session && (
-              <Link to="/dashboard">
-                <Button variant="default" size="sm">
-                  {t("navigation.dashboard")}
-                </Button>
-              </Link>
+              <>
+                <Link to="/dashboard">
+                  <Button variant="outline" size="sm" className="flex items-center">
+                    <LayoutDashboard className="h-4 w-4 mr-2" />
+                    {t("navigation.dashboard")}
+                  </Button>
+                </Link>
+                <Link to="/add-business">
+                  <Button variant="default" size="sm" className="flex items-center">
+                    <Plus className="h-4 w-4 mr-2" />
+                    {t("business.addBusiness")}
+                  </Button>
+                </Link>
+              </>
             )}
           </div>
           
@@ -122,30 +148,34 @@ const Header = () => {
             <nav className="flex flex-col space-y-2">
               <Link 
                 to="/" 
-                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center"
                 onClick={() => setIsMenuOpen(false)}
               >
+                <Home className="h-4 w-4 mr-2" />
                 {t("navigation.home")}
               </Link>
               <Link 
                 to="/businesses" 
-                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center"
                 onClick={() => setIsMenuOpen(false)}
               >
+                <Building2 className="h-4 w-4 mr-2" />
                 {t("navigation.businesses")}
               </Link>
               <Link 
                 to="/about" 
-                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center"
                 onClick={() => setIsMenuOpen(false)}
               >
+                <Info className="h-4 w-4 mr-2" />
                 {t("navigation.about")}
               </Link>
               <Link 
                 to="/contact" 
-                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md"
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center"
                 onClick={() => setIsMenuOpen(false)}
               >
+                <MessageCircle className="h-4 w-4 mr-2" />
                 {t("navigation.contact")}
               </Link>
               
@@ -190,7 +220,16 @@ const Header = () => {
                       className="flex items-center px-3 py-2 text-gray-700 hover:text-primary"
                       onClick={() => setIsMenuOpen(false)}
                     >
+                      <LayoutDashboard className="h-4 w-4 mr-2" />
                       {t("navigation.dashboard")}
+                    </Link>
+                    <Link 
+                      to="/add-business" 
+                      className="flex items-center px-3 py-2 text-gray-700 hover:text-primary"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      {t("business.addBusiness")}
                     </Link>
                   </>
                 ) : (

@@ -1,26 +1,53 @@
 
 {
-  "bulkUpload": {
+  "csvUpload": {
     "title": "Bulk Upload",
-    "subtitle": "Upload multiple businesses, categories, or reviews at once using CSV files.",
-    "prepareCSV": "Prepare Your CSV",
-    "uploadCSV": "Upload Your CSV",
+    "description": "Upload multiple {entityType} records at once using CSV format",
+    "entityTypes": {
+      "business": "businesses",
+      "businesses": "businesses",
+      "category": "categories",
+      "categories": "categories",
+      "review": "reviews",
+      "reviews": "reviews"
+    },
+    "selectFile": "Select CSV File",
+    "downloadTemplate": "Download Template",
+    "uploadButton": "Upload CSV",
+    "uploading": "Uploading...",
+    "loading": "Loading...",
+    "error": "Upload Failed",
+    "success": "Upload Complete",
+    "successMessage": "Successfully uploaded {count} records",
+    "errorGeneric": "An error occurred during upload",
+    "loadSampleData": "Load Sample Data",
+    "sampleDataMessage": "Successfully loaded {count} sample businesses",
+    "showLogs": "Show Logs",
+    "hideLogs": "Hide Logs",
+    "logs": "Operation Logs",
+    "noLogs": "No logs available"
+  },
+  "bulkUpload": {
+    "title": "Bulk Upload Tool",
+    "subtitle": "Easily import multiple records into the Maritime Directory",
+    "prepareCSV": "Prepare CSV File",
+    "uploadCSV": "Upload Data",
     "requirements": "Requirements",
     "steps": {
-      "download": "Download the template",
-      "fill": "Fill in your data",
-      "validate": "Check for errors",
-      "save": "Save as CSV",
-      "select": "Select your CSV file",
-      "review": "Review the data",
-      "upload": "Upload the file",
-      "confirm": "Confirm success"
+      "download": "Download the template for your data type",
+      "fill": "Fill in your data following the format in the template",
+      "validate": "Check your data for errors before uploading",
+      "save": "Save your file in CSV format",
+      "select": "Select your prepared CSV file",
+      "review": "Review the file information",
+      "upload": "Click the upload button to begin",
+      "confirm": "Wait for confirmation of successful upload"
     },
     "reqDetails": {
-      "format": "CSV format only (comma-separated)",
-      "headers": "Must include the correct headers",
-      "required": "Required fields must be filled",
-      "size": "Max 5MB file size"
+      "format": "CSV format with headers in the first row",
+      "headers": "Headers must match the template exactly",
+      "required": "Required fields cannot be empty",
+      "size": "Maximum file size: 10MB"
     },
     "tabs": {
       "businesses": "Businesses",
@@ -33,23 +60,6 @@
       "businesses": "businesses",
       "categories": "categories",
       "reviews": "reviews"
-    }
-  },
-  "csvUpload": {
-    "title": "CSV Upload",
-    "description": "Upload {entityType} data using a CSV file",
-    "selectFile": "Select File",
-    "downloadTemplate": "Download Template",
-    "uploading": "Uploading...",
-    "uploadButton": "Upload CSV",
-    "success": "Upload Successful",
-    "error": "Upload Failed",
-    "successMessage": "Successfully imported {count} records",
-    "errorGeneric": "An error occurred during the upload",
-    "entityTypes": {
-      "business": "businesses",
-      "category": "categories",
-      "review": "reviews"
     }
   }
 }

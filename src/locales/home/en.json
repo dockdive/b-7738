@@ -1,0 +1,23 @@
+
+{
+  "home": {
+    "heroTitle": "Maritime Business Directory",
+    "heroSubtitle": "Connect with trusted maritime businesses and services worldwide",
+    "findBusiness": "Find a Business",
+    "listBusiness": "List Your Business",
+    "businessesRegistered": "Registered Businesses",
+    "monthlyUsers": "Monthly Users",
+    "monthlySearches": "Monthly Searches",
+    "featuredBusinesses": "Featured Businesses",
+    "viewAllBusinesses": "View All Businesses",
+    "categories": "Browse by Category",
+    "viewAllCategories": "View All Categories",
+    "testimonials": "What Our Users Say",
+    "latestListings": "Latest Listings",
+    "joinDirectory": "Join our Maritime Directory",
+    "joinDescription": "List your maritime business and gain visibility within the global maritime community",
+    "joinCTA": "Get Started Now",
+    "searchPlaceholder": "Search for maritime businesses...",
+    "popularSearches": "Popular: Ship Repair, Marine Equipment, Chandlery"
+  }
+}

@@ -1,26 +1,53 @@
 
 {
-  "bulkUpload": {
+  "csvUpload": {
     "title": "Bulk Upload",
-    "subtitle": "Upload meerdere bedrijven, categorieën of beoordelingen tegelijk met CSV-bestanden.",
-    "prepareCSV": "Bereid uw CSV voor",
-    "uploadCSV": "Upload uw CSV",
+    "description": "Upload meerdere {entityType} tegelijk met CSV-formaat",
+    "entityTypes": {
+      "business": "bedrijven",
+      "businesses": "bedrijven",
+      "category": "categorieën",
+      "categories": "categorieën",
+      "review": "beoordelingen",
+      "reviews": "beoordelingen"
+    },
+    "selectFile": "Selecteer CSV-bestand",
+    "downloadTemplate": "Download Sjabloon",
+    "uploadButton": "Upload CSV",
+    "uploading": "Uploaden...",
+    "loading": "Laden...",
+    "error": "Upload Mislukt",
+    "success": "Upload Voltooid",
+    "successMessage": "Succesvol {count} records geüpload",
+    "errorGeneric": "Er is een fout opgetreden tijdens het uploaden",
+    "loadSampleData": "Laad Voorbeeldgegevens",
+    "sampleDataMessage": "Succesvol {count} voorbeeldbedrijven geladen",
+    "showLogs": "Toon Logboeken",
+    "hideLogs": "Verberg Logboeken",
+    "logs": "Operatie Logboeken",
+    "noLogs": "Geen logboeken beschikbaar"
+  },
+  "bulkUpload": {
+    "title": "Bulk Upload Tool",
+    "subtitle": "Importeer eenvoudig meerdere records in de Maritieme Gids",
+    "prepareCSV": "Bereid CSV-bestand voor",
+    "uploadCSV": "Upload Gegevens",
     "requirements": "Vereisten",
     "steps": {
-      "download": "Download de sjabloon",
-      "fill": "Vul uw gegevens in",
-      "validate": "Controleer op fouten",
-      "save": "Opslaan als CSV",
-      "select": "Selecteer uw CSV-bestand",
-      "review": "Bekijk de gegevens",
-      "upload": "Upload het bestand",
-      "confirm": "Bevestig succes"
+      "download": "Download het sjabloon voor je gegevenstype",
+      "fill": "Vul je gegevens in volgens het formaat in het sjabloon",
+      "validate": "Controleer je gegevens op fouten voor het uploaden",
+      "save": "Sla je bestand op in CSV-formaat",
+      "select": "Selecteer je voorbereide CSV-bestand",
+      "review": "Bekijk de bestandsinformatie",
+      "upload": "Klik op de uploadknop om te beginnen",
+      "confirm": "Wacht op bevestiging van succesvolle upload"
     },
     "reqDetails": {
-      "format": "Alleen CSV-formaat (door komma's gescheiden)",
-      "headers": "Moet de juiste headers bevatten",
-      "required": "Verplichte velden moeten worden ingevuld",
-      "size": "Maximale bestandsgrootte 5MB"
+      "format": "CSV-formaat met headers in de eerste rij",
+      "headers": "Headers moeten exact overeenkomen met het sjabloon",
+      "required": "Verplichte velden mogen niet leeg zijn",
+      "size": "Maximale bestandsgrootte: 10MB"
     },
     "tabs": {
       "businesses": "Bedrijven",
@@ -33,23 +60,6 @@
       "businesses": "bedrijven",
       "categories": "categorieën",
       "reviews": "beoordelingen"
-    }
-  },
-  "csvUpload": {
-    "title": "CSV Upload",
-    "description": "Upload {entityType} gegevens met een CSV-bestand",
-    "selectFile": "Selecteer Bestand",
-    "downloadTemplate": "Download Sjabloon",
-    "uploading": "Uploaden...",
-    "uploadButton": "Upload CSV",
-    "success": "Upload Succesvol",
-    "error": "Upload Mislukt",
-    "successMessage": "Succesvol {count} records geïmporteerd",
-    "errorGeneric": "Er is een fout opgetreden tijdens het uploaden",
-    "entityTypes": {
-      "business": "bedrijven",
-      "category": "categorieën",
-      "review": "beoordelingen"
     }
   }
 }

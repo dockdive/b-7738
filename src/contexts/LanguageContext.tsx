@@ -15,47 +15,11 @@ const categories = [
   "filters",
   "validation",
   "alerts",
-  "bulkupload"
+  "bulkupload",
+  "footer"
 ];
 
-// Cache for storing loaded translations
-const translationCache: Record<string, Record<string, any>> = {};
-
-// Dynamically load and merge JSON files for a given language code
-function loadTranslations(lang: string): Record<string, any> {
-  // Check if we've already loaded this language
-  if (translationCache[lang]) {
-    return translationCache[lang];
-  }
-
-  const merged: Record<string, any> = {};
-  
-  try {
-    // First load the base translations
-    const baseTranslation = require(`@/locales/${lang}.json`);
-    deepMerge(merged, baseTranslation);
-  } catch (e) {
-    console.warn(`Missing base translation file for language "${lang}"`);
-  }
-
-  // Then try to load category-specific translations if they exist
-  categories.forEach(category => {
-    try {
-      // Import the JSON file from the folder structure: e.g. src/locales/category/en.json
-      const translation = require(`@/locales/${category}/${lang}.json`);
-      deepMerge(merged, translation);
-    } catch (e) {
-      // It's okay if individual category files don't exist
-      // console.debug(`No translations found for category "${category}" and language "${lang}"`);
-    }
-  });
-
-  // Store in cache for future use
-  translationCache[lang] = merged;
-  return merged;
-}
-
-// Supported languages - you can expand this list as needed
+// Supported languages - expanded based on requirements
 export const supportedLanguages = [
   { code: "en", name: "English" },
   { code: "nl", name: "Dutch" },
@@ -80,6 +44,33 @@ export interface LanguageContextType {
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+// Global cache for storing loaded translations
+const translationCache: Record<string, Record<string, any>> = {};
+
+// Preload all translations synchronously using require
+supportedLanguages.forEach(lang => {
+  try {
+    // First load the base translations
+    const baseTranslations = require(`@/locales/${lang.code}.json`);
+    translationCache[lang.code] = { ...baseTranslations };
+    
+    // Then try to load category-specific translations
+    categories.forEach(category => {
+      try {
+        const categoryTranslations = require(`@/locales/${category}/${lang.code}.json`);
+        if (categoryTranslations) {
+          deepMerge(translationCache[lang.code], categoryTranslations);
+        }
+      } catch (e) {
+        // Silently fail if category translation doesn't exist
+      }
+    });
+  } catch (e) {
+    console.warn(`Could not load translations for language: ${lang.code}`);
+    translationCache[lang.code] = {};
+  }
+});
 
 const detectBrowserLanguage = (): LanguageCode => {
   try {
@@ -108,7 +99,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const [language, setLanguageState] = useState<LanguageCode>(getInitialLanguage());
-  const [translations, setTranslations] = useState<Record<string, any>>({});
 
   const setLanguage = (lang: LanguageCode) => {
     try {
@@ -122,10 +112,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     document.documentElement.lang = language;
-    
-    // Load translations for current language
-    const loadedTranslations = loadTranslations(language);
-    setTranslations(loadedTranslations);
   }, [language]);
 
   const getNestedValue = (obj: any, path: string): any => {
@@ -144,12 +130,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const t = (key: string, options?: Record<string, string>): string => {
     // Get translation from current language
-    let text = getNestedValue(translations, key);
+    let text = getNestedValue(translationCache[language], key);
     
     // Fallback to English if translation is missing
     if (text === undefined && language !== "en") {
-      const enTranslations = loadTranslations("en");
-      text = getNestedValue(enTranslations, key);
+      text = getNestedValue(translationCache["en"], key);
     }
     
     // Return key if translation is still missing

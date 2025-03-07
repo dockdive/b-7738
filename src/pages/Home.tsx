@@ -1,119 +1,101 @@
 
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useLanguage } from "@/contexts/LanguageContext";
-import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fetchBusinesses, fetchCategories } from "@/services/apiService";
-import { Ship, Anchor, Package, Sailboat, MapPin, Search } from "lucide-react";
-import { Business, Category } from "@/types";
+import React from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import HeroSection from '@/components/HeroSection';
+import { Search, ArrowRight, Anchor, Ship, Compass, Headphones, Tool, Shield, GraduationCap } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchFeaturedBusinesses, fetchCategories } from '@/services/apiService';
 
 const Home = () => {
   const { t } = useLanguage();
-  const [searchQuery, setSearchQuery] = useState("");
   
   // Fetch featured businesses
-  const { data: featuredBusinesses = [] } = useQuery({
-    queryKey: ['featuredBusinesses'],
-    queryFn: () => fetchBusinesses({ is_featured: true } as any)
+  const { data: featuredBusinesses, isLoading: isLoadingBusinesses } = useQuery({
+    queryKey: ['featured-businesses'],
+    queryFn: () => fetchFeaturedBusinesses(6) // Limit to 6 featured businesses
   });
   
-  // Fetch all categories
-  const { data: categories = [] } = useQuery({
+  // Fetch categories
+  const { data: categories, isLoading: isLoadingCategories } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories
+    queryFn: () => fetchCategories()
   });
+  
+  // Map of category icons
+  const categoryIcons: Record<string, React.ReactNode> = {
+    'Shipping': <Ship className="h-6 w-6" />,
+    'Equipment': <Tool className="h-6 w-6" />,
+    'Navigation': <Compass className="h-6 w-6" />,
+    'Safety': <Shield className="h-6 w-6" />,
+    'Training': <GraduationCap className="h-6 w-6" />,
+    'Services': <Headphones className="h-6 w-6" />
+  };
+  
+  // Default icon if category doesn't match
+  const defaultCategoryIcon = <Anchor className="h-6 w-6" />;
   
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg overflow-hidden mb-12">
-        <div className="absolute inset-0 opacity-20 bg-[url('/images/hero-bg.jpg')] bg-cover bg-center"></div>
-        <div className="relative z-10 px-6 py-16 md:py-24 md:px-12 text-white">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {t("home.hero.title")}
-          </h1>
-          <p className="text-xl mb-8 max-w-2xl">
-            {t("home.hero.description")}
-          </p>
-          
-          <div className="flex flex-col md:flex-row gap-4 mb-8 md:mb-12">
-            <div className="flex-1 bg-white rounded-lg p-4 text-center">
-              <Ship className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <p className="font-medium text-gray-800">{t("home.hero.stats.companies")}</p>
-              <p className="text-2xl font-bold text-blue-600">2,500+</p>
-            </div>
-            <div className="flex-1 bg-white rounded-lg p-4 text-center">
-              <Anchor className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <p className="font-medium text-gray-800">{t("home.hero.stats.countries")}</p>
-              <p className="text-2xl font-bold text-blue-600">75+</p>
-            </div>
-            <div className="flex-1 bg-white rounded-lg p-4 text-center">
-              <Package className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <p className="font-medium text-gray-800">{t("home.hero.stats.services")}</p>
-              <p className="text-2xl font-bold text-blue-600">150+</p>
-            </div>
-            <div className="flex-1 bg-white rounded-lg p-4 text-center">
-              <Sailboat className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <p className="font-medium text-gray-800">{t("home.hero.stats.satisfaction")}</p>
-              <p className="text-2xl font-bold text-blue-600">98%</p>
-            </div>
-          </div>
-          
-          <div className="max-w-2xl mx-auto">
+    <div className="flex flex-col min-h-screen">
+      {/* Hero section */}
+      <HeroSection />
+      
+      {/* Search section */}
+      <div className="bg-white py-12">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
             <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
               <Input
-                type="text"
-                placeholder={t("home.hero.searchPlaceholder")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full py-3 pl-4 pr-12 rounded-lg text-gray-800 border-0 shadow-lg focus:ring-2 focus:ring-blue-400"
+                placeholder={t('home.searchPlaceholder')}
+                className="pl-10 pr-4 py-6 text-lg h-auto"
               />
-              <Button
-                variant="ghost"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500"
-                onClick={() => {}}
-              >
-                <Search className="h-5 w-5" />
+              <Button className="absolute right-1 top-1/2 transform -translate-y-1/2">
+                {t('general.search')}
               </Button>
             </div>
-            <div className="flex justify-center mt-4 gap-2">
-              <Link to="/businesses">
-                <Button variant="outline" className="bg-white text-blue-600 hover:bg-blue-50">
-                  {t("home.hero.browseAll")}
-                </Button>
-              </Link>
-              <Link to="/add-business">
-                <Button className="bg-blue-500 hover:bg-blue-600">
-                  {t("home.hero.addBusiness")}
-                </Button>
-              </Link>
-            </div>
+            <p className="text-sm text-gray-500 mt-2">
+              {t('home.popularSearches')}
+            </p>
           </div>
         </div>
       </div>
       
-      {/* Featured Businesses */}
-      <section className="mb-16">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">
-            {t("home.featured.title")}
-          </h2>
-          <Link to="/businesses" className="text-blue-600 hover:underline">
-            {t("home.featured.viewAll")}
-          </Link>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredBusinesses.slice(0, 3).map((business: Business) => (
-            <Card key={business.id} className="h-full flex flex-col">
-              <CardHeader className="pb-4">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 mr-3 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+      {/* Featured businesses section */}
+      <div className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold">{t('home.featuredBusinesses')}</h2>
+            <Link to="/businesses">
+              <Button variant="ghost" className="flex items-center gap-1">
+                {t('home.viewAllBusinesses')}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {isLoadingBusinesses ? (
+              // Loading placeholders
+              Array.from({ length: 6 }).map((_, index) => (
+                <Card key={index} className="overflow-hidden animate-pulse">
+                  <div className="h-48 bg-gray-200"></div>
+                  <CardContent className="p-4">
+                    <div className="h-6 bg-gray-200 w-3/4 mb-2 rounded"></div>
+                    <div className="h-4 bg-gray-200 w-1/2 mb-2 rounded"></div>
+                    <div className="h-4 bg-gray-200 w-full mb-2 rounded"></div>
+                    <div className="h-4 bg-gray-200 w-full rounded"></div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : featuredBusinesses && featuredBusinesses.length > 0 ? (
+              featuredBusinesses.map(business => (
+                <Link key={business.id} to={`/businesses/${business.id}`}>
+                  <Card className="overflow-hidden card-hover h-full">
+                    <div className="h-48 bg-gray-100 relative">
                       {business.logo_url ? (
                         <img 
                           src={business.logo_url} 
@@ -121,84 +103,105 @@ const Home = () => {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <Sailboat className="w-6 h-6 text-gray-400" />
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Ship className="h-16 w-16 text-gray-300" />
+                        </div>
                       )}
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg">{business.name}</CardTitle>
-                      <div className="flex items-center text-gray-500 text-sm">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        <span>
-                          {[
-                            business.city,
-                            business.country
-                          ].filter(Boolean).join(", ")}
-                        </span>
+                      <div className="absolute top-2 right-2 bg-primary text-white px-2 py-1 text-xs rounded">
+                        {t('business.featured')}
                       </div>
                     </div>
-                  </div>
-                  <div className="flex items-center bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">
-                    <span className="font-bold mr-1">{business.rating.toFixed(1)}</span>
-                    <span>★</span>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="pb-4 flex-grow">
-                <p className="text-gray-600 line-clamp-3">{business.description}</p>
-              </CardContent>
-              <CardFooter className="pt-0">
-                <Link to={`/businesses/${business.id}`} className="w-full">
-                  <Button variant="outline" className="w-full">
-                    {t("home.featured.viewBusiness")}
-                  </Button>
+                    <CardContent className="p-4">
+                      <h3 className="font-bold text-lg mb-1">{business.name}</h3>
+                      <p className="text-sm text-gray-500 mb-2">
+                        {business.city && business.country ? 
+                          `${business.city}, ${business.country}` : 
+                          business.country || business.city || t('business.locationUnknown')
+                        }
+                      </p>
+                      <p className="text-sm line-clamp-2 text-gray-700">
+                        {business.description}
+                      </p>
+                    </CardContent>
+                  </Card>
                 </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      </section>
-      
-      {/* Categories */}
-      <section className="mb-16">
-        <h2 className="text-3xl font-bold mb-6">
-          {t("home.categories.title")}
-        </h2>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {categories.map((category: Category) => (
-            <Link 
-              to={`/businesses?category=${category.id}`} 
-              key={category.id}
-              className="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow"
-            >
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-blue-600 text-xl">{category.icon}</span>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-8">
+                <p className="text-gray-500">{t('home.noFeaturedBusinesses')}</p>
               </div>
-              <h3 className="font-medium text-gray-800">
-                {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}.name`) || category.name}
-              </h3>
-              <p className="text-sm text-gray-500 mt-1">
-                {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}.count`, { count: "100+" })}
-              </p>
-            </Link>
-          ))}
+            )}
+          </div>
         </div>
-      </section>
+      </div>
       
-      {/* Call to Action */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg text-white p-8 text-center">
-        <h2 className="text-3xl font-bold mb-4">
-          {t("home.cta.title")}
-        </h2>
-        <p className="text-xl mb-6 max-w-2xl mx-auto">
-          {t("home.cta.description")}
-        </p>
-        <Link to="/add-business">
-          <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-100">
-            {t("home.cta.button")}
-          </Button>
-        </Link>
-      </section>
+      {/* Categories section */}
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-center">{t('home.categories')}</h2>
+            <p className="text-gray-500 text-center mt-2">
+              {t('home.browseByCategory')}
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {isLoadingCategories ? (
+              // Loading placeholders
+              Array.from({ length: 6 }).map((_, index) => (
+                <Card key={index} className="animate-pulse">
+                  <CardContent className="p-4 flex flex-col items-center">
+                    <div className="h-16 w-16 bg-gray-200 rounded-full mb-3"></div>
+                    <div className="h-4 bg-gray-200 w-20 rounded"></div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : categories && categories.length > 0 ? (
+              categories.slice(0, 6).map(category => (
+                <Link key={category.id} to={`/businesses?category=${category.id}`}>
+                  <Card className="card-hover">
+                    <CardContent className="p-4 flex flex-col items-center text-center">
+                      <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
+                        {categoryIcons[category.name] || defaultCategoryIcon}
+                      </div>
+                      <h3 className="font-medium">
+                        {t(`categories.${category.name.toLowerCase()}.name`) || category.name}
+                      </h3>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-6 text-center py-8">
+                <p className="text-gray-500">{t('home.noCategories')}</p>
+              </div>
+            )}
+          </div>
+          
+          <div className="text-center mt-8">
+            <Link to="/businesses">
+              <Button variant="outline">
+                {t('home.viewAllCategories')}
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+      
+      {/* Call to action */}
+      <div className="bg-primary text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">{t('home.joinDirectory')}</h2>
+          <p className="max-w-2xl mx-auto mb-8 text-primary-foreground/90">
+            {t('home.joinDescription')}
+          </p>
+          <Link to="/add-business">
+            <Button size="lg" variant="outline" className="bg-white text-primary border-white hover:bg-white/90">
+              {t('home.joinCTA')}
+            </Button>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
