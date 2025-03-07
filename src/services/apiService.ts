@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -193,10 +192,10 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
     longitude: business.longitude || null
   };
 
-  // Using type assertion to make TypeScript happy with the expected database schema
+  // The error is in the insert statement below, TypeScript doesn't like the casting
   const { data, error } = await supabase
     .from("businesses")
-    .insert([businessWithOwner])
+    .insert(businessWithOwner)
     .select()
     .single();
 
@@ -436,7 +435,7 @@ export const createReview = async (
 
   const { data, error } = await supabase
     .from("reviews")
-    .insert([review])
+    .insert(review)
     .select()
     .single();
 
@@ -616,4 +615,3 @@ export const uploadProfileAvatar = async (
 
 // Export uploadImage as an alias to uploadProfileAvatar for backward compatibility
 export const uploadImage = uploadProfileAvatar;
-
