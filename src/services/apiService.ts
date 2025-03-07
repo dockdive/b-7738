@@ -195,7 +195,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
 
   const { data, error } = await supabase
     .from("businesses")
-    .insert([businessWithOwner])
+    .insert([businessWithOwner as any])
     .select()
     .single();
 
