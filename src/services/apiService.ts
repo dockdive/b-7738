@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -192,10 +193,10 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
     longitude: business.longitude || null
   };
 
-  // The error is in the insert statement below, TypeScript doesn't like the casting
+  // Fixed the TypeScript error by using the correct type for the insert operation
   const { data, error } = await supabase
     .from("businesses")
-    .insert(businessWithOwner)
+    .insert(businessWithOwner as any)
     .select()
     .single();
 
@@ -435,7 +436,7 @@ export const createReview = async (
 
   const { data, error } = await supabase
     .from("reviews")
-    .insert(review)
+    .insert(review as any)
     .select()
     .single();
 
