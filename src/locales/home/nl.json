@@ -3,6 +3,11 @@
   "home": {
     "heroTitle": "Maritieme Bedrijvengids",
     "heroSubtitle": "Maak verbinding met betrouwbare maritieme bedrijven en diensten wereldwijd",
+    "hero": {
+      "title": "De Maritieme Bedrijvengids",
+      "subtitle": "Maak verbinding met toonaangevende bedrijven en dienstverleners in de wereldwijde maritieme industrie",
+      "trustedBy": "Vertrouwd door toonaangevende maritieme bedrijven"
+    },
     "findBusiness": "Vind een Bedrijf",
     "listBusiness": "Plaats je Bedrijf",
     "businessesRegistered": "Geregistreerde Bedrijven",
@@ -10,8 +15,22 @@
     "monthlySearches": "Maandelijkse Zoekopdrachten",
     "featuredBusinesses": "Uitgelichte Bedrijven",
     "viewAllBusinesses": "Bekijk Alle Bedrijven",
-    "categories": "Bladeren per Categorie",
-    "viewAllCategories": "Bekijk Alle Categorieën",
+    "categories": {
+      "title": "Bladeren per Categorie",
+      "subtitle": "Verken ons uitgebreide aanbod van maritieme bedrijven per categorie",
+      "viewAll": "Bekijk Alle Categorieën"
+    },
+    "featured": {
+      "title": "Uitgelichte Bedrijven",
+      "subtitle": "Ontdek onze best beoordeelde maritieme bedrijven en dienstverleners",
+      "viewAllBusinesses": "Bekijk Alle Bedrijven"
+    },
+    "cta": {
+      "title": "Doe mee met onze Maritieme Gids",
+      "subtitle": "Plaats je maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap",
+      "addBusiness": "Voeg je Bedrijf toe",
+      "exploreBusiness": "Verken Bedrijven"
+    },
     "testimonials": "Wat Onze Gebruikers Zeggen",
     "latestListings": "Nieuwste Vermeldingen",
     "joinDirectory": "Doe mee met onze Maritieme Gids",

@@ -3,13 +3,89 @@
   "categories": {
     "allCategories": "Alle Categorieën",
     "allSubcategories": "Alle Subcategorieën",
-    "shipping": {
-      "name": "Scheepvaart & Transport",
-      "description": "Bedrijven die scheepvaart- en transportdiensten leveren voor maritieme behoeften"
+    "boatrentals": {
+      "name": "Bootverhuur",
+      "description": "Vind bedrijven die boten verhuren of charteren"
+    },
+    "boatstorage": {
+      "name": "Bootopslag",
+      "description": "Opslagoplossingen voor boten en vaartuigen"
+    },
+    "boattours": {
+      "name": "Boottochten",
+      "description": "Bedrijven die rondvaarten en excursies aanbieden"
+    },
+    "divingservices": {
+      "name": "Duikdiensten",
+      "description": "Professionele duik- en onderwaterdiensten"
+    },
+    "environmentalservices": {
+      "name": "Milieudiensten",
+      "description": "Diensten gericht op bescherming van het mariene milieu"
+    },
+    "fishingcharters": {
+      "name": "Visserij Charters",
+      "description": "Begeleide vistrips en charterdiensten"
+    },
+    "legal&insuranceservices": {
+      "name": "Juridische & Verzekeringsdiensten",
+      "description": "Juridische en verzekeringsdiensten voor maritieme bedrijven"
+    },
+    "marinas": {
+      "name": "Jachthavens",
+      "description": "Havens en aanlegplaatsen voor boten"
+    },
+    "marineelectronics": {
+      "name": "Maritieme Elektronica",
+      "description": "Leveranciers van elektronische apparatuur voor maritiem gebruik"
+    },
+    "marineequipmentsuppliers": {
+      "name": "Maritieme Apparatuurleveranciers",
+      "description": "Leveranciers van maritieme apparatuur en benodigdheden"
+    },
+    "maritimeconsultants": {
+      "name": "Maritieme Consultants",
+      "description": "Professionele adviesdiensten voor maritieme bedrijven"
+    },
+    "maritimelogistics": {
+      "name": "Maritieme Logistiek",
+      "description": "Logistieke diensten voor de maritieme industrie"
+    },
+    "offshoreservices": {
+      "name": "Offshore Diensten",
+      "description": "Diensten voor offshore operaties en installaties"
     },
     "portauthorities": {
       "name": "Havenautoriteiten",
-      "description": "Officiële havenbeheer- en regelgevende instanties"
+      "description": "Officiële havenbeheer- en regelgevende organisaties"
+    },
+    "safetyequipment": {
+      "name": "Veiligheidsuitrusting",
+      "description": "Leveranciers van maritieme veiligheidsuitrusting"
+    },
+    "sailingschools": {
+      "name": "Zeilscholen",
+      "description": "Scholen die zeilonderwijs en -training aanbieden"
+    },
+    "shipbuilding&repair": {
+      "name": "Scheepsbouw & Reparatie",
+      "description": "Bedrijven die vaartuigen bouwen en repareren"
+    },
+    "shippingcompanies": {
+      "name": "Scheepvaartbedrijven",
+      "description": "Bedrijven die scheepvaart- en transportdiensten leveren"
+    },
+    "training&education": {
+      "name": "Training & Opleiding",
+      "description": "Aanbieders van onderwijs en training voor maritieme professionals"
+    },
+    "yachtclubs": {
+      "name": "Jachtclubs",
+      "description": "Sociale clubs met een focus op jachten en zeilen"
+    },
+    "shipping": {
+      "name": "Scheepvaart & Transport",
+      "description": "Bedrijven die scheepvaart- en transportdiensten leveren voor maritieme behoeften"
     },
     "logistics": {
       "name": "Maritieme Logistiek",
@@ -42,10 +118,6 @@
     "offshore": {
       "name": "Offshore Diensten",
       "description": "Diensten voor offshore-installaties, platforms en windparken"
-    },
-    "marinas": {
-      "name": "Jachthavens & Havens",
-      "description": "Faciliteiten voor pleziervaartuigen, jachthavens en havens"
     },
     "yachting": {
       "name": "Jachten & Recreatie",

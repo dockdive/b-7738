@@ -15,8 +15,22 @@
     "monthlySearches": "Monthly Searches",
     "featuredBusinesses": "Featured Businesses",
     "viewAllBusinesses": "View All Businesses",
-    "categories": "Browse by Category",
-    "viewAllCategories": "View All Categories",
+    "categories": {
+      "title": "Browse by Category",
+      "subtitle": "Explore our extensive range of maritime businesses by category",
+      "viewAll": "View All Categories"
+    },
+    "featured": {
+      "title": "Featured Businesses",
+      "subtitle": "Discover our top-rated maritime businesses and service providers",
+      "viewAllBusinesses": "View All Businesses"
+    },
+    "cta": {
+      "title": "Join our Maritime Directory",
+      "subtitle": "List your maritime business and gain visibility within the global maritime community",
+      "addBusiness": "Add Your Business",
+      "exploreBusiness": "Explore Businesses"
+    },
     "testimonials": "What Our Users Say",
     "latestListings": "Latest Listings",
     "joinDirectory": "Join our Maritime Directory",

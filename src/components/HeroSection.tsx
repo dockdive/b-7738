@@ -19,11 +19,21 @@ const HeroSection = () => {
   };
   
   return (
-    <div className="relative min-h-[500px] flex items-center justify-center overflow-hidden bg-blue-900">
-      {/* Wave background SVG */}
+    <div className="relative min-h-[500px] flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
+        <img 
+          src="/lovable-uploads/9be2d89e-5e3b-4b58-8870-f0de61618465.png" 
+          alt="Sailing boats" 
+          className="w-full h-full object-cover object-center"
+          style={{ filter: 'brightness(0.5)' }}
+        />
+      </div>
+      
+      {/* Wave background SVG */}
+      <div className="absolute bottom-0 left-0 right-0 z-1">
         <svg
-          className="absolute bottom-0 w-full h-48 fill-current text-white"
+          className="w-full h-48 fill-current text-white"
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
         >
@@ -77,7 +87,7 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Fix the style tag by removing the jsx property */}
+      {/* Animation styles */}
       <style>
         {`
           @keyframes wave {
