@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -192,6 +193,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
     longitude: business.longitude || null
   };
 
+  // Using type assertion to make TypeScript happy with the expected database schema
   const { data, error } = await supabase
     .from("businesses")
     .insert([businessWithOwner])
@@ -425,8 +427,13 @@ export const fetchUserReviews = async (userId: string): Promise<Review[]> => {
 };
 
 export const createReview = async (
-  review: Partial<Review>
+  review: Partial<Review> & { rating: number }
 ): Promise<Review> => {
+  // Ensure the 'rating' field is present, as it's required by the database schema
+  if (review.rating === undefined) {
+    throw new Error("Rating is required for a review");
+  }
+
   const { data, error } = await supabase
     .from("reviews")
     .insert([review])
@@ -609,3 +616,4 @@ export const uploadProfileAvatar = async (
 
 // Export uploadImage as an alias to uploadProfileAvatar for backward compatibility
 export const uploadImage = uploadProfileAvatar;
+
