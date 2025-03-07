@@ -194,7 +194,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
 
   const { data, error } = await supabase
     .from("businesses")
-    .insert([businessWithOwner as any])
+    .insert([businessWithOwner])
     .select()
     .single();
 
@@ -279,7 +279,7 @@ export const uploadBusinessImage = async (
       {
         business_id: businessId,
         url: urlData.publicUrl,
-      } as any
+      }
     ])
     .select()
     .single();
@@ -429,7 +429,7 @@ export const createReview = async (
 ): Promise<Review> => {
   const { data, error } = await supabase
     .from("reviews")
-    .insert([review as any])
+    .insert([review])
     .select()
     .single();
 
