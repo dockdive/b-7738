@@ -1,0 +1,116 @@
+
+{
+  "general": {
+    "appName": "Maritime Directory",
+    "loading": "Loading...",
+    "error": "Error occurred",
+    "success": "Success",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "close": "Close"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "newHere": "New here?",
+    "createAccount": "Create an account",
+    "alreadyHaveAccount": "Already have an account?",
+    "passwordResetSent": "Password reset email sent",
+    "enterEmail": "Enter your email"
+  },
+  "profile": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "companyName": "Company Name",
+    "phone": "Phone",
+    "country": "Country",
+    "language": "Language",
+    "updateProfile": "Update Profile"
+  },
+  "business": {
+    "name": "Business Name",
+    "description": "Description",
+    "website": "Website",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "state": "State/Province",
+    "zip": "Postal/Zip Code",
+    "country": "Country",
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "services": "Services",
+    "addService": "Add Service",
+    "removeService": "Remove Service",
+    "logo": "Logo",
+    "images": "Images",
+    "addBusiness": "Add Business",
+    "editBusiness": "Edit Business",
+    "viewBusiness": "View Business",
+    "reviews": "Reviews",
+    "rating": "Rating",
+    "status": {
+      "pending": "Pending Approval",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "pending": "Your listing is pending approval",
+    "featured": "Featured"
+  },
+  "reviews": {
+    "leaveReview": "Leave a Review",
+    "yourRating": "Your Rating",
+    "yourComment": "Your Comment",
+    "submitReview": "Submit Review",
+    "updateReview": "Update Review",
+    "deleteReview": "Delete Review",
+    "reportReview": "Report Review",
+    "replyToReview": "Reply to Review",
+    "yourReply": "Your Reply"
+  },
+  "search": {
+    "byName": "Search by name",
+    "byLocation": "Search by location",
+    "byCategory": "Search by category",
+    "byService": "Search by service",
+    "noResults": "No results found",
+    "filterByCategory": "Filter by Category",
+    "filterByLocation": "Filter by Location",
+    "filterByRating": "Filter by Rating",
+    "sortBy": {
+      "nameAsc": "Name (A-Z)",
+      "nameDesc": "Name (Z-A)",
+      "ratingHigh": "Highest Rating",
+      "ratingLow": "Lowest Rating",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "mostReviewed": "Most Reviewed"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "businesses": "Businesses",
+    "about": "About",
+    "contact": "Contact",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "addBusiness": "Add Business",
+    "myBusinesses": "My Businesses",
+    "adminPanel": "Admin Panel",
+    "sellYourBoat": "Sell Your Boat"
+  }
+}
