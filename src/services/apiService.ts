@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -192,9 +193,29 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
     longitude: business.longitude || null
   };
 
+  // Fix TypeScript error by specifying the exact shape of the data to insert
   const { data, error } = await supabase
     .from("businesses")
-    .insert(businessWithOwner as Partial<Business>)
+    .insert({
+      name: businessWithOwner.name,
+      description: businessWithOwner.description,
+      logo_url: businessWithOwner.logo_url,
+      category_id: businessWithOwner.category_id,
+      subcategory_id: businessWithOwner.subcategory_id,
+      address: businessWithOwner.address,
+      city: businessWithOwner.city,
+      state: businessWithOwner.state,
+      zip: businessWithOwner.zip,
+      country: businessWithOwner.country,
+      latitude: businessWithOwner.latitude,
+      longitude: businessWithOwner.longitude,
+      phone: businessWithOwner.phone,
+      email: businessWithOwner.email,
+      website: businessWithOwner.website,
+      owner_id: businessWithOwner.owner_id,
+      status: businessWithOwner.status,
+      is_featured: businessWithOwner.is_featured
+    })
     .select()
     .single();
 
@@ -277,8 +298,8 @@ export const uploadBusinessImage = async (
     .from("business_images")
     .insert({
       business_id: businessId,
-      url: urlData.publicUrl,
-    } as Partial<BusinessImage>)
+      url: urlData.publicUrl
+    })
     .select()
     .single();
 
@@ -351,8 +372,8 @@ export const addBusinessService = async (
     .from("business_services")
     .insert({
       business_id: businessId,
-      name,
-    } as Partial<BusinessService>)
+      name: name
+    })
     .select()
     .single();
 
@@ -430,7 +451,16 @@ export const createReview = async (
 
   const { data, error } = await supabase
     .from("reviews")
-    .insert(review as Partial<Review>)
+    .insert({
+      business_id: review.business_id,
+      user_id: review.user_id,
+      rating: review.rating,
+      comment: review.comment,
+      reply: review.reply,
+      is_reported: review.is_reported,
+      updated_at: review.updated_at,
+      created_at: review.created_at
+    })
     .select()
     .single();
 
