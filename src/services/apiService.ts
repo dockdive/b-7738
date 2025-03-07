@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -193,10 +192,10 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
     longitude: business.longitude || null
   };
 
-  // Fixed the TypeScript error by using the correct type for the insert operation
+  // Fixed the TypeScript error by correctly typing the insert operation
   const { data, error } = await supabase
     .from("businesses")
-    .insert(businessWithOwner as any)
+    .insert(businessWithOwner)
     .select()
     .single();
 
@@ -277,12 +276,10 @@ export const uploadBusinessImage = async (
   // Save the image record in the database
   const { data, error } = await supabase
     .from("business_images")
-    .insert([
-      {
-        business_id: businessId,
-        url: urlData.publicUrl,
-      }
-    ])
+    .insert({
+      business_id: businessId,
+      url: urlData.publicUrl,
+    })
     .select()
     .single();
 
@@ -436,7 +433,7 @@ export const createReview = async (
 
   const { data, error } = await supabase
     .from("reviews")
-    .insert(review as any)
+    .insert(review)
     .select()
     .single();
 
