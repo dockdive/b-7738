@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
   Search, 
-  MapPin, A
-  nchor, 
+  MapPin, 
+  Anchor, 
   Ship, 
   Package, 
   Tool, 
