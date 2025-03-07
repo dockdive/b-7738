@@ -192,7 +192,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
     longitude: business.longitude || null
   };
 
-  // Fix TypeScript error by specifying the exact shape of the data to insert
+  // Fix TypeScript error by explicitly defining the object structure without type assertion
   const { data, error } = await supabase
     .from("businesses")
     .insert({
