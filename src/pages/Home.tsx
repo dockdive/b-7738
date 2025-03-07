@@ -64,7 +64,7 @@ const Home = () => {
       case 'package':
         return <Package className="h-12 w-12 mb-4 text-primary" />;
       case 'tool':
-        return <Tool className="h-12 w-12 mb-4 text-primary" />;
+        return <Wrench className="h-12 w-12 mb-4 text-primary" />;
       default:
         return <Sailboat className="h-12 w-12 mb-4 text-primary" />;
     }
