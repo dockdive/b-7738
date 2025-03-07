@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -481,7 +480,7 @@ export const updateReview = async (
 ): Promise<Review> => {
   const { data, error } = await supabase
     .from("reviews")
-    .update(updates as any)
+    .update(updates)
     .eq("id", id)
     .select()
     .single();
@@ -588,7 +587,7 @@ export const updateProfile = async (
 ): Promise<Profile> => {
   const { data, error } = await supabase
     .from("profiles")
-    .update(updates as any)
+    .update(updates)
     .eq("id", userId)
     .select()
     .single();
