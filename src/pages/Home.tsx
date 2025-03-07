@@ -1,23 +1,14 @@
-
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from '@/hooks/useTranslation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { 
-  Search, 
-  MapPin, 
-  Anchor, 
-  Ship, 
-  Package, 
-  Wrench, 
-  Sailboat 
-} from 'lucide-react';
-import { getBusinesses, getCategories } from '@/services/apiService';
-import { Business, Category } from '@/types';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Business, Category } from "@/types";
+import { fetchBusinesses, fetchCategories } from "@/services/apiService";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Wrench, ShoppingBag, ArrowRight, Building, Star } from "lucide-react";
 
 const Home = () => {
-  const { t } = useTranslation();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [featuredBusinesses, setFeaturedBusinesses] = useState<Business[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -30,11 +21,11 @@ const Home = () => {
         setIsLoading(true);
         
         // Fetch featured businesses
-        const { businesses } = await getBusinesses({ featured: true }, 'ratingHigh', 1, 6);
+        const { businesses } = await fetchBusinesses({ featured: true }, 'ratingHigh', 1, 6);
         setFeaturedBusinesses(businesses);
         
         // Fetch categories
-        const categoriesData = await getCategories();
+        const categoriesData = await fetchCategories();
         setCategories(categoriesData);
         
         setIsLoading(false);

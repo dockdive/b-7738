@@ -2,6 +2,8 @@
 // Business-related types
 export type BusinessStatus = "pending" | "approved" | "rejected";
 
+export type Language = string;
+
 export type Business = {
   id: string;
   name: string;
@@ -27,6 +29,9 @@ export type Business = {
   views: number;
   created_at: string;
   updated_at: string;
+  services?: string[]; // Add services as optional array
+  images?: string[]; // Add images as optional array
+  opening_hours?: string; // Add opening_hours as optional
 };
 
 export type BusinessImage = {
@@ -63,6 +68,7 @@ export type Review = {
   id: string;
   business_id: string;
   user_id: string;
+  user_name?: string; // Add user_name as optional
   rating: number;
   comment: string | null;
   reply: string | null;
@@ -112,3 +118,27 @@ export type ProfileUpdate = {
 export type BusinessCreate = Omit<Business, "id" | "rating" | "review_count" | "views" | "created_at" | "updated_at">;
 
 export type BusinessUpdate = Partial<Omit<Business, "id" | "owner_id" | "created_at" | "updated_at">>;
+
+// Add BusinessInput type for the AddBusiness page
+export type BusinessInput = {
+  name: string;
+  category_id: number;
+  subcategory_id?: number;
+  description: string;
+  services: string[];
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  phone: string;
+  email: string;
+  website: string;
+  opening_hours: string;
+  primary_language: string;
+  additional_languages: string[];
+  is_featured: boolean;
+  status: BusinessStatus;
+  logo_url: string;
+  images: string[];
+};

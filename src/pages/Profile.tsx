@@ -1,316 +1,369 @@
-
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useToast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent, 
-  CardFooter 
-} from '@/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Loader2, User, Upload } from 'lucide-react';
-import { uploadImage } from '@/services/apiService';
-import { Profile as ProfileType, Language } from '@/types';
-
-const countries = [
-  { code: 'US', name: 'United States' },
-  { code: 'GB', name: 'United Kingdom' },
-  { code: 'CA', name: 'Canada' },
-  { code: 'AU', name: 'Australia' },
-  { code: 'DE', name: 'Germany' },
-  { code: 'FR', name: 'France' },
-  { code: 'NL', name: 'Netherlands' },
-  { code: 'ES', name: 'Spain' },
-  { code: 'IT', name: 'Italy' },
-  { code: 'JP', name: 'Japan' },
-  { code: 'CN', name: 'China' },
-  { code: 'IN', name: 'India' },
-  { code: 'BR', name: 'Brazil' },
-];
-
-const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'de', name: 'German' },
-  { code: 'fr', name: 'French' },
-  { code: 'es', name: 'Spanish' },
-  { code: 'it', name: 'Italian' },
-  { code: 'nl', name: 'Dutch' },
-];
+import React, { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { fetchProfile, updateProfile, uploadImage } from "@/services/apiService";
+import { Profile as ProfileType, Language } from "@/types";
+import { supportedLanguages } from "@/contexts/LanguageContext";
 
 const Profile = () => {
-  const { user, profile, updateProfile } = useAuth();
-  const { t, language, changeLanguage } = useTranslation();
-  const navigate = useNavigate();
+  const { t, language, changeLanguage } = useLanguage();
   const { toast } = useToast();
   
-  const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<Partial<ProfileType>>({
-    first_name: '',
-    last_name: '',
-    company_name: '',
-    phone: '',
-    country: '',
-    language: 'en',
-    avatar_url: null,
-  });
+  const [profile, setProfile] = useState<ProfileType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
+  
+  // Form state
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>(language);
+  
+  // Avatar upload
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   
+  // Active tab
+  const [activeTab, setActiveTab] = useState("profile");
+  
+  // Fetch profile data
   useEffect(() => {
-    if (!user) {
-      navigate('/auth?mode=signin');
-      return;
-    }
+    const loadProfile = async () => {
+      try {
+        setIsLoading(true);
+        // In a real app, you'd get the user ID from auth context
+        const userId = "current-user-id";
+        const profileData = await fetchProfile(userId);
+        setProfile(profileData);
+        
+        // Initialize form values
+        setFirstName(profileData.first_name || "");
+        setLastName(profileData.last_name || "");
+        setCompanyName(profileData.company_name || "");
+        setPhone(profileData.phone || "");
+        setCountry(profileData.country || "");
+        setSelectedLanguage(profileData.language || language);
+        
+      } catch (error) {
+        console.error("Error loading profile:", error);
+        toast({
+          title: t("profile.loadError"),
+          description: t("profile.loadErrorDescription"),
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
     
-    if (profile) {
-      setFormData({
-        first_name: profile.first_name || '',
-        last_name: profile.last_name || '',
-        company_name: profile.company_name || '',
-        phone: profile.phone || '',
-        country: profile.country || '',
-        language: profile.language || language,
-        avatar_url: profile.avatar_url,
-      });
-    }
-  }, [user, profile, navigate, language]);
+    loadProfile();
+  }, [t, language, toast]);
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-  
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    
-    if (name === 'language') {
-      changeLanguage(value as Language);
-    }
-  };
-  
+  // Handle avatar file selection
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setAvatarFile(file);
       
-      // Create preview
+      // Create a preview
       const reader = new FileReader();
-      reader.onload = (event) => {
-        setAvatarPreview(event.target?.result as string);
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
   
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    
+    if (!profile) return;
     
     try {
-      let avatarUrl = formData.avatar_url;
+      setIsUpdating(true);
       
-      // Upload avatar if a new one is selected
+      // Upload avatar if selected
+      let avatarUrl = profile.avatar_url;
       if (avatarFile) {
-        avatarUrl = await uploadImage(avatarFile, 'businesses', 'avatars');
+        avatarUrl = await uploadImage(profile.id, avatarFile);
       }
       
-      // Update profile with all form data and new avatar URL
-      await updateProfile({
-        ...formData,
+      // Update profile
+      const updatedProfile = await updateProfile(profile.id, {
+        first_name: firstName,
+        last_name: lastName,
+        company_name: companyName,
+        phone,
+        country,
+        language: selectedLanguage,
         avatar_url: avatarUrl,
       });
       
-      toast({
-        title: 'Profile updated',
-        description: 'Your profile has been updated successfully.',
-      });
-    } catch (error) {
-      console.error('Error updating profile:', error);
+      setProfile(updatedProfile);
+      
+      // Update language in the app if changed
+      if (selectedLanguage !== language) {
+        changeLanguage(selectedLanguage);
+      }
       
       toast({
-        variant: 'destructive',
-        title: 'Update failed',
-        description: 'Failed to update profile. Please try again.',
+        title: t("profile.updateSuccess"),
+        description: t("profile.updateSuccessDescription"),
+      });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast({
+        title: t("profile.updateError"),
+        description: t("profile.updateErrorDescription"),
+        variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+      setIsUpdating(false);
     }
   };
   
-  if (!user || !profile) {
+  if (isLoading) {
     return (
-      <div className="container py-12 flex justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="container mx-auto px-4 py-12 flex justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
+          <p className="text-gray-600">{t("general.loading")}</p>
+        </div>
       </div>
     );
   }
   
   return (
-    <div className="container py-12">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">{t('navigation.profile')}</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">{t("profile.title")}</h1>
+      
+      <Tabs defaultValue="profile" className="w-full" onValueChange={setActiveTab}>
+        <TabsList className="mb-6">
+          <TabsTrigger value="profile">{t("profile.personalInfo")}</TabsTrigger>
+          <TabsTrigger value="account">{t("profile.accountSettings")}</TabsTrigger>
+          <TabsTrigger value="notifications">{t("profile.notifications")}</TabsTrigger>
+        </TabsList>
         
-        <Card>
-          <CardHeader>
-            <CardTitle>Profile Information</CardTitle>
-            <CardDescription>
-              Update your personal information and preferences
-            </CardDescription>
-          </CardHeader>
-          
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-6">
-              <div className="flex justify-center mb-4">
-                <div className="relative">
-                  <div className="h-24 w-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                    {avatarPreview || formData.avatar_url ? (
-                      <img
-                        src={avatarPreview || formData.avatar_url || ''}
-                        alt="Avatar"
-                        className="h-full w-full object-cover"
+        <TabsContent value="profile">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Profile Information */}
+            <div className="md:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("profile.personalInfo")}</CardTitle>
+                  <CardDescription>
+                    {t("profile.personalInfoDescription")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="firstName">{t("profile.firstName")}</Label>
+                        <Input
+                          id="firstName"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          placeholder={t("profile.firstNamePlaceholder")}
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="lastName">{t("profile.lastName")}</Label>
+                        <Input
+                          id="lastName"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          placeholder={t("profile.lastNamePlaceholder")}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="companyName">{t("profile.companyName")}</Label>
+                      <Input
+                        id="companyName"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        placeholder={t("profile.companyNamePlaceholder")}
                       />
-                    ) : (
-                      <User className="h-12 w-12 text-gray-400" />
-                    )}
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">{t("profile.phone")}</Label>
+                        <Input
+                          id="phone"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder={t("profile.phonePlaceholder")}
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="country">{t("profile.country")}</Label>
+                        <Input
+                          id="country"
+                          value={country}
+                          onChange={(e) => setCountry(e.target.value)}
+                          placeholder={t("profile.countryPlaceholder")}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="language">{t("profile.language")}</Label>
+                      <Select
+                        value={selectedLanguage}
+                        onValueChange={(value) => setSelectedLanguage(value as Language)}
+                      >
+                        <SelectTrigger id="language">
+                          <SelectValue placeholder={t("profile.selectLanguage")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {supportedLanguages.map((lang) => (
+                            <SelectItem key={lang.code} value={lang.code}>
+                              {lang.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <Button type="submit" disabled={isUpdating}>
+                      {isUpdating ? t("general.saving") : t("general.saveChanges")}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+            
+            {/* Profile Picture */}
+            <div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t("profile.profilePicture")}</CardTitle>
+                  <CardDescription>
+                    {t("profile.profilePictureDescription")}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center">
+                  <div className="mb-6">
+                    <Avatar className="h-32 w-32">
+                      <AvatarImage 
+                        src={avatarPreview || profile?.avatar_url || ""} 
+                        alt={`${firstName} ${lastName}`} 
+                      />
+                      <AvatarFallback className="text-2xl">
+                        {firstName && lastName 
+                          ? `${firstName[0]}${lastName[0]}`
+                          : profile?.first_name?.[0] || "U"}
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
-                  <label
-                    htmlFor="avatar"
-                    className="absolute bottom-0 right-0 bg-primary text-white p-1 rounded-full cursor-pointer"
-                  >
-                    <Upload className="h-4 w-4" />
-                    <input
+                  
+                  <div className="space-y-4 w-full">
+                    <Input
+                      id="avatar-upload"
                       type="file"
-                      id="avatar"
                       accept="image/*"
                       className="hidden"
                       onChange={handleAvatarChange}
                     />
-                  </label>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="first_name">{t('profile.firstName')}</Label>
-                  <Input
-                    id="first_name"
-                    name="first_name"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="last_name">{t('profile.lastName')}</Label>
-                  <Input
-                    id="last_name"
-                    name="last_name"
-                    value={formData.last_name}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => document.getElementById("avatar-upload")?.click()}
+                    >
+                      {t("profile.uploadNewPicture")}
+                    </Button>
+                    
+                    {avatarPreview && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="w-full"
+                        onClick={() => {
+                          setAvatarFile(null);
+                          setAvatarPreview(null);
+                        }}
+                      >
+                        {t("general.cancel")}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="account">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("profile.accountSettings")}</CardTitle>
+              <CardDescription>
+                {t("profile.accountSettingsDescription")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("profile.email")}</Label>
                 <Input
                   id="email"
-                  value={user.email}
+                  type="email"
+                  value="user@example.com" // In a real app, this would come from auth
                   disabled
-                  className="bg-gray-50"
                 />
+                <p className="text-sm text-gray-500">
+                  {t("profile.emailChangeDescription")}
+                </p>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="company_name">{t('profile.companyName')}</Label>
-                <Input
-                  id="company_name"
-                  name="company_name"
-                  value={formData.company_name || ''}
-                  onChange={handleChange}
-                />
+                <Label>{t("profile.password")}</Label>
+                <Button variant="outline">
+                  {t("profile.changePassword")}
+                </Button>
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="phone">{t('profile.phone')}</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  value={formData.phone || ''}
-                  onChange={handleChange}
-                />
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="country">{t('profile.country')}</Label>
-                  <Select
-                    value={formData.country || ''}
-                    onValueChange={(value) => handleSelectChange('country', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select country" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {countries.map((country) => (
-                        <SelectItem key={country.code} value={country.code}>
-                          {country.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="language">{t('profile.language')}</Label>
-                  <Select
-                    value={formData.language || language}
-                    onValueChange={(value) => handleSelectChange('language', value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {languages.map((lang) => (
-                        <SelectItem key={lang.code} value={lang.code}>
-                          {lang.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div className="pt-4 border-t">
+                <h3 className="text-lg font-medium mb-4">{t("profile.dangerZone")}</h3>
+                <Button variant="destructive">
+                  {t("profile.deleteAccount")}
+                </Button>
               </div>
             </CardContent>
-            
-            <CardFooter className="flex justify-end">
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  'Save Changes'
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
-      </div>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="notifications">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("profile.notifications")}</CardTitle>
+              <CardDescription>
+                {t("profile.notificationsDescription")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">
+                {t("profile.notificationsComingSoon")}
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

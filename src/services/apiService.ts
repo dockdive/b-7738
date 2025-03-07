@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -386,6 +385,21 @@ export const fetchBusinessReviews = async (businessId: string): Promise<Review[]
   return data as Review[];
 };
 
+export const fetchReviewsByBusinessId = async (businessId: string): Promise<Review[]> => {
+  const { data, error } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("business_id", businessId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(`Error fetching reviews for business ${businessId}:`, error);
+    throw new Error(error.message);
+  }
+
+  return data as Review[];
+};
+
 export const fetchUserReviews = async (userId: string): Promise<Review[]> => {
   const { data, error } = await supabase
     .from("reviews")
@@ -546,6 +560,8 @@ export const updateProfile = async (
 
   return data as Profile;
 };
+
+export const uploadImage = uploadProfileAvatar;
 
 export const uploadProfileAvatar = async (
   userId: string,
