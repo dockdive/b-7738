@@ -216,7 +216,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
       .single();
 
     if (error) throw error;
-    return data;
+    return data as Business;
   } catch (error) {
     console.error("Error creating business:", error);
     return null;
