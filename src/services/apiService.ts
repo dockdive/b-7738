@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -209,7 +210,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
 export const updateBusiness = async (id: string, updates: BusinessUpdate): Promise<Business> => {
   const { data, error } = await supabase
     .from("businesses")
-    .update(updates as any)
+    .update(updates)
     .eq("id", id)
     .select()
     .single();
@@ -279,7 +280,7 @@ export const uploadBusinessImage = async (
       {
         business_id: businessId,
         url: urlData.publicUrl,
-      },
+      } as any
     ])
     .select()
     .single();
@@ -557,7 +558,7 @@ export const updateProfile = async (
 ): Promise<Profile> => {
   const { data, error } = await supabase
     .from("profiles")
-    .update(updates)
+    .update(updates as any)
     .eq("id", userId)
     .select()
     .single();
@@ -596,7 +597,7 @@ export const uploadProfileAvatar = async (
   // Update profile with new avatar URL
   const { error } = await supabase
     .from("profiles")
-    .update({ avatar_url: urlData.publicUrl })
+    .update({ avatar_url: urlData.publicUrl } as any)
     .eq("id", userId);
 
   if (error) {
