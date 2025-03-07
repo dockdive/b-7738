@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import {
   Business,
@@ -202,7 +201,7 @@ export const createBusiness = async (business: BusinessCreate): Promise<Business
       email: business.email,
       website: business.website,
       owner_id: business.owner_id,
-      status: business.status as BusinessStatus,
+      status: business.status as BusinessStatus, // Explicitly cast to BusinessStatus
       is_featured: business.is_featured,
       logo_url: business.logo_url,
       latitude: business.latitude,
@@ -546,7 +545,7 @@ export const replyToReview = async (reviewId: string, reply: string): Promise<bo
   try {
     const { error } = await supabase
       .from('reviews')
-      .update({ reply: reply })
+      .update({ reply: reply }) // Use explicit property assignment instead of shorthand
       .eq('id', reviewId);
     
     if (error) throw error;
