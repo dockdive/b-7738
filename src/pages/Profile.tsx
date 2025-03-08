@@ -1,16 +1,17 @@
+
 import React, { useState, useEffect } from "react";
 import { useLanguage, LanguageCode } from "@/contexts/LanguageContext";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { fetchProfile, updateProfile, uploadImage } from "@/services/apiService";
 import { Profile as ProfileType } from "@/types";
 import { supportedLanguages } from "@/contexts/LanguageContext";
+
+// Import our refactored components
+import PersonalInfoForm from "@/components/profile/PersonalInfoForm";
+import ProfilePicture from "@/components/profile/ProfilePicture";
+import AccountSettings from "@/components/profile/AccountSettings";
+import NotificationSettings from "@/components/profile/NotificationSettings";
 
 const Profile = () => {
   const { t, language, changeLanguage } = useLanguage();
@@ -28,7 +29,6 @@ const Profile = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageCode>(language);
   
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   
   const [activeTab, setActiveTab] = useState("profile");
   
@@ -61,17 +61,8 @@ const Profile = () => {
     loadProfile();
   }, [t, language, toast]);
   
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setAvatarFile(file);
-      
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatarPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleAvatarChange = (file: File | null) => {
+    setAvatarFile(file);
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -144,209 +135,42 @@ const Profile = () => {
         <TabsContent value="profile">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t("profile.personalInfo")}</CardTitle>
-                  <CardDescription>
-                    {t("profile.personalInfoDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="firstName">{t("profile.firstName")}</Label>
-                        <Input
-                          id="firstName"
-                          value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
-                          placeholder={t("profile.firstNamePlaceholder")}
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="lastName">{t("profile.lastName")}</Label>
-                        <Input
-                          id="lastName"
-                          value={lastName}
-                          onChange={(e) => setLastName(e.target.value)}
-                          placeholder={t("profile.lastNamePlaceholder")}
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="companyName">{t("profile.companyName")}</Label>
-                      <Input
-                        id="companyName"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder={t("profile.companyNamePlaceholder")}
-                      />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">{t("profile.phone")}</Label>
-                        <Input
-                          id="phone"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          placeholder={t("profile.phonePlaceholder")}
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="country">{t("profile.country")}</Label>
-                        <Input
-                          id="country"
-                          value={country}
-                          onChange={(e) => setCountry(e.target.value)}
-                          placeholder={t("profile.countryPlaceholder")}
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="language">{t("profile.language")}</Label>
-                      <Select
-                        value={selectedLanguage}
-                        onValueChange={(value) => setSelectedLanguage(value as LanguageCode)}
-                      >
-                        <SelectTrigger id="language">
-                          <SelectValue placeholder={t("profile.selectLanguage")} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {supportedLanguages.map((lang) => (
-                            <SelectItem key={lang.code} value={lang.code}>
-                              {lang.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <Button type="submit" disabled={isUpdating}>
-                      {isUpdating ? t("general.saving") : t("general.saveChanges")}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+              <PersonalInfoForm
+                firstName={firstName}
+                lastName={lastName}
+                companyName={companyName}
+                phone={phone}
+                country={country}
+                selectedLanguage={selectedLanguage}
+                supportedLanguages={supportedLanguages}
+                isUpdating={isUpdating}
+                onFirstNameChange={setFirstName}
+                onLastNameChange={setLastName}
+                onCompanyNameChange={setCompanyName}
+                onPhoneChange={setPhone}
+                onCountryChange={setCountry}
+                onLanguageChange={setSelectedLanguage}
+                onSubmit={handleSubmit}
+              />
             </div>
             
             <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t("profile.profilePicture")}</CardTitle>
-                  <CardDescription>
-                    {t("profile.profilePictureDescription")}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col items-center">
-                  <div className="mb-6">
-                    <Avatar className="h-32 w-32">
-                      <AvatarImage 
-                        src={avatarPreview || profile?.avatar_url || ""} 
-                        alt={`${firstName} ${lastName}`} 
-                      />
-                      <AvatarFallback className="text-2xl">
-                        {firstName && lastName 
-                          ? `${firstName[0]}${lastName[0]}`
-                          : profile?.first_name?.[0] || "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                  
-                  <div className="space-y-4 w-full">
-                    <Input
-                      id="avatar-upload"
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleAvatarChange}
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => document.getElementById("avatar-upload")?.click()}
-                    >
-                      {t("profile.uploadNewPicture")}
-                    </Button>
-                    
-                    {avatarPreview && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        className="w-full"
-                        onClick={() => {
-                          setAvatarFile(null);
-                          setAvatarPreview(null);
-                        }}
-                      >
-                        {t("general.cancel")}
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <ProfilePicture
+                firstName={firstName}
+                lastName={lastName}
+                profileAvatarUrl={profile?.avatar_url}
+                onAvatarChange={handleAvatarChange}
+              />
             </div>
           </div>
         </TabsContent>
         
         <TabsContent value="account">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("profile.accountSettings")}</CardTitle>
-              <CardDescription>
-                {t("profile.accountSettingsDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="email">{t("profile.email")}</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value="user@example.com"
-                  disabled
-                />
-                <p className="text-sm text-gray-500">
-                  {t("profile.emailChangeDescription")}
-                </p>
-              </div>
-              
-              <div className="space-y-2">
-                <Label>{t("profile.password")}</Label>
-                <Button variant="outline">
-                  {t("profile.changePassword")}
-                </Button>
-              </div>
-              
-              <div className="pt-4 border-t">
-                <h3 className="text-lg font-medium mb-4">{t("profile.dangerZone")}</h3>
-                <Button variant="destructive">
-                  {t("profile.deleteAccount")}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <AccountSettings />
         </TabsContent>
         
         <TabsContent value="notifications">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("profile.notifications")}</CardTitle>
-              <CardDescription>
-                {t("profile.notificationsDescription")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">
-                {t("profile.notificationsComingSoon")}
-              </p>
-            </CardContent>
-          </Card>
+          <NotificationSettings />
         </TabsContent>
       </Tabs>
     </div>

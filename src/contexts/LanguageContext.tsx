@@ -28,22 +28,22 @@ const categories = [
   "common",
   "sell",
   "categories",
-  "business"
+  "business",
+  "bulkupload"
 ];
 
 // Debug flag for translation debugging
 const DEBUG_TRANSLATIONS = true;
 
-// Dynamically load and merge JSON files for a given language code
+// Dynamically load translations for a given language code
 function loadTranslations(lang: string): Record<string, any> {
   const merged: Record<string, any> = {};
   let hasLoadedMainFile = false;
   let loadedCategories = 0;
   let failedCategories = 0;
   
-  // First try to load base language file
   try {
-    // Using dynamic import to load the JSON file
+    // First try to load the base language file
     const baseTranslation = require(`@/locales/${lang}.json`);
     Object.assign(merged, baseTranslation);
     hasLoadedMainFile = true;
@@ -54,6 +54,11 @@ function loadTranslations(lang: string): Record<string, any> {
     if (DEBUG_TRANSLATIONS) {
       logger.error(`❌ Failed to load base translation file for language "${lang}"`, e);
     }
+    toast({
+      title: "Translation Error",
+      description: `Failed to load base translation file for ${lang}`,
+      variant: "destructive",
+    });
   }
   
   // Then load all category-specific files
@@ -123,12 +128,22 @@ supportedLanguages.forEach(langObj => {
     logger.info(`✅ Successfully preloaded translations for "${lang}"`);
   } catch (error) {
     logger.error(`❌ Failed to preload translations for "${lang}"`, error);
+    toast({
+      title: "Translation Preload Error",
+      description: `Failed to preload translations for ${lang}`,
+      variant: "destructive",
+    });
   }
 });
 
 // Ensure English translations are always available as fallback
 if (!translationCache["en"]) {
   logger.error("❌ Critical error: English translations could not be loaded!");
+  toast({
+    title: "Critical Translation Error",
+    description: "English translations could not be loaded. Some UI elements may not display correctly.",
+    variant: "destructive",
+  });
   // Set empty object to prevent runtime errors
   translationCache["en"] = {};
 }

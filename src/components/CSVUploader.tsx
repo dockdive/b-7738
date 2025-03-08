@@ -1,20 +1,21 @@
 
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Upload, FileSpreadsheet, AlertCircle, CheckCircle2, Download, Database, List, LogOut } from 'lucide-react';
+import { LogOut, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   uploadCSV,
   generateCSVTemplate,
   loadSampleBusinessData
 } from '@/services/csvService';
-import logger, { getLogs, LogLevel, getLogsByLevel } from '@/services/loggerService';
+import logger from '@/services/loggerService';
+
+// Import refactored components
+import CSVFileInput from '@/components/csv/CSVFileInput';
+import ProgressIndicator from '@/components/csv/ProgressIndicator';
+import UploadResult from '@/components/csv/UploadResult';
+import LogViewer from '@/components/csv/LogViewer';
 
 type CSVUploaderProps = {
   onComplete?: (success: boolean, count: number) => void;
@@ -33,14 +34,10 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
     count?: number;
   } | null>(null);
   const [showLogs, setShowLogs] = useState(false);
-  const [logTab, setLogTab] = useState<LogLevel | 'all'>('all');
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-      setResult(null);
-      logger.info(`File selected: ${e.target.files[0].name} (${e.target.files[0].size} bytes)`);
-    }
+  const handleFileSelect = (selectedFile: File) => {
+    setFile(selectedFile);
+    setResult(null);
   };
 
   const handleUpload = async () => {
@@ -154,14 +151,6 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
     }
   };
 
-  // Get filtered logs based on current tab
-  const filteredLogs = React.useMemo(() => {
-    if (logTab === 'all') {
-      return getLogs();
-    }
-    return getLogsByLevel(logTab as LogLevel);
-  }, [logTab]);
-
   return (
     <Card className="w-full">
       <CardHeader>
@@ -169,135 +158,26 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
         <CardDescription>{t('csvUpload.description', { entityType: t(`csvUpload.entityTypes.${entityType}`) })}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-wrap items-center gap-4">
-          <Button 
-            variant="outline" 
-            onClick={() => document.getElementById('csv-upload')?.click()}
-            className="gap-2"
-          >
-            <Upload className="h-4 w-4" />
-            {t('csvUpload.selectFile')}
-          </Button>
-          <Input
-            id="csv-upload"
-            type="file"
-            accept=".csv"
-            className="hidden"
-            onChange={handleFileSelect}
-          />
-          <Button 
-            variant="outline" 
-            onClick={handleDownloadTemplate}
-            className="gap-2"
-          >
-            <Download className="h-4 w-4" />
-            {t('csvUpload.downloadTemplate')}
-          </Button>
-          
-          {entityType === 'business' && (
-            <Button 
-              variant="outline" 
-              onClick={handleLoadSampleData}
-              disabled={isLoading}
-              className="gap-2"
-            >
-              <Database className="h-4 w-4" />
-              {isLoading ? t('csvUpload.loading') : t('csvUpload.loadSampleData')}
-            </Button>
-          )}
-          
-          <Button 
-            variant="ghost" 
-            onClick={() => setShowLogs(!showLogs)}
-            className="gap-2 ml-auto"
-          >
-            <List className="h-4 w-4" />
-            {showLogs ? t('csvUpload.hideLogs') : t('csvUpload.showLogs')}
-          </Button>
-        </div>
+        <CSVFileInput 
+          onFileSelect={handleFileSelect}
+          onDownloadTemplate={handleDownloadTemplate}
+          onLoadSampleData={handleLoadSampleData}
+          onToggleLogs={() => setShowLogs(!showLogs)}
+          showLogs={showLogs}
+          isLoading={isLoading}
+          entityType={entityType}
+          selectedFile={file}
+        />
         
-        {file && (
-          <div className="p-4 border rounded-md bg-muted/50">
-            <p className="font-medium">{file.name}</p>
-            <p className="text-sm text-muted-foreground">{(file.size / 1024).toFixed(2)} KB</p>
-          </div>
-        )}
+        <ProgressIndicator 
+          isUploading={isUploading} 
+          isLoading={isLoading} 
+          progress={progress} 
+        />
         
-        {(isUploading || isLoading) && (
-          <div className="space-y-2">
-            <Progress value={progress} />
-            <p className="text-sm text-center">{progress}% {isUploading ? t('csvUpload.uploading') : t('csvUpload.loading')}</p>
-          </div>
-        )}
+        <UploadResult result={result} />
         
-        {result && (
-          <Alert variant={result.success ? "default" : "destructive"}>
-            {result.success 
-              ? <CheckCircle2 className="h-4 w-4" /> 
-              : <AlertCircle className="h-4 w-4" />
-            }
-            <AlertTitle>
-              {result.success ? t('csvUpload.success') : t('csvUpload.error')}
-            </AlertTitle>
-            <AlertDescription>
-              {result.message}
-            </AlertDescription>
-          </Alert>
-        )}
-        
-        {showLogs && (
-          <Accordion type="single" collapsible className="mt-4 border rounded-md">
-            <AccordionItem value="logs">
-              <AccordionTrigger className="px-4">
-                {t('csvUpload.logs')} ({filteredLogs.length})
-              </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
-                <Tabs defaultValue="all" onValueChange={(value) => setLogTab(value as LogLevel | 'all')}>
-                  <TabsList className="grid grid-cols-5 mb-4">
-                    <TabsTrigger value="all">All</TabsTrigger>
-                    <TabsTrigger value="debug">Debug</TabsTrigger>
-                    <TabsTrigger value="info">Info</TabsTrigger>
-                    <TabsTrigger value="warning">Warning</TabsTrigger>
-                    <TabsTrigger value="error">Error</TabsTrigger>
-                  </TabsList>
-                  
-                  <div className="max-h-60 overflow-y-auto border rounded-md p-2 bg-slate-50">
-                    {filteredLogs.length > 0 ? (
-                      filteredLogs.map((log, index) => (
-                        <div 
-                          key={index} 
-                          className={`text-xs my-1 p-1 ${
-                            log.level === LogLevel.ERROR ? 'text-red-600 bg-red-50' :
-                            log.level === LogLevel.WARNING ? 'text-amber-600 bg-amber-50' :
-                            log.level === LogLevel.INFO ? 'text-blue-600 bg-blue-50' :
-                            'text-gray-600 bg-gray-50'
-                          } rounded`}
-                        >
-                          <span className="font-mono">
-                            [{new Date(log.timestamp).toLocaleTimeString()}] 
-                            [{log.level.toUpperCase()}] {log.message}
-                          </span>
-                          {log.data && (
-                            <pre className="mt-1 whitespace-pre-wrap overflow-x-auto">
-                              {typeof log.data === 'object' 
-                                ? JSON.stringify(log.data, null, 2) 
-                                : log.data
-                              }
-                            </pre>
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-center text-sm text-gray-500 py-4">
-                        {t('csvUpload.noLogs')}
-                      </p>
-                    )}
-                  </div>
-                </Tabs>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        )}
+        <LogViewer visible={showLogs} />
       </CardContent>
       <CardFooter>
         <Button 
