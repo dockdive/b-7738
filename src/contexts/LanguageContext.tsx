@@ -4,22 +4,58 @@ import { deepMerge } from "@/utils/deepMerge";
 
 // List all translation categories that exist as subfolders
 const categories = [
-  "common",
-  "navigation",
+  "conditions",
+  "faq",
+  "match",
+  "messages",
+  "boat",
+  "footer",
+  "boatsearch",
   "auth",
+  "home",
+  "navigation",
+  "favorites",
+  "privacy",
+  "cookies",
+  "terms",
   "profile",
-  "business",
+  "header",
+  "boats",
+  "subscription",
   "search",
-  "reviews",
+  "common",
+  "sell",
   "categories",
-  "filters",
-  "validation",
-  "alerts",
-  "bulkupload",
-  "footer"
+  "business"
 ];
 
-// Supported languages - expanded based on requirements
+// Dynamically load and merge JSON files for a given language code
+function loadTranslations(lang: string): Record<string, any> {
+  const merged: Record<string, any> = {};
+  
+  // First try to load base language file
+  try {
+    const baseTranslation = require(`@/locales/${lang}.json`);
+    Object.assign(merged, baseTranslation);
+  } catch (e) {
+    console.warn(`Missing base translation file for language "${lang}"`);
+  }
+  
+  // Then load all category-specific files
+  categories.forEach(category => {
+    try {
+      // Import the JSON file from the folder structure
+      const translation = require(`@/locales/${category}/${lang}.json`);
+      deepMerge(merged, translation);
+    } catch (e) {
+      console.warn(`Missing translation file for category "${category}" and language "${lang}"`);
+    }
+  });
+  
+  return merged;
+}
+
+// All supported languages (reduced from 110 for simplicity)
 export const supportedLanguages = [
   { code: "en", name: "English" },
   { code: "nl", name: "Dutch" },
@@ -43,34 +79,15 @@ export interface LanguageContextType {
   supportedLanguages: ReadonlyArray<{ code: LanguageCode; name: string }>;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
 // Global cache for storing loaded translations
 const translationCache: Record<string, Record<string, any>> = {};
 
-// Preload all translations synchronously using require
-supportedLanguages.forEach(lang => {
-  try {
-    // First load the base translations
-    const baseTranslations = require(`@/locales/${lang.code}.json`);
-    translationCache[lang.code] = { ...baseTranslations };
-    
-    // Then try to load category-specific translations
-    categories.forEach(category => {
-      try {
-        const categoryTranslations = require(`@/locales/${category}/${lang.code}.json`);
-        if (categoryTranslations) {
-          deepMerge(translationCache[lang.code], categoryTranslations);
-        }
-      } catch (e) {
-        // Silently fail if category translation doesn't exist
-      }
-    });
-  } catch (e) {
-    console.warn(`Could not load translations for language: ${lang.code}`);
-    translationCache[lang.code] = {};
-  }
-});
+// Preload all translations
+for (const lang of supportedLanguages) {
+  translationCache[lang.code] = loadTranslations(lang.code);
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const detectBrowserLanguage = (): LanguageCode => {
   try {

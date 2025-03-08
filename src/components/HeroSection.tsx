@@ -87,7 +87,6 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Animation styles */}
       <style>
         {`
           @keyframes wave {
