@@ -2,6 +2,9 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import { LanguageProvider } from './contexts/LanguageContext'
+import { Toaster } from './components/ui/toaster'
+import TranslationDebugger from './components/TranslationDebugger'
 
 // Create a function to handle the root creation and rendering
 const renderApp = () => {
@@ -11,7 +14,13 @@ const renderApp = () => {
     return;
   }
   const root = createRoot(rootElement);
-  root.render(<App />);
+  root.render(
+    <LanguageProvider>
+      <App />
+      <Toaster />
+      <TranslationDebugger />
+    </LanguageProvider>
+  );
 };
 
 // Use requestIdleCallback to defer non-critical initialization

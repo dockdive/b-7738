@@ -1,6 +1,8 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { deepMerge } from "@/utils/deepMerge";
+import { toast } from "@/hooks/use-toast";
+import logger from "@/services/loggerService";
 
 // List all translation categories that exist as subfolders
 const categories = [
@@ -29,16 +31,29 @@ const categories = [
   "business"
 ];
 
+// Debug flag for translation debugging
+const DEBUG_TRANSLATIONS = true;
+
 // Dynamically load and merge JSON files for a given language code
 function loadTranslations(lang: string): Record<string, any> {
   const merged: Record<string, any> = {};
+  let hasLoadedMainFile = false;
+  let loadedCategories = 0;
+  let failedCategories = 0;
   
   // First try to load base language file
   try {
+    // Using dynamic import to load the JSON file
     const baseTranslation = require(`@/locales/${lang}.json`);
     Object.assign(merged, baseTranslation);
+    hasLoadedMainFile = true;
+    if (DEBUG_TRANSLATIONS) {
+      logger.info(`✅ Successfully loaded base file for "${lang}"`);
+    }
   } catch (e) {
-    console.warn(`Missing base translation file for language "${lang}"`);
+    if (DEBUG_TRANSLATIONS) {
+      logger.error(`❌ Failed to load base translation file for language "${lang}"`, e);
+    }
   }
   
   // Then load all category-specific files
@@ -47,13 +62,21 @@ function loadTranslations(lang: string): Record<string, any> {
       // Import the JSON file from the folder structure
       const translation = require(`@/locales/${category}/${lang}.json`);
       deepMerge(merged, translation);
+      loadedCategories++;
+      if (DEBUG_TRANSLATIONS) {
+        logger.info(`✅ Loaded category "${category}" for language "${lang}"`);
+      }
     } catch (e) {
-      // Silent fail for development, console warn for production
-      if (process.env.NODE_ENV === 'production') {
-        console.warn(`Missing translation file for category "${category}" and language "${lang}"`);
+      failedCategories++;
+      if (DEBUG_TRANSLATIONS) {
+        logger.warning(`⚠️ Missing translation file for category "${category}" and language "${lang}"`);
       }
     }
   });
+  
+  if (DEBUG_TRANSLATIONS) {
+    logger.info(`📊 Translation loading stats for "${lang}": Base file: ${hasLoadedMainFile ? 'Loaded' : 'Failed'}, Categories: ${loadedCategories} loaded, ${failedCategories} failed`);
+  }
   
   return merged;
 }
@@ -80,14 +103,40 @@ export interface LanguageContextType {
   changeLanguage: (lang: LanguageCode) => void;
   t: (key: string, options?: Record<string, string>) => string;
   supportedLanguages: ReadonlyArray<{ code: LanguageCode; name: string }>;
+  debug: {
+    showTranslationKeys: boolean;
+    toggleShowTranslationKeys: () => void;
+    missingKeys: string[];
+    resetMissingKeys: () => void;
+  };
 }
 
 // Global cache for storing loaded translations
 const translationCache: Record<string, Record<string, any>> = {};
 
-// Preload all translations
-for (const lang of supportedLanguages) {
-  translationCache[lang.code] = loadTranslations(lang.code);
+// Pre-load all translations for all languages
+logger.info("🌐 Preloading translations for all supported languages...");
+supportedLanguages.forEach(langObj => {
+  const lang = langObj.code;
+  try {
+    translationCache[lang] = loadTranslations(lang);
+    logger.info(`✅ Successfully preloaded translations for "${lang}"`);
+  } catch (error) {
+    logger.error(`❌ Failed to preload translations for "${lang}"`, error);
+  }
+});
+
+// Ensure English translations are always available as fallback
+if (!translationCache["en"]) {
+  logger.error("❌ Critical error: English translations could not be loaded!");
+  // Set empty object to prevent runtime errors
+  translationCache["en"] = {};
+}
+
+// Expose the translation cache for debugging purposes
+if (typeof window !== 'undefined') {
+  // @ts-ignore - This is for debugging only
+  window.__DEBUG_TRANSLATION_CACHE__ = translationCache;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -99,7 +148,7 @@ const detectBrowserLanguage = (): LanguageCode => {
       return browserLang as LanguageCode;
     }
   } catch (e) {
-    console.error("Error detecting browser language:", e);
+    logger.error("Error detecting browser language:", e);
   }
   return "en";
 };
@@ -113,20 +162,31 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
       return detectBrowserLanguage();
     } catch (e) {
-      console.error("Error getting initial language:", e);
+      logger.error("Error getting initial language:", e);
       return "en";
     }
   };
 
   const [language, setLanguageState] = useState<LanguageCode>(getInitialLanguage());
+  const [showTranslationKeys, setShowTranslationKeys] = useState(false);
+  const [missingKeys, setMissingKeys] = useState<string[]>([]);
 
   const setLanguage = (lang: LanguageCode) => {
     try {
       localStorage.setItem("maritime-language", lang);
       setLanguageState(lang);
       document.documentElement.lang = lang;
+      toast({
+        title: "Language Changed",
+        description: `Language switched to ${supportedLanguages.find(l => l.code === lang)?.name || lang}`,
+      });
     } catch (e) {
-      console.error("Error setting language:", e);
+      logger.error("Error setting language:", e);
+      toast({
+        title: "Error",
+        description: "Failed to change language",
+        variant: "destructive",
+      });
     }
   };
 
@@ -149,6 +209,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const t = (key: string, options?: Record<string, string>): string => {
+    // If showing translation keys for debugging, return the key itself
+    if (showTranslationKeys) {
+      return `[${key}]`;
+    }
+    
     // Get translation from current language
     let text = getNestedValue(translationCache[language], key);
     
@@ -159,7 +224,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     
     // Return key if translation is still missing
     if (text === undefined) {
-      console.warn(`Missing translation key: ${key}`);
+      // Log missing key for debugging
+      logger.warning(`Missing translation key: ${key}`);
+      
+      // Add to missing keys list if not already present
+      setMissingKeys(prev => {
+        if (!prev.includes(key)) {
+          return [...prev, key];
+        }
+        return prev;
+      });
+      
       return key;
     }
     
@@ -174,14 +249,36 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return text;
   };
 
+  const toggleShowTranslationKeys = () => {
+    setShowTranslationKeys(prev => !prev);
+    toast({
+      title: "Developer Mode",
+      description: showTranslationKeys ? "Translation keys hidden" : "Showing translation keys instead of values",
+    });
+  };
+
+  const resetMissingKeys = () => {
+    setMissingKeys([]);
+    toast({
+      title: "Developer Mode",
+      description: "Missing keys list reset",
+    });
+  };
+
   // Memoize the context value to prevent unnecessary re-renders
   const contextValue = useMemo(() => ({
     language, 
     setLanguage, 
     changeLanguage: setLanguage,
     t, 
-    supportedLanguages 
-  }), [language]);
+    supportedLanguages,
+    debug: {
+      showTranslationKeys,
+      toggleShowTranslationKeys,
+      missingKeys,
+      resetMissingKeys
+    }
+  }), [language, showTranslationKeys, missingKeys]);
 
   return (
     <LanguageContext.Provider value={contextValue}>
