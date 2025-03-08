@@ -1,172 +1,22 @@
 
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { deepMerge } from "@/utils/deepMerge";
+import React, { useState, useEffect, useMemo } from "react";
 import { toast } from "@/hooks/use-toast";
 import logger from "@/services/loggerService";
+import { LanguageCode, supportedLanguages } from "@/constants/languageConstants";
+import { 
+  translationCache, 
+  detectBrowserLanguage, 
+  getNestedValue, 
+  preloadTranslations 
+} from "@/utils/translationUtils";
+import { LanguageContext, LanguageContextType } from "@/hooks/useLanguageContext";
 
-// List all translation categories that exist as subfolders
-const categories = [
-  "conditions",
-  "faq",
-  "match",
-  "messages",
-  "boat",
-  "footer",
-  "boatsearch",
-  "auth",
-  "home",
-  "navigation",
-  "favorites",
-  "privacy",
-  "cookies",
-  "terms",
-  "profile",
-  "header",
-  "boats",
-  "subscription",
-  "search",
-  "common",
-  "sell",
-  "categories",
-  "business",
-  "bulkupload"
-];
+// Preload all translations for all languages
+preloadTranslations();
 
-// Debug flag for translation debugging
-const DEBUG_TRANSLATIONS = true;
-
-// Dynamically load translations for a given language code
-function loadTranslations(lang: string): Record<string, any> {
-  const merged: Record<string, any> = {};
-  let hasLoadedMainFile = false;
-  let loadedCategories = 0;
-  let failedCategories = 0;
-  
-  try {
-    // First try to load the base language file
-    const baseTranslation = require(`@/locales/${lang}.json`);
-    Object.assign(merged, baseTranslation);
-    hasLoadedMainFile = true;
-    if (DEBUG_TRANSLATIONS) {
-      logger.info(`✅ Successfully loaded base file for "${lang}"`);
-    }
-  } catch (e) {
-    if (DEBUG_TRANSLATIONS) {
-      logger.error(`❌ Failed to load base translation file for language "${lang}"`, e);
-    }
-    toast({
-      title: "Translation Error",
-      description: `Failed to load base translation file for ${lang}`,
-      variant: "destructive",
-    });
-  }
-  
-  // Then load all category-specific files
-  categories.forEach(category => {
-    try {
-      // Import the JSON file from the folder structure
-      const translation = require(`@/locales/${category}/${lang}.json`);
-      deepMerge(merged, translation);
-      loadedCategories++;
-      if (DEBUG_TRANSLATIONS) {
-        logger.info(`✅ Loaded category "${category}" for language "${lang}"`);
-      }
-    } catch (e) {
-      failedCategories++;
-      if (DEBUG_TRANSLATIONS) {
-        logger.warning(`⚠️ Missing translation file for category "${category}" and language "${lang}"`);
-      }
-    }
-  });
-  
-  if (DEBUG_TRANSLATIONS) {
-    logger.info(`📊 Translation loading stats for "${lang}": Base file: ${hasLoadedMainFile ? 'Loaded' : 'Failed'}, Categories: ${loadedCategories} loaded, ${failedCategories} failed`);
-  }
-  
-  return merged;
-}
-
-// All supported languages (reduced from 110 for simplicity)
-export const supportedLanguages = [
-  { code: "en", name: "English" },
-  { code: "nl", name: "Dutch" },
-  { code: "de", name: "German" },
-  { code: "fr", name: "French" },
-  { code: "es", name: "Spanish" },
-  { code: "it", name: "Italian" },
-  { code: "pt", name: "Portuguese" },
-  { code: "ru", name: "Russian" },
-  { code: "zh", name: "Chinese" },
-  { code: "ja", name: "Japanese" }
-] as const;
-
-export type LanguageCode = typeof supportedLanguages[number]["code"];
-
-export interface LanguageContextType {
-  language: LanguageCode;
-  setLanguage: (lang: LanguageCode) => void;
-  changeLanguage: (lang: LanguageCode) => void;
-  t: (key: string, options?: Record<string, string>) => string;
-  supportedLanguages: ReadonlyArray<{ code: LanguageCode; name: string }>;
-  debug: {
-    showTranslationKeys: boolean;
-    toggleShowTranslationKeys: () => void;
-    missingKeys: string[];
-    resetMissingKeys: () => void;
-  };
-}
-
-// Global cache for storing loaded translations
-const translationCache: Record<string, Record<string, any>> = {};
-
-// Pre-load all translations for all languages
-logger.info("🌐 Preloading translations for all supported languages...");
-supportedLanguages.forEach(langObj => {
-  const lang = langObj.code;
-  try {
-    translationCache[lang] = loadTranslations(lang);
-    logger.info(`✅ Successfully preloaded translations for "${lang}"`);
-  } catch (error) {
-    logger.error(`❌ Failed to preload translations for "${lang}"`, error);
-    toast({
-      title: "Translation Preload Error",
-      description: `Failed to preload translations for ${lang}`,
-      variant: "destructive",
-    });
-  }
-});
-
-// Ensure English translations are always available as fallback
-if (!translationCache["en"]) {
-  logger.error("❌ Critical error: English translations could not be loaded!");
-  toast({
-    title: "Critical Translation Error",
-    description: "English translations could not be loaded. Some UI elements may not display correctly.",
-    variant: "destructive",
-  });
-  // Set empty object to prevent runtime errors
-  translationCache["en"] = {};
-}
-
-// Expose the translation cache for debugging purposes
-if (typeof window !== 'undefined') {
-  // @ts-ignore - This is for debugging only
-  window.__DEBUG_TRANSLATION_CACHE__ = translationCache;
-}
-
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-const detectBrowserLanguage = (): LanguageCode => {
-  try {
-    const browserLang = navigator.language.split("-")[0];
-    if (browserLang && supportedLanguages.some(lang => lang.code === browserLang)) {
-      return browserLang as LanguageCode;
-    }
-  } catch (e) {
-    logger.error("Error detecting browser language:", e);
-  }
-  return "en";
-};
+export type { LanguageCode } from "@/constants/languageConstants";
+export { supportedLanguages } from "@/constants/languageConstants";
+export { useLanguage } from "@/hooks/useLanguageContext";
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const getInitialLanguage = (): LanguageCode => {
@@ -208,20 +58,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
-
-  const getNestedValue = (obj: any, path: string): any => {
-    if (!obj) return undefined;
-    
-    const keys = path.split(".");
-    let current = obj;
-    
-    for (const key of keys) {
-      if (current === undefined || current === null) return undefined;
-      current = current[key];
-    }
-    
-    return current;
-  };
 
   const t = (key: string, options?: Record<string, string>): string => {
     // If showing translation keys for debugging, return the key itself
@@ -281,7 +117,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   // Memoize the context value to prevent unnecessary re-renders
-  const contextValue = useMemo(() => ({
+  const contextValue = useMemo<LanguageContextType>(() => ({
     language, 
     setLanguage, 
     changeLanguage: setLanguage,
@@ -300,10 +136,4 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       {children}
     </LanguageContext.Provider>
   );
-};
-
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (!context) throw new Error("useLanguage must be used within a LanguageProvider");
-  return context;
 };
