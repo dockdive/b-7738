@@ -27,6 +27,8 @@ const HeroSection = () => {
           alt="Sailing boats" 
           className="w-full h-full object-cover object-center"
           style={{ filter: 'brightness(0.5)' }}
+          width="1920"
+          height="1080"
         />
       </div>
       
@@ -36,6 +38,7 @@ const HeroSection = () => {
           className="w-full h-48 fill-current text-white"
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
+          aria-hidden="true"
         >
           <path
             d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
@@ -62,13 +65,14 @@ const HeroSection = () => {
         
         <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
           <div className="relative flex-grow">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" aria-hidden="true" />
             <Input
               type="text"
               placeholder={t("search.businessOrService")}
               className="pl-10 h-12 text-black"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label={t("search.businessOrService")}
             />
           </div>
           <Button type="submit" className="h-12 px-6">
@@ -82,7 +86,6 @@ const HeroSection = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-8 items-center">
             {/* Company logos as white silhouettes */}
-            {/* Removed for simplicity */}
           </div>
         </div>
       </div>

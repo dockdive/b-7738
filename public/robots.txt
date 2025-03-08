@@ -3,5 +3,25 @@
 User-agent: *
 Allow: /
 
+# Disallow access to admin areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /internal/
+
+# Specific crawling instructions for Google
+User-agent: Googlebot
+Allow: /
+
+# Specific crawling instructions for Bing
+User-agent: Bingbot
+Allow: /
+
 # Sitemap location
 Sitemap: https://yourdomain.com/sitemap.xml
+
+# Rate limiting for aggressive bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10

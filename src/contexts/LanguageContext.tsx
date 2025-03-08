@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { deepMerge } from "@/utils/deepMerge";
 
 // List all translation categories that exist as subfolders
@@ -48,7 +48,10 @@ function loadTranslations(lang: string): Record<string, any> {
       const translation = require(`@/locales/${category}/${lang}.json`);
       deepMerge(merged, translation);
     } catch (e) {
-      console.warn(`Missing translation file for category "${category}" and language "${lang}"`);
+      // Silent fail for development, console warn for production
+      if (process.env.NODE_ENV === 'production') {
+        console.warn(`Missing translation file for category "${category}" and language "${lang}"`);
+      }
     }
   });
   
@@ -171,14 +174,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return text;
   };
 
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({
+    language, 
+    setLanguage, 
+    changeLanguage: setLanguage,
+    t, 
+    supportedLanguages 
+  }), [language]);
+
   return (
-    <LanguageContext.Provider value={{ 
-      language, 
-      setLanguage, 
-      changeLanguage: setLanguage,
-      t, 
-      supportedLanguages 
-    }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );

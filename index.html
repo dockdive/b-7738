@@ -4,11 +4,15 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Maritime Directory - Connect with Maritime Businesses Worldwide</title>
   <meta name="description" content="Maritime Business Directory - Find and connect with trusted maritime businesses and services worldwide. List your maritime business today." />
   <meta name="keywords" content="maritime, directory, shipping, boats, yacht, marine services, port services, maritime businesses, nautical directory" />
   <meta name="author" content="Maritime Directory" />
+  
+  <!-- Preconnect to required origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
@@ -34,13 +38,19 @@
   <!-- Robots -->
   <meta name="robots" content="index, follow" />
   
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MEASUREMENT_ID"></script>
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.yourdomain.com;">
+  
+  <!-- Google Analytics with defer to improve page load -->
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-MEASUREMENT_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-MEASUREMENT_ID');
+    gtag('config', 'G-MEASUREMENT_ID', {
+      'anonymize_ip': true,
+      'cookie_flags': 'SameSite=None;Secure'
+    });
   </script>
   
   <!-- Structured Data for Local Business -->
@@ -70,6 +80,9 @@
   <div id="root"></div>
   <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
   <script type="module" src="/src/main.tsx"></script>
+  <noscript>
+    <p>This website requires JavaScript to function properly. Please enable JavaScript in your browser settings.</p>
+  </noscript>
 </body>
 
 </html>
