@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Mail, Lock, UserPlus, LogIn, AlertCircle } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 const Auth = () => {
   const { t } = useLanguage();
@@ -21,7 +20,6 @@ const Auth = () => {
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   
-  // Check if user is already logged in
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -127,7 +125,6 @@ const Auth = () => {
           description: t("auth.checkEmail"),
         });
         
-        // Auto sign in (if email confirmation is disabled)
         const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,

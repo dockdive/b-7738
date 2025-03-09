@@ -13,7 +13,7 @@ export const translationCache: Record<string, Record<string, any>> = {};
 export const detectBrowserLanguage = (): LanguageCode => {
   try {
     const browserLang = navigator.language.split("-")[0];
-    if (browserLang && ["en", "nl", "de", "fr", "es", "it", "pt", "ru", "zh", "ja"].includes(browserLang)) {
+    if (browserLang && ["en", "nl"].includes(browserLang)) {
       return browserLang as LanguageCode;
     }
   } catch (e) {
@@ -56,11 +56,13 @@ export function loadTranslations(lang: string): Record<string, any> {
     logger.info(`✅ Successfully loaded base file for "${lang}"`);
   } catch (e) {
     logger.error(`❌ Failed to load base translation file for language "${lang}"`, e);
-    toast({
-      title: "Translation Error",
-      description: `Failed to load base translation file for ${lang}`,
-      variant: "destructive",
-    });
+    if (typeof window !== 'undefined') {
+      toast({
+        title: "Translation Error",
+        description: `Failed to load base translation file for ${lang}`,
+        variant: "destructive",
+      });
+    }
   }
   
   // Then load all category-specific files
@@ -87,28 +89,32 @@ export function loadTranslations(lang: string): Record<string, any> {
  */
 export function preloadTranslations(): void {
   logger.info("🌐 Preloading translations for all supported languages...");
-  ["en", "nl", "de", "fr", "es", "it", "pt", "ru", "zh", "ja"].forEach(lang => {
+  ["en", "nl"].forEach(lang => {
     try {
       translationCache[lang] = loadTranslations(lang);
       logger.info(`✅ Successfully preloaded translations for "${lang}"`);
     } catch (error) {
       logger.error(`❌ Failed to preload translations for "${lang}"`, error);
-      toast({
-        title: "Translation Preload Error",
-        description: `Failed to preload translations for ${lang}`,
-        variant: "destructive",
-      });
+      if (typeof window !== 'undefined') {
+        toast({
+          title: "Translation Preload Error",
+          description: `Failed to preload translations for ${lang}`,
+          variant: "destructive",
+        });
+      }
     }
   });
 
   // Ensure English translations are always available as fallback
   if (!translationCache["en"]) {
     logger.error("❌ Critical error: English translations could not be loaded!");
-    toast({
-      title: "Critical Translation Error",
-      description: "English translations could not be loaded. Some UI elements may not display correctly.",
-      variant: "destructive",
-    });
+    if (typeof window !== 'undefined') {
+      toast({
+        title: "Critical Translation Error",
+        description: "English translations could not be loaded. Some UI elements may not display correctly.",
+        variant: "destructive",
+      });
+    }
     // Set empty object to prevent runtime errors
     translationCache["en"] = {};
   }

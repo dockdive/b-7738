@@ -11,12 +11,15 @@ export const translationCategories = [
   "auth",
   "home",
   "navigation",
+  "steps",
   "favorites",
   "privacy",
   "cookies",
   "terms",
   "profile",
   "header",
+  "about",
+  "statistics",
   "boats",
   "subscription",
   "search",
@@ -24,7 +27,11 @@ export const translationCategories = [
   "sell",
   "categories",
   "business",
-  "bulkupload"
+  "bulkupload",
+  "sell/steps",
+  "sell/navigation",
+  "sell/checkout",
+  "sell/conditions"
 ];
 
 // Debug flag for translation debugging
@@ -33,15 +40,7 @@ export const DEBUG_TRANSLATIONS = true;
 // All supported languages
 export const supportedLanguages = [
   { code: "en", name: "English" },
-  { code: "nl", name: "Dutch" },
-  { code: "de", name: "German" },
-  { code: "fr", name: "French" },
-  { code: "es", name: "Spanish" },
-  { code: "it", name: "Italian" },
-  { code: "pt", name: "Portuguese" },
-  { code: "ru", name: "Russian" },
-  { code: "zh", name: "Chinese" },
-  { code: "ja", name: "Japanese" }
+  { code: "nl", name: "Dutch" }
 ] as const;
 
 export type LanguageCode = typeof supportedLanguages[number]["code"];
