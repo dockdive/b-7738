@@ -19,6 +19,12 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+        heading: ["Montserrat", "sans-serif"],
+        serif: ["Playfair Display", "serif"],
+        mono: ["Fira Code", "monospace"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -86,11 +92,6 @@ export default {
           DEFAULT: "#ff7f7f",
           dark: "#e64a4a",
         },
-      },
-      fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        serif: ["Playfair Display", "serif"],
-        mono: ["Fira Code", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",

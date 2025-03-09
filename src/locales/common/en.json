@@ -1,0 +1,33 @@
+
+{
+  "general": {
+    "previous": "Previous",
+    "next": "Next",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "submitting": "Submitting...",
+    "processing": "Processing...",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "required": "Required"
+  },
+  "navigation": {
+    "home": "Home",
+    "directory": "Directory",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "addBusiness": "Add Business",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "settings": "Settings",
+    "help": "Help",
+    "bulkUpload": "Bulk Upload"
+  }
+}

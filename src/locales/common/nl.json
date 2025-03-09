@@ -1,0 +1,33 @@
+
+{
+  "general": {
+    "previous": "Vorige",
+    "next": "Volgende",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "submit": "Indienen",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "loading": "Laden...",
+    "submitting": "Indienen...",
+    "processing": "Verwerken...",
+    "success": "Succes",
+    "error": "Fout",
+    "warning": "Waarschuwing",
+    "info": "Informatie",
+    "required": "Verplicht"
+  },
+  "navigation": {
+    "home": "Home",
+    "directory": "Directory",
+    "dashboard": "Dashboard",
+    "profile": "Profiel",
+    "addBusiness": "Bedrijf Toevoegen",
+    "login": "Inloggen",
+    "signup": "Registreren",
+    "logout": "Uitloggen",
+    "settings": "Instellingen",
+    "help": "Help",
+    "bulkUpload": "Bulk Upload"
+  }
+}
