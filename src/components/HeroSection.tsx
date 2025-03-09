@@ -19,14 +19,14 @@ const HeroSection = () => {
   };
   
   return (
-    <div className="relative min-h-[500px] flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/lovable-uploads/9be2d89e-5e3b-4b58-8870-f0de61618465.png" 
-          alt="Sailing boats" 
+          src="/lovable-uploads/68d781b1-1971-4ecf-a0b4-7b5b12bb31e5.png" 
+          alt="Woman relaxing on sailing boat" 
           className="w-full h-full object-cover object-center"
-          style={{ filter: 'brightness(0.5)' }}
+          style={{ filter: 'brightness(0.6)' }}
           width="1920"
           height="1080"
         />
@@ -59,16 +59,23 @@ const HeroSection = () => {
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
           {t("home.hero.title")}
         </h1>
-        <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">
+        <p className="text-xl md:text-2xl mb-6 max-w-3xl mx-auto">
           {t("home.hero.subtitle")}
         </p>
+        
+        {/* Beta announcement banner */}
+        <div className="bg-gradient-to-r from-blue-600 to-blue-400 py-3 px-6 rounded-full inline-block mb-10 transform -rotate-2">
+          <p className="text-xl font-bold tracking-wide">
+            Free Company Listing During Beta Period
+          </p>
+        </div>
         
         <form onSubmit={handleSearch} className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-4">
           <div className="relative flex-grow">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" aria-hidden="true" />
             <Input
               type="text"
-              placeholder={t("search.businessOrService")}
+              placeholder={t("home.searchPlaceholder")}
               className="pl-10 h-12 text-black"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}

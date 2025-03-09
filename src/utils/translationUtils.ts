@@ -66,12 +66,15 @@ export function loadTranslations(lang: string): Record<string, any> {
     }
   }
   
-  // Then load all category-specific files
+  // Then load all category-specific files and flatten them
   translationCategories.forEach(category => {
     try {
       // Import the JSON file from the folder structure
       const translation = require(`@/locales/${category}/${lang}.json`);
-      deepMerge(merged, translation);
+      // Directly merge the inner content to flatten the structure
+      Object.keys(translation).forEach(key => {
+        deepMerge(merged, translation);
+      });
       loadedCategories++;
       logger.info(`✅ Loaded category "${category}" for language "${lang}"`);
     } catch (e) {

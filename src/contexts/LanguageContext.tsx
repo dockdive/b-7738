@@ -57,6 +57,32 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     document.documentElement.lang = language;
+    
+    // Force reload translations when language changes
+    try {
+      // Clear the cache for the current language to ensure fresh loading
+      delete translationCache[language];
+      
+      // Reload translations for the current language
+      const freshTranslations = require(`@/locales/${language}.json`);
+      translationCache[language] = freshTranslations;
+      
+      // Load category-specific translations
+      Object.keys(require.context('@/locales/', true, /\.json$/))
+        .filter(key => key.includes(`/${language}.json`))
+        .forEach(key => {
+          try {
+            const categoryTranslations = require(`@/locales${key.slice(1)}`);
+            Object.assign(translationCache[language], categoryTranslations);
+          } catch (e) {
+            logger.error(`Failed to load translation file: ${key}`, e);
+          }
+        });
+        
+      logger.info(`Reloaded translations for ${language}`);
+    } catch (e) {
+      logger.error(`Failed to reload translations for ${language}`, e);
+    }
   }, [language]);
 
   const t = (key: string, options?: Record<string, string>): string => {

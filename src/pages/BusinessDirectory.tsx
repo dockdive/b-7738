@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -59,34 +60,56 @@ const BusinessDirectory = () => {
   const { 
     data: businessesData, 
     isLoading: isLoadingBusinesses,
-    refetch: refetchBusinesses
+    error: businessError
   } = useQuery({
     queryKey: ['businesses', filters],
-    queryFn: () => fetchBusinesses(filters)
+    queryFn: () => fetchBusinesses(filters),
+    meta: {
+      onError: (error: Error) => {
+        console.error('Error fetching businesses:', error);
+      }
+    }
   });
   
-  const businesses = assertArray<Business>(businessesData);
+  const businesses = businessesData ? (Array.isArray(businessesData) ? businessesData : []) : [];
   
-  const { data: categoriesData } = useQuery({
+  const { 
+    data: categoriesData,
+    error: categoriesError 
+  } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories
+    queryFn: fetchCategories,
+    meta: {
+      onError: (error: Error) => {
+        console.error('Error fetching categories:', error);
+      }
+    }
   });
   
-  const categories = assertArray<Category>(categoriesData);
+  const categories = categoriesData ? (Array.isArray(categoriesData) ? categoriesData : []) : [];
   
-  const { data: subcategoriesData, refetch: refetchSubcategories } = useQuery({
+  const { 
+    data: subcategoriesData, 
+    refetch: refetchSubcategories,
+    error: subcategoriesError 
+  } = useQuery({
     queryKey: ['subcategories', filters.category_id],
     queryFn: () => fetchSubcategories(filters.category_id),
-    enabled: !!filters.category_id
+    enabled: !!filters.category_id,
+    meta: {
+      onError: (error: Error) => {
+        console.error('Error fetching subcategories:', error);
+      }
+    }
   });
   
-  const subcategories = assertArray<Subcategory>(subcategoriesData);
+  const subcategories = subcategoriesData ? (Array.isArray(subcategoriesData) ? subcategoriesData : []) : [];
   
   const [countries, setCountries] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
   
   useEffect(() => {
-    if (businesses) {
+    if (businesses && businesses.length > 0) {
       const uniqueCountries = [...new Set(businesses.map(b => b.country).filter(Boolean))];
       setCountries(uniqueCountries as string[]);
       
@@ -120,7 +143,6 @@ const BusinessDirectory = () => {
   
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    refetchBusinesses();
   };
   
   const resetFilters = () => {
@@ -145,7 +167,7 @@ const BusinessDirectory = () => {
   
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">{t("navigation.businesses")}</h1>
+      <h1 className="text-3xl font-bold mb-8">{t("business.title")}</h1>
       
       <div className="mb-6">
         <form onSubmit={handleSearchSubmit} className="flex flex-col md:flex-row gap-4">
@@ -359,6 +381,12 @@ const BusinessDirectory = () => {
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
                   </div>
                   <p className="mt-2 text-gray-600">{t("general.loading")}</p>
+                </TableCell>
+              </TableRow>
+            ) : businessError ? (
+              <TableRow>
+                <TableCell colSpan={8} className="text-center py-8 text-red-500">
+                  {t("errors.general")}
                 </TableCell>
               </TableRow>
             ) : businesses && businesses.length > 0 ? (

@@ -1,19 +1,64 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import CSVUploader from '@/components/CSVUploader';
-import { AlertCircle, FileSpreadsheet, Upload, Info } from 'lucide-react';
+import { AlertCircle, FileSpreadsheet, Upload, Info, Lock } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useNavigate } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
+
+// Function to check if email is from allowed domains
+const isAllowedEmail = (email: string | null): boolean => {
+  if (!email) return false;
+  
+  const allowedDomains = ['atalio.com', 'dockdive.com'];
+  const emailDomain = email.split('@')[1]?.toLowerCase();
+  
+  return allowedDomains.some(domain => emailDomain === domain);
+};
 
 const BulkUpload = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [uploadStats, setUploadStats] = useState({
     businesses: { count: 0, success: false },
     categories: { count: 0, success: false },
     reviews: { count: 0, success: false }
   });
+
+  useEffect(() => {
+    // Check if user is authorized (has an email with allowed domain)
+    const checkAuthorization = async () => {
+      try {
+        // Simulating getting the user's email from auth system
+        // In a real app, this would come from your auth provider
+        // Replace this with your actual auth implementation
+        const userEmail = localStorage.getItem('user-email');
+        
+        if (!isAllowedEmail(userEmail)) {
+          toast({
+            title: "Access Restricted",
+            description: "Only users with atalio.com or dockdive.com email domains can access this page.",
+            variant: "destructive",
+          });
+          
+          // Redirect unauthorized users to home page
+          navigate('/');
+          return;
+        }
+        
+        setIsAuthorized(true);
+      } catch (error) {
+        console.error("Authorization check failed:", error);
+        navigate('/');
+      }
+    };
+    
+    checkAuthorization();
+  }, [navigate]);
 
   const handleUploadComplete = (
     type: 'business' | 'category' | 'review',
@@ -25,6 +70,20 @@ const BulkUpload = () => {
       [type === 'business' ? 'businesses' : `${type}s`]: { count, success }
     }));
   };
+
+  if (!isAuthorized) {
+    return (
+      <div className="container mx-auto px-4 py-16 text-center">
+        <div className="flex flex-col items-center justify-center">
+          <Lock className="w-16 h-16 mb-4 text-gray-400" />
+          <h1 className="text-2xl font-bold mb-2">Access Restricted</h1>
+          <p className="text-gray-600 mb-8">
+            Only users with atalio.com or dockdive.com email domains can access this page.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -83,6 +142,14 @@ const BulkUpload = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Alert variant="warning" className="mb-6">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Restricted Access</AlertTitle>
+        <AlertDescription>
+          Bulk upload functionality is only available for users with atalio.com or dockdive.com email domains.
+        </AlertDescription>
+      </Alert>
 
       <Tabs defaultValue="businesses" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
