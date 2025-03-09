@@ -1,0 +1,65 @@
+
+{
+  "name": "Maritime Directory",
+  "short_name": "MaritimeDir",
+  "description": "Find and connect with maritime businesses worldwide",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#396796",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "categories": ["business", "directory", "maritime"],
+  "screenshots": [
+    {
+      "src": "/images/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    }
+  ],
+  "scope": "/",
+  "shortcuts": [
+    {
+      "name": "Add Business",
+      "short_name": "Add",
+      "description": "Add your business to the directory",
+      "url": "/add-business",
+      "icons": [
+        {
+          "src": "/images/add-business-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Search Directory",
+      "short_name": "Search",
+      "description": "Search for maritime businesses",
+      "url": "/businesses",
+      "icons": [
+        {
+          "src": "/images/search-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

@@ -1,147 +1,262 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Category, Business } from '@/types';
-import { 
-  Compass, 
-  Shield, 
-  GraduationCap, 
-  Headphones, 
-  Search
-} from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchFeaturedBusinesses, fetchCategories } from '@/services/apiService';
-import { assertArray } from '@/utils/typeGuards';
+
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, Ship, Anchor } from "lucide-react";
+import { fetchFeaturedBusinesses, fetchCategories } from "@/services/apiService";
+import HeroSection from "@/components/HeroSection";
+import SearchBar from "@/components/SearchBar";
+import CategoryFilter from "@/components/CategoryFilter";
+import logger from "@/services/loggerService";
+import { logMissingTranslations } from "@/utils/translationUtils";
 
 const Home = () => {
   const { t } = useLanguage();
-  const navigate = useNavigate();
   
-  const { data: featuredBusinesses } = useQuery({
+  useEffect(() => {
+    logger.info("Home component mounted");
+    // Debug: log what translations are missing
+    logMissingTranslations();
+  }, []);
+  
+  // Fetch featured businesses with proper error handling
+  const { 
+    data: featuredBusinesses = [], 
+    isLoading: isLoadingBusinesses,
+    error: businessError
+  } = useQuery({
     queryKey: ['featuredBusinesses'],
-    queryFn: fetchFeaturedBusinesses
+    queryFn: fetchFeaturedBusinesses,
+    retry: 2,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    onError: (error) => {
+      logger.error("Error fetching featured businesses:", error);
+    }
   });
   
-  const { data: categories } = useQuery({
+  // Fetch categories with proper error handling
+  const { 
+    data: categories = [], 
+    isLoading: isLoadingCategories,
+    error: categoriesError
+  } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories
+    queryFn: fetchCategories,
+    retry: 2,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    onError: (error) => {
+      logger.error("Error fetching categories:", error);
+    }
   });
 
-  // Sample services with their respective icons
-  const services = [
-    { 
-      name: 'Navigation',
-      description: 'Find your way with our tools',
-      icon: <Compass className="h-8 w-8" /> 
-    },
-    { 
-      name: 'Security',
-      description: 'Protect your maritime assets',
-      icon: <Shield className="h-8 w-8" /> 
-    },
-    { 
-      name: 'Training',
-      description: 'Maritime education and certification',
-      icon: <GraduationCap className="h-8 w-8" /> 
-    },
-    { 
-      name: 'Support',
-      description: '24/7 assistance for maritime businesses',
-      icon: <Headphones className="h-8 w-8" /> 
-    }
-  ];
-
+  if (businessError || categoriesError) {
+    logger.error("Errors in Home component:", { businessError, categoriesError });
+  }
+  
   return (
-    <div className="container mx-auto px-4 py-12">
-      <section className="mb-16">
-        <div className="flex flex-col items-center text-center mb-10">
-          <h2 className="text-3xl font-bold mb-4">{t("home.categories")}</h2>
-          <p className="text-gray-600 max-w-2xl">{t("home.findBusiness")}</p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
-            <Card key={index} className="transition-all hover:shadow-lg">
-              <CardHeader className="flex flex-col items-center">
-                <div className="p-3 bg-blue-100 rounded-full mb-4">
-                  {service.icon}
-                </div>
-                <CardTitle>{service.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center">{service.description}</CardDescription>
-              </CardContent>
-              <CardFooter className="flex justify-center">
-                <Button variant="outline" onClick={() => navigate('/businesses')}>
-                  {t("home.viewAllBusinesses")}
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section with new background */}
+      <section 
+        className="relative bg-cover bg-center h-[80vh] flex items-center"
+        style={{ 
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/lovable-uploads/f8cdc322-ff7c-4b48-b0fe-d63dbde4601d.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="container mx-auto px-4 z-10 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            {t("home.hero.title") || "Discover Maritime Excellence"}
+          </h1>
+          <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
+            {t("home.hero.subtitle") || "Connect with the best maritime businesses worldwide"}
+          </p>
+          <div className="max-w-3xl mx-auto glass-card p-4 rounded-lg">
+            <SearchBar />
+          </div>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="button-primary">
+              <Link to="/businesses">
+                {t("home.hero.exploreBusiness") || "Explore Directory"}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="bg-white text-primary hover:bg-white/90">
+              <Link to="/add-business">
+                {t("home.hero.addBusiness") || "List Your Business"}
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
       
-      <Separator className="my-16" />
-
-      <section className="mb-16">
-        <div className="flex flex-col items-center text-center mb-10">
-          <h2 className="text-3xl font-bold mb-4">{t("home.featuredBusinesses")}</h2>
-          <p className="text-gray-600 max-w-2xl">{t("home.heroSubtitle")}</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {assertArray<Business>(featuredBusinesses).map((business) => (
-            <Card key={business.id} className="transition-all hover:shadow-lg">
-              <CardHeader>
-                <CardTitle>{business.name}</CardTitle>
-                <CardDescription>{business.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Rating: {business.rating}</p>
-              </CardContent>
-              <CardFooter>
-                <Button onClick={() => navigate(`/businesses/${business.id}`)}>{t("general.view")}</Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center mt-8">
-          <Button onClick={() => navigate('/businesses')}>{t("home.viewAllBusinesses")}</Button>
-        </div>
-      </section>
-
-      <Separator className="my-16" />
-
-      <section>
-        <div className="flex flex-col items-center text-center mb-10">
-          <h2 className="text-3xl font-bold mb-4">{t("home.categories")}</h2>
-          <p className="text-gray-600 max-w-2xl">{t("home.findBusiness")}</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {assertArray<Category>(categories).map((category) => (
-            <Card key={category.id} className="transition-all hover:shadow-lg">
-              <CardHeader>
-                <CardTitle>{category.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>Icon: {category.icon}</p>
-              </CardContent>
-              <CardFooter>
-                <Button onClick={() => navigate(`/businesses?category=${category.id}`)}>{t("general.view")}</Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center mt-8">
-          <Button onClick={() => navigate('/businesses')}>{t("home.viewAllCategories")}</Button>
-        </div>
-      </section>
+      {/* Main Content */}
+      <main className="flex-grow">
+        {/* Category Section */}
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">
+                {t("home.categories.title") || "Browse by Category"}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                {t("home.categories.subtitle") || "Find maritime businesses by their specialization"}
+              </p>
+            </div>
+            
+            {isLoadingCategories ? (
+              <div className="text-center py-10">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mb-4"></div>
+                <p>{t("general.loading") || "Loading categories..."}</p>
+              </div>
+            ) : categories.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                {categories.slice(0, 10).map((category) => (
+                  <Link to={`/businesses?category=${category.id}`} key={category.id}>
+                    <Card className="hover-card">
+                      <CardContent className="p-6 text-center">
+                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Anchor className="w-8 h-8 text-primary" />
+                        </div>
+                        <h3 className="font-medium">
+                          {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}.name`) || 
+                           category.name}
+                        </h3>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500">
+                  {t("home.categories.noCategories") || "No categories available"}
+                </p>
+              </div>
+            )}
+            
+            <div className="text-center mt-10">
+              <Button asChild>
+                <Link to="/businesses">
+                  {t("home.categories.viewAll") || "View All Categories"}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+        
+        {/* Featured Businesses Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">
+                {t("business.featured") || "Featured Businesses"}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                {t("home.featured.subtitle") || "Discover top-rated maritime businesses"}
+              </p>
+            </div>
+            
+            {isLoadingBusinesses ? (
+              <div className="text-center py-10">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mb-4"></div>
+                <p>{t("general.loading") || "Loading featured businesses..."}</p>
+              </div>
+            ) : featuredBusinesses.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredBusinesses.slice(0, 6).map((business) => (
+                  <Card key={business.id} className="hover-card overflow-hidden">
+                    <div className="h-48 bg-gray-100 relative">
+                      {business.logo_url ? (
+                        <img 
+                          src={business.logo_url} 
+                          alt={business.name} 
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-primary/10">
+                          <Ship className="w-12 h-12 text-primary/50" />
+                        </div>
+                      )}
+                      <div className="absolute top-4 right-4 bg-primary text-white px-2 py-1 rounded text-sm font-medium">
+                        {t("business.businessCard.featured") || "Featured"}
+                      </div>
+                    </div>
+                    
+                    <CardHeader>
+                      <CardTitle className="text-xl">{business.name}</CardTitle>
+                      {business.city && business.country && (
+                        <p className="text-sm text-gray-500">
+                          {`${business.city}, ${business.country}`}
+                        </p>
+                      )}
+                    </CardHeader>
+                    
+                    <CardContent>
+                      <p className="text-gray-600 line-clamp-3">
+                        {business.description}
+                      </p>
+                    </CardContent>
+                    
+                    <CardFooter>
+                      <Button asChild variant="outline" className="w-full">
+                        <Link to={`/businesses/${business.id}`}>
+                          {t("business.viewDetails") || "View Details"}
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-500">
+                  {t("home.featured.noBusinesses") || "No featured businesses available"}
+                </p>
+              </div>
+            )}
+            
+            <div className="text-center mt-10">
+              <Button asChild>
+                <Link to="/businesses">
+                  {t("business.viewAllBusinesses") || "View All Businesses"}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+        
+        {/* Call-to-Action Section */}
+        <section className="py-16 bg-primary text-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold mb-6">
+              {t("home.cta.title") || "Ready to Join Maritime Directory?"}
+            </h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+              {t("home.cta.subtitle") || "List your business today and connect with customers worldwide"}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild variant="secondary" size="lg">
+                <Link to="/add-business">
+                  {t("home.cta.addBusiness") || "Add Your Business"}
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="bg-transparent text-white hover:bg-white/10">
+                <Link to="/businesses">
+                  {t("home.cta.exploreBusiness") || "Explore Businesses"}
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };

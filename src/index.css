@@ -35,6 +35,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
+    content-visibility: auto;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -95,6 +96,23 @@
   .skip-link {
     @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 bg-primary text-white px-4 py-2 rounded focus:outline-none;
   }
+
+  /* Optimize image rendering */
+  img {
+    image-rendering: auto;
+    width: auto;
+    height: auto;
+  }
+
+  /* Fix layout shifts with image placeholders */
+  img:not([src]), img[src=""] {
+    visibility: hidden;
+  }
+
+  /* Improve form elements accessibility */
+  button, input, select, textarea {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
 }
 
 @layer utilities {
@@ -107,6 +125,46 @@
     .forced-colors-img {
       forced-color-adjust: none;
     }
+  }
+
+  /* Improved text rendering for headings */
+  .heading-text {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Layout improvement utilities */
+  .content-width {
+    width: clamp(16rem, 90vw, 75rem);
+  }
+
+  /* Print-friendly adjustments */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    .print-only {
+      display: block !important;
+    }
+    
+    a[href]:after {
+      content: " (" attr(href) ")";
+    }
+  }
+
+  /* Prevent CLS with fixed height placeholders */
+  .aspect-4\/3 {
+    aspect-ratio: 4/3;
+  }
+
+  .aspect-16\/9 {
+    aspect-ratio: 16/9;
+  }
+
+  .aspect-1\/1 {
+    aspect-ratio: 1/1;
   }
 }
 
@@ -128,4 +186,39 @@
   @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors 
   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none 
   bg-secondary text-secondary-foreground hover:bg-secondary/90 h-10 px-4 py-2;
+}
+
+/* Performance optimizations */
+.animate-on-scroll {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Add a shimmer/skeleton loading effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }

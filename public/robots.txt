@@ -16,6 +16,16 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+# Image crawling settings
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /photos/
+Allow: /assets/
+
+# Mobile-specific user agent
+User-agent: Googlebot-Mobile
+Allow: /
+
 # Sitemap location
 Sitemap: https://yourdomain.com/sitemap.xml
 
@@ -25,3 +35,10 @@ Crawl-delay: 10
 
 User-agent: SemrushBot
 Crawl-delay: 10
+
+# Block scraping tools
+User-agent: Scrapy
+Disallow: /
+
+User-agent: ScrapyBot
+Disallow: /
