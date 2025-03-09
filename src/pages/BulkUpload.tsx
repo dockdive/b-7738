@@ -143,7 +143,7 @@ const BulkUpload = () => {
         </Card>
       </div>
 
-      <Alert variant="warning" className="mb-6">
+      <Alert className="mb-6">
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Restricted Access</AlertTitle>
         <AlertDescription>
