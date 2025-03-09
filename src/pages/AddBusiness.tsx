@@ -27,8 +27,7 @@ import {
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { fetchCategories, fetchSubcategories, createBusiness } from "@/services/apiService";
-import { assertArray } from "@/utils/typeGuards";
-import { BusinessCreate } from "@/types";
+import { BusinessCreate, Category, Subcategory } from "@/types";
 
 // Import our new components
 import BusinessStepIndicator from "@/components/business/BusinessStepIndicator";
@@ -117,20 +116,25 @@ const AddBusiness = () => {
   
   const category_id = form.watch("category_id");
   
-  const { data: categoriesData } = useQuery({
+  const { data: categoriesData = [] } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories
   });
   
-  const categories = assertArray(categoriesData);
-  
-  const { data: subcategoriesData } = useQuery({
+  const { data: subcategoriesData = [] } = useQuery({
     queryKey: ['subcategories', category_id],
     queryFn: () => fetchSubcategories(Number(category_id)),
     enabled: !!category_id && category_id !== ""
   });
   
-  const subcategories = assertArray(subcategoriesData);
+  // Type assertion with proper type checking
+  const categories = Array.isArray(categoriesData) ? 
+    categoriesData as Category[] : 
+    [] as Category[];
+  
+  const subcategories = Array.isArray(subcategoriesData) ? 
+    subcategoriesData as Subcategory[] : 
+    [] as Subcategory[];
   
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -247,7 +251,7 @@ const AddBusiness = () => {
     <div 
       className="min-h-screen bg-cover bg-center pt-8 pb-16" 
       style={{ 
-        backgroundImage: "url('/lovable-uploads/4894803f-1792-4467-b635-ac19a05864b6.png')",
+        backgroundImage: "url('/lovable-uploads/11ef83ed-7b94-416a-9264-f8c1a9d28caa.webp')",
         backgroundColor: "rgba(255, 255, 255, 0.8)",
         backgroundBlendMode: "overlay"
       }}
