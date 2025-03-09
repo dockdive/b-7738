@@ -77,7 +77,7 @@ export function loadTranslations(lang: string): Record<string, any> {
     } catch (e) {
       failedCategories++;
       failedCategoryNames.push(category);
-      logger.warning(`⚠️ Missing translation file for category "${category}" and language "${lang}"`);
+      logger.warn(`⚠️ Missing translation file for category "${category}" and language "${lang}"`);
     }
   });
   
@@ -88,7 +88,7 @@ export function loadTranslations(lang: string): Record<string, any> {
       toast({
         title: "Translation Warning",
         description: `Failed to load ${failedCategories} translation categories for ${lang}`,
-        variant: "warning",
+        variant: "default",
       });
     }
   }
@@ -119,7 +119,7 @@ export function preloadTranslations(): void {
         const missingExpectedKeys = expectedKeys.filter(key => !availableKeys.includes(key));
         
         if (missingExpectedKeys.length > 0) {
-          logger.warning(`⚠️ Missing expected top-level translation keys for "${lang}": ${missingExpectedKeys.join(', ')}`);
+          logger.warn(`⚠️ Missing expected top-level translation keys for "${lang}": ${missingExpectedKeys.join(', ')}`);
         }
       } catch (error) {
         logger.error(`❌ Failed to preload translations for "${lang}"`, error);

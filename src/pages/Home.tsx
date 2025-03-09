@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useQuery } from "@tanstack/react-query";
@@ -12,9 +12,11 @@ import SearchBar from "@/components/SearchBar";
 import CategoryFilter from "@/components/CategoryFilter";
 import logger from "@/services/loggerService";
 import { logMissingTranslations } from "@/utils/translationUtils";
+import { Business, Category } from "@/types";
 
 const Home = () => {
   const { t } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(() => {
     logger.info("Home component mounted");
@@ -32,8 +34,10 @@ const Home = () => {
     queryFn: fetchFeaturedBusinesses,
     retry: 2,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    onError: (error) => {
-      logger.error("Error fetching featured businesses:", error);
+    meta: {
+      onError: (error: Error) => {
+        logger.error("Error fetching featured businesses:", error);
+      }
     }
   });
   
@@ -47,8 +51,10 @@ const Home = () => {
     queryFn: fetchCategories,
     retry: 2,
     staleTime: 5 * 60 * 1000, // 5 minutes
-    onError: (error) => {
-      logger.error("Error fetching categories:", error);
+    meta: {
+      onError: (error: Error) => {
+        logger.error("Error fetching categories:", error);
+      }
     }
   });
 
@@ -75,7 +81,10 @@ const Home = () => {
             {t("home.hero.subtitle") || "Connect with the best maritime businesses worldwide"}
           </p>
           <div className="max-w-3xl mx-auto glass-card p-4 rounded-lg">
-            <SearchBar />
+            <SearchBar 
+              value={searchQuery} 
+              onChange={setSearchQuery} 
+            />
           </div>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="button-primary">
