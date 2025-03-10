@@ -79,7 +79,11 @@ export const setupAlternateLanguages = (path: string, supportedLanguages: string
   const baseUrl = 'https://yourdomain.com';
   
   // Remove existing alternate tags
-  document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
+  const alternateTags = document.querySelectorAll('link[rel="alternate"][hreflang]');
+  alternateTags.forEach(el => {
+    // We need to cast Element to HTMLElement to access remove()
+    el.parentNode?.removeChild(el);
+  });
   
   // Add alternate tags for each supported language
   supportedLanguages.forEach(lang => {
