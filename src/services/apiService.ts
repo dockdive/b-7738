@@ -309,7 +309,13 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1584188834841-4f0adb6e76e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1592742272072-c31cd5e33fcf?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    // Adding missing required properties
+    state: null,
+    latitude: 46.7134,
+    longitude: -2.0352,
+    owner_id: "00000000-0000-0000-0000-000000000001",
+    views: 1250
   },
   {
     id: "b002",
@@ -335,7 +341,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1572495425710-0a81e675048e?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1569263900347-06b1e8c825ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Illinois",
+    latitude: 42.2356,
+    longitude: -87.8895,
+    owner_id: "00000000-0000-0000-0000-000000000002",
+    views: 980
   },
   {
     id: "b003",
@@ -361,7 +372,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1589288415562-6ff3a09726cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1569629743714-4d51aedcb891?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 45.0793,
+    longitude: 7.3923,
+    owner_id: "00000000-0000-0000-0000-000000000003",
+    views: 1120
   },
   {
     id: "b004",
@@ -387,7 +403,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1610523137946-34c7165bf8d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1563296291-28f8814112dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "England",
+    latitude: 50.3719,
+    longitude: -4.1425,
+    owner_id: "00000000-0000-0000-0000-000000000004",
+    views: 890
   },
   {
     id: "b005",
@@ -413,7 +434,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1516132006923-6cf348e5dee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1591180290025-5d7e35430e9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 46.8726,
+    longitude: -1.0152,
+    owner_id: "00000000-0000-0000-0000-000000000005",
+    views: 750
   },
   {
     id: "b006",
@@ -439,7 +465,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1539797838992-a31f9c1cfad4?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1570863160264-28ce9fd47b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "New Jersey",
+    latitude: 39.5912,
+    longitude: -74.4460,
+    owner_id: "00000000-0000-0000-0000-000000000006",
+    views: 680
   },
   {
     id: "b007",
@@ -465,7 +496,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1639462701508-0b7969af0c41?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1640276922909-fe221e33fb26?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Dorset",
+    latitude: 50.7135,
+    longitude: -1.9878,
+    owner_id: "00000000-0000-0000-0000-000000000007",
+    views: 1050
   },
   {
     id: "b008",
@@ -491,7 +527,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1533692328991-40613b6f2f30?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1593351415075-3bac95314fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 44.2227,
+    longitude: 12.0407,
+    owner_id: "00000000-0000-0000-0000-000000000008",
+    views: 1280
   },
   {
     id: "b009",
@@ -517,7 +558,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1566926462053-5476cf83f1d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 46.1239,
+    longitude: -0.9381,
+    owner_id: "00000000-0000-0000-0000-000000000009",
+    views: 720
   },
   {
     id: "b010",
@@ -543,7 +589,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1575457180622-9ca8cbfde32f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1529080504353-6b280eebc3f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Florida",
+    latitude: 28.9886,
+    longitude: -80.9025,
+    owner_id: "00000000-0000-0000-0000-000000000010",
+    views: 950
   },
   {
     id: "b011",
@@ -569,7 +620,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1542202229-7d93c33f5d07?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1542397284385-6010376c5337?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 44.8637,
+    longitude: -0.5460,
+    owner_id: "00000000-0000-0000-0000-000000000011",
+    views: 830
   },
   {
     id: "b012",
@@ -595,7 +651,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1575457180622-9ca8cbfde32f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1597195436598-d2c8bd598a45?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "North Carolina",
+    latitude: 35.6127,
+    longitude: -77.3664,
+    owner_id: "00000000-0000-0000-0000-000000000012",
+    views: 710
   },
   {
     id: "b013",
@@ -621,7 +682,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1607358789922-02e74898fedf?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1601671846525-6573167252a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Tennessee",
+    latitude: 35.9606,
+    longitude: -83.9207,
+    owner_id: "00000000-0000-0000-0000-000000000013",
+    views: 870
   },
   {
     id: "b014",
@@ -647,7 +713,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1548262358-4f6d5f8eef3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1532332248682-206cc786359f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 63.6745,
+    longitude: 22.7010,
+    owner_id: "00000000-0000-0000-0000-000000000014",
+    views: 650
   },
   {
     id: "b015",
@@ -673,7 +744,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1523294557-3637e1db5690?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1540083127746-0a1a35d2657d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "England",
+    latitude: 50.8965,
+    longitude: -1.3872,
+    owner_id: "00000000-0000-0000-0000-000000000015",
+    views: 730
   },
   {
     id: "b016",
@@ -699,7 +775,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1563296291-752e8f16ef0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Florida",
+    latitude: 27.3975,
+    longitude: -82.5306,
+    owner_id: "00000000-0000-0000-0000-000000000016",
+    views: 920
   },
   {
     id: "b017",
@@ -725,7 +806,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1595955585020-01f4615ae528?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1595954424845-9d31c0a45c0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Queensland",
+    latitude: -27.8654,
+    longitude: 153.3359,
+    owner_id: "00000000-0000-0000-0000-000000000017",
+    views: 780
   },
   {
     id: "b018",
@@ -751,7 +837,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1518473222771-1776b4a8389b?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1526761122248-c31ff657e2df?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Maine",
+    latitude: 44.2763,
+    longitude: -68.3228,
+    owner_id: "00000000-0000-0000-0000-000000000018",
+    views: 690
   },
   {
     id: "b019",
@@ -777,7 +868,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1569726072374-45ce78e68dd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1593351415075-3bac95314fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Johor",
+    latitude: 1.4721,
+    longitude: 103.9077,
+    owner_id: "00000000-0000-0000-0000-000000000019",
+    views: 620
   },
   {
     id: "b020",
@@ -803,7 +899,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 54.0919,
+    longitude: 13.3714,
+    owner_id: "00000000-0000-0000-0000-000000000020",
+    views: 840
   }
 ];
 
@@ -811,4 +912,3 @@ const sampleBusinesses: Business[] = [
 export const getSampleBusinesses = (): Business[] => {
   return sampleBusinesses;
 };
-
