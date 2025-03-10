@@ -7,7 +7,7 @@ import { toast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Grid, List, Map } from 'lucide-react';
-import { Business, Category } from '@/types';
+import { Business, BusinessStatus, Category } from '@/types';
 import SearchBar from '@/components/SearchBar';
 import CategoryFilter from '@/components/CategoryFilter';
 import logger from '@/services/loggerService';
@@ -86,7 +86,11 @@ const BusinessDirectory = () => {
       throw error;
     }
     
-    return data || [];
+    // Cast the status to BusinessStatus type since we know it's valid
+    return (data || []).map(business => ({
+      ...business,
+      status: business.status as BusinessStatus
+    }));
   };
 
   // Fetch categories
