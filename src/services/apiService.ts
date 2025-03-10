@@ -154,10 +154,13 @@ export const fetchCategories = async (): Promise<Category[]> => {
     
     if (error) throw new Error(error.message);
     
-    // Add a default description if it's missing
-    return (data || []).map(category => ({
-      ...category,
-      description: category.description || `${category.name} category for maritime businesses.`
+    // Add a default description if it doesn't exist in the database
+    return (data || []).map(item => ({
+      id: item.id,
+      name: item.name,
+      icon: item.icon,
+      description: item.description || `${item.name} category for maritime businesses.`,
+      created_at: item.created_at
     })) as Category[];
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -916,4 +919,3 @@ const sampleBusinesses: Business[] = [
 export const getSampleBusinesses = (): Business[] => {
   return sampleBusinesses;
 };
-

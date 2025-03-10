@@ -194,10 +194,11 @@ const processCategories = async (
       // Log the data being processed
       logger.debug(`Processing category: ${row.name}`, row);
       
-      // Create category object
+      // Create category object with description field
       const category: Omit<Category, 'id' | 'created_at'> = {
         name: row.name,
-        icon: row.icon
+        icon: row.icon,
+        description: row.description || `${row.name} category for maritime businesses.`
       };
       
       // Insert into database
