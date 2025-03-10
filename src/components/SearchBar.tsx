@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
-  placeholder?: string; // Add optional placeholder prop
+  placeholder?: string;
 }
 
 const SearchBar = ({ value, onChange, placeholder = "Search..." }: SearchBarProps) => {

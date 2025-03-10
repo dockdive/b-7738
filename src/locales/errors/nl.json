@@ -1,0 +1,19 @@
+
+{
+  "errors": {
+    "pageNotFound": "Pagina Niet Gevonden",
+    "pageNotFoundDescription": "De pagina die u zoekt is mogelijk verwijderd, heeft een andere naam gekregen of is tijdelijk niet beschikbaar.",
+    "serverError": "Serverfout",
+    "serverErrorDescription": "We ondervinden technische problemen. Probeer het later opnieuw.",
+    "unauthorized": "Ongeautoriseerde Toegang",
+    "unauthorizedDescription": "U heeft geen toestemming om deze pagina te openen. Log in of neem contact op met de ondersteuning.",
+    "businessNotFound": "Bedrijf Niet Gevonden",
+    "businessNotFoundDescription": "Het bedrijf dat u zoekt bestaat niet of is verwijderd.",
+    "formValidation": "Controleer uw formulierinvoer.",
+    "unexpectedError": "Er is een onverwachte fout opgetreden.",
+    "connectionError": "Verbindingsfout. Controleer uw internetverbinding.",
+    "timeoutError": "Time-out verzoek. Probeer het opnieuw.",
+    "loginFailed": "Inloggen mislukt. Controleer uw inloggegevens.",
+    "registrationFailed": "Registratie mislukt. Probeer het opnieuw."
+  }
+}

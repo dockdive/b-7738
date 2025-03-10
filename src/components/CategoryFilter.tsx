@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Category } from "@/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface CategoryFilterProps {
   categories: Category[];
@@ -9,6 +10,8 @@ interface CategoryFilterProps {
 }
 
 const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilterProps) => {
+  const { t } = useLanguage();
+  
   return (
     <div className="space-y-2">
       <Button
@@ -17,7 +20,7 @@ const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilt
         className="w-full justify-start"
         onClick={() => onChange(null)}
       >
-        All Categories
+        {t('categories.all', 'All Categories')}
       </Button>
       
       {categories?.map((category) => (
@@ -27,7 +30,7 @@ const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilt
           className="w-full justify-start"
           onClick={() => onChange(category.id)}
         >
-          {category.name}
+          {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}.name`, category.name)}
         </Button>
       ))}
     </div>

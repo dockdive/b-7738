@@ -1,0 +1,26 @@
+
+{
+  "navigation": {
+    "home": "Home",
+    "businesses": "Businesses",
+    "addBusiness": "Add Business",
+    "login": "Login",
+    "register": "Register",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "logout": "Logout",
+    "language": "Language",
+    "backToHome": "Back to Home",
+    "backToBusinesses": "Back to Businesses",
+    "browseBusinesses": "Browse Businesses",
+    "categories": "Categories",
+    "search": "Search",
+    "about": "About",
+    "contact": "Contact",
+    "pricing": "Pricing",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "help": "Help"
+  }
+}

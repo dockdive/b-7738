@@ -4,6 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { TabsContent } from '@/components/ui/tabs';
 import BusinessCard from '@/components/business/BusinessCard';
 import { Business } from '@/types';
+import { AlertCircle, Loader2 } from 'lucide-react';
 
 interface BusinessListProps {
   businesses: Business[] | undefined;
@@ -18,6 +19,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
   if (isLoading) {
     return (
       <div className="text-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
         <p className="text-gray-500">{t('general.loading')}</p>
       </div>
     );
@@ -26,7 +28,8 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-500">Error loading businesses</p>
+        <AlertCircle className="h-8 w-8 mx-auto mb-4 text-red-500" />
+        <p className="text-red-500">{error.message || t('general.error')}</p>
       </div>
     );
   }
@@ -42,7 +45,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
   return (
     <div>
       <TabsContent value="grid" className="mt-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {businesses.map((business) => (
             <BusinessCard key={business.id} business={business} />
           ))}
@@ -59,7 +62,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
       
       <TabsContent value="map" className="mt-0">
         <div className="bg-gray-100 rounded-lg h-96 flex items-center justify-center">
-          <p className="text-gray-500">Map view coming soon</p>
+          <p className="text-gray-500">{t('business.mapViewComingSoon', 'Map view coming soon')}</p>
         </div>
       </TabsContent>
     </div>

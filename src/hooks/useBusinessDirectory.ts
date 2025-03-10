@@ -1,141 +1,79 @@
 
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
-import { Business, BusinessStatus, Category } from '@/types';
-import logger from '@/services/loggerService';
-import { populateSampleBusinesses } from '@/services/testDataService';
+import { fetchBusinesses, fetchCategories } from '@/services/apiService';
+import { Business, Category } from '@/types';
 
 export const useBusinessDirectory = () => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-
-  const fetchBusinesses = async () => {
-    let query = supabase
-      .from('businesses')
-      .select('*')
-      .eq('status', 'approved');
-    
-    if (selectedCategory) {
-      query = query.eq('category_id', selectedCategory);
-    }
-    
-    if (searchTerm) {
-      query = query.ilike('name', `%${searchTerm}%`);
-    }
-    
-    const { data, error } = await query;
-    
-    if (error) {
-      logger.error('Error fetching businesses:', error);
-      throw error;
-    }
-    
-    return (data || []).map(business => ({
-      ...business,
-      status: business.status as BusinessStatus
-    }));
-  };
-
-  const fetchCategories = async () => {
-    const { data, error } = await supabase
-      .from('categories')
-      .select('*')
-      .order('name');
-    
-    if (error) {
-      logger.error('Error fetching categories:', error);
-      throw error;
-    }
-    
-    return data || [];
-  };
-
+  const [filteredBusinesses, setFilteredBusinesses] = useState<Business[]>([]);
+  
+  // Fetch all businesses
   const { 
-    data: businesses, 
-    isLoading: businessesLoading, 
-    error: businessesError,
-    refetch: refetchBusinesses
+    data: businesses,
+    isLoading: businessesLoading,
+    error: businessesError
   } = useQuery({
-    queryKey: ['businesses', searchTerm, selectedCategory],
-    queryFn: fetchBusinesses,
-    meta: {
-      onError: (error: Error) => {
-        toast({
-          title: "Error",
-          description: `Failed to load businesses: ${error.message}`,
-          variant: "destructive",
-        });
-      }
-    }
+    queryKey: ['businesses'],
+    queryFn: fetchBusinesses
   });
-
-  const { 
-    data: categories, 
-    isLoading: categoriesLoading 
+  
+  // Fetch all categories
+  const {
+    data: categories,
+    isLoading: categoriesLoading
   } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories,
-    meta: {
-      onError: (error: Error) => {
-        toast({
-          title: "Error",
-          description: `Failed to load categories: ${error.message}`,
-          variant: "destructive",
-        });
-      }
-    }
+    queryFn: fetchCategories
   });
-
+  
+  // Filter businesses based on search term and selected category
   useEffect(() => {
-    const checkForBusinesses = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('businesses')
-          .select('id')
-          .limit(1);
-          
-        if (error) {
-          logger.error('Error checking for businesses:', error);
-          return;
-        }
-        
-        if ((!data || data.length === 0) && !businessesLoading) {
-          const success = await populateSampleBusinesses();
-          if (success) {
-            toast({
-              title: "Sample Data Added",
-              description: "Sample businesses have been added to the database",
-              variant: "default",
-            });
-            refetchBusinesses();
-          }
-        }
-      } catch (error) {
-        logger.error('Error in checkForBusinesses:', error);
+    if (businesses) {
+      let filtered = [...businesses];
+      
+      // Filter by search term
+      if (searchTerm.trim() !== '') {
+        const term = searchTerm.toLowerCase();
+        filtered = filtered.filter(business => 
+          business.name.toLowerCase().includes(term) ||
+          business.description.toLowerCase().includes(term) ||
+          business.city.toLowerCase().includes(term) ||
+          business.country.toLowerCase().includes(term)
+        );
       }
-    };
-    
-    checkForBusinesses();
-  }, [businessesLoading, refetchBusinesses]);
-
-  const handleSearch = (value: string) => {
-    setSearchTerm(value);
-  };
-
-  const handleCategoryChange = (categoryId: number | null) => {
-    setSelectedCategory(categoryId);
-  };
-
+      
+      // Filter by category
+      if (selectedCategory !== null) {
+        filtered = filtered.filter(business => 
+          business.category_id === selectedCategory
+        );
+      }
+      
+      setFilteredBusinesses(filtered);
+    }
+  }, [businesses, searchTerm, selectedCategory]);
+  
+  // Handle view change - convert to string type for Tabs component
   const handleViewChange = (value: string) => {
     setView(value as 'grid' | 'list' | 'map');
   };
-
+  
+  // Handle search term change
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
+  
+  // Handle category selection
+  const handleCategoryChange = (categoryId: number | null) => {
+    setSelectedCategory(categoryId);
+  };
+  
   return {
-    businesses,
-    categories: categories as Category[],
+    businesses: filteredBusinesses,
+    categories: categories || [],
     businessesLoading,
     categoriesLoading,
     businessesError,

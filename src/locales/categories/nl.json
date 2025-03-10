@@ -1,159 +1,46 @@
 
 {
   "categories": {
-    "allCategories": "Alle Categorieën",
-    "allSubcategories": "Alle Subcategorieën",
-    "boatrentals": {
-      "name": "Bootverhuur",
-      "description": "Vind bedrijven die boten verhuren of charteren"
+    "all": "Alle Categorieën",
+    "shipyards": {
+      "name": "Scheepswerven",
+      "description": "Faciliteiten voor het bouwen en repareren van schepen"
     },
-    "boatstorage": {
-      "name": "Bootopslag",
-      "description": "Opslagoplossingen voor boten en vaartuigen"
-    },
-    "boattours": {
-      "name": "Boottochten",
-      "description": "Bedrijven die rondvaarten en excursies aanbieden"
-    },
-    "divingservices": {
-      "name": "Duikdiensten",
-      "description": "Professionele duik- en onderwaterdiensten"
-    },
-    "environmentalservices": {
-      "name": "Milieudiensten",
-      "description": "Diensten gericht op bescherming van het mariene milieu"
-    },
-    "fishingcharters": {
-      "name": "Visserij Charters",
-      "description": "Begeleide vistrips en charterdiensten"
-    },
-    "legal&insuranceservices": {
-      "name": "Juridische & Verzekeringsdiensten",
-      "description": "Juridische en verzekeringsdiensten voor maritieme bedrijven"
+    "boatrepair": {
+      "name": "Bootreparatie",
+      "description": "Diensten voor bootonderhoud en -reparatie"
     },
     "marinas": {
       "name": "Jachthavens",
-      "description": "Havens en aanlegplaatsen voor boten"
+      "description": "Aanleg- en afmeerfaciliteiten voor boten"
     },
-    "marineelectronics": {
-      "name": "Maritieme Elektronica",
-      "description": "Leveranciers van elektronische apparatuur voor maritiem gebruik"
+    "boatrentals": {
+      "name": "Bootverhuur",
+      "description": "Diensten voor het huren van boten en vaartuigen"
     },
-    "marineequipmentsuppliers": {
-      "name": "Maritieme Apparatuurleveranciers",
-      "description": "Leveranciers van maritieme apparatuur en benodigdheden"
-    },
-    "maritimeconsultants": {
-      "name": "Maritieme Consultants",
-      "description": "Professionele adviesdiensten voor maritieme bedrijven"
-    },
-    "maritimelogistics": {
-      "name": "Maritieme Logistiek",
-      "description": "Logistieke diensten voor de maritieme industrie"
-    },
-    "offshoreservices": {
-      "name": "Offshore Diensten",
-      "description": "Diensten voor offshore operaties en installaties"
-    },
-    "portauthorities": {
-      "name": "Havenautoriteiten",
-      "description": "Officiële havenbeheer- en regelgevende organisaties"
-    },
-    "safetyequipment": {
-      "name": "Veiligheidsuitrusting",
-      "description": "Leveranciers van maritieme veiligheidsuitrusting"
-    },
-    "sailingschools": {
-      "name": "Zeilscholen",
-      "description": "Scholen die zeilonderwijs en -training aanbieden"
-    },
-    "shipbuilding&repair": {
-      "name": "Scheepsbouw & Reparatie",
-      "description": "Bedrijven die vaartuigen bouwen en repareren"
-    },
-    "shippingcompanies": {
-      "name": "Scheepvaartbedrijven",
-      "description": "Bedrijven die scheepvaart- en transportdiensten leveren"
-    },
-    "training&education": {
-      "name": "Training & Opleiding",
-      "description": "Aanbieders van onderwijs en training voor maritieme professionals"
-    },
-    "yachtclubs": {
-      "name": "Jachtclubs",
-      "description": "Sociale clubs met een focus op jachten en zeilen"
-    },
-    "shipping": {
-      "name": "Scheepvaart & Transport",
-      "description": "Bedrijven die scheepvaart- en transportdiensten leveren voor maritieme behoeften"
-    },
-    "logistics": {
-      "name": "Maritieme Logistiek",
-      "description": "Bedrijven gespecialiseerd in maritieme logistiek en supply chain management"
-    },
-    "shipbuilding": {
-      "name": "Scheepsbouw & Reparatie",
-      "description": "Werven en bedrijven die scheepsbouw- en reparatiediensten aanbieden"
-    },
-    "equipment": {
-      "name": "Maritieme Apparatuur",
-      "description": "Leveranciers van apparatuur en onderdelen voor maritieme vaartuigen"
-    },
-    "consultants": {
-      "name": "Maritieme Adviseurs",
-      "description": "Adviseurs die expertise bieden in maritieme operaties en management"
+    "chandlery": {
+      "name": "Scheepsbenodigdheden",
+      "description": "Winkels die bootuitrusting en -benodigdheden verkopen"
     },
     "training": {
-      "name": "Opleiding & Educatie",
-      "description": "Instellingen die maritiem onderwijs en professionele training aanbieden"
+      "name": "Opleiding",
+      "description": "Maritieme educatie- en trainingsdiensten"
     },
-    "legal": {
-      "name": "Juridisch & Verzekeringen",
-      "description": "Maritieme juridische diensten, verzekeringen en risicobeheer"
+    "insurance": {
+      "name": "Verzekering",
+      "description": "Maritieme verzekeringsdiensten"
     },
-    "environmental": {
-      "name": "Milieudiensten",
-      "description": "Bedrijven gericht op mariene milieubescherming en naleving"
+    "surveying": {
+      "name": "Keuring",
+      "description": "Bootinspectie- en keuringsdiensten"
     },
-    "offshore": {
-      "name": "Offshore Diensten",
-      "description": "Diensten voor offshore-installaties, platforms en windparken"
+    "brokerage": {
+      "name": "Makelaardij",
+      "description": "Boot- en jachtverkoopdiensten"
     },
-    "yachting": {
-      "name": "Jachten & Recreatie",
-      "description": "Jacht- en pleziervaartuigdiensten, charters en beheer"
-    },
-    "safety": {
-      "name": "Veiligheid & Beveiliging",
-      "description": "Maritieme veiligheidsuitrusting en beveiligingsdiensten"
-    },
-    "navigation": {
-      "name": "Navigatiesystemen",
-      "description": "Navigatieapparatuur, kaarten en systemen voor vaartuigen"
-    },
-    "suppliers": {
-      "name": "Scheepsleveranciers",
-      "description": "Bedrijven die algemene benodigdheden leveren voor schepen en boten"
-    },
-    "brokers": {
-      "name": "Scheepsmakelaars",
-      "description": "Makelaars voor het kopen, verkopen en charteren van maritieme vaartuigen"
-    },
-    "maintenance": {
-      "name": "Onderhoudsdiensten",
-      "description": "Gespecialiseerde onderhouds- en reparatiediensten voor maritieme apparatuur"
-    },
-    "digitalservices": {
-      "name": "Digitale & IT-diensten",
-      "description": "Technologie en digitale oplossingen voor maritieme operaties"
-    },
-    "crewing": {
-      "name": "Bemanning & Manning",
-      "description": "Diensten voor scheepsbemanning, manning en maritieme werkgelegenheid"
-    },
-    "bunkering": {
-      "name": "Bunkering & Brandstof",
-      "description": "Maritieme brandstofvoorziening en bunkeringsdiensten"
+    "engineservices": {
+      "name": "Motordiensten",
+      "description": "Reparatie en onderhoud van scheepsmotoren"
     }
   }
 }
