@@ -96,16 +96,32 @@ const CategoryPage = () => {
   // Find category object for the title
   const currentCategory = categories?.find((cat: Category) => cat.id === categoryId);
   
+  // Function to get translated category information
+  const getCategoryInfo = (category: Category) => {
+    if (!category) return { name: '', description: '' };
+    
+    const categoryKey = category.name.toLowerCase().replace(/\s+/g, '');
+    const translatedName = t(`categories.${categoryKey}.name`);
+    const translatedDescription = t(`categories.${categoryKey}.description`);
+    
+    return {
+      name: translatedName !== `categories.${categoryKey}.name` ? translatedName : category.name,
+      description: translatedDescription !== `categories.${categoryKey}.description` ? translatedDescription : (category.description || '')
+    };
+  };
+  
+  const { name, description } = getCategoryInfo(currentCategory as Category);
+  
   return (
     <>
       <DocumentTitle 
-        title={currentCategory?.name || t('business.title')} 
-        description={currentCategory?.description || t('business.subtitle')}
+        title={name || t('business.title')} 
+        description={description || t('business.subtitle')}
       />
       
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-2">{currentCategory?.name}</h1>
-        <p className="text-gray-600 mb-8">{currentCategory?.description}</p>
+        <h1 className="text-3xl font-bold mb-2">{name}</h1>
+        <p className="text-gray-600 mb-8">{description}</p>
         
         <div className="flex flex-col md:flex-row gap-6 mb-8">
           <div className="w-full md:w-1/3 lg:w-1/4">
@@ -131,7 +147,7 @@ const CategoryPage = () => {
           <div className="w-full md:w-2/3 lg:w-3/4">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
               <h2 className="text-xl font-bold">
-                {businesses?.length || 0} {currentCategory?.name}
+                {businesses?.length || 0} {name}
               </h2>
               
               <div className="flex space-x-2">
