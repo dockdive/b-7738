@@ -1,101 +1,144 @@
 
 /**
- * Generates structured data for a business listing
+ * SEO utilities for managing meta tags, title, and OG data in the application
  */
-export const generateBusinessStructuredData = (business: any) => {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": business.name,
-    "description": business.description,
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": business.address,
-      "addressLocality": business.city,
-      "postalCode": business.zip,
-      "addressCountry": business.country
-    },
-    "telephone": business.phone,
-    "email": business.email,
-    "url": business.website,
-    "image": business.logo_url || business.images?.[0],
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": business.latitude,
-      "longitude": business.longitude
-    },
-    "openingHours": business.opening_hours,
-    "priceRange": business.price_range || "$$"
-  };
 
-  return JSON.stringify(structuredData);
+interface OpenGraphData {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+}
+
+/**
+ * Sets the document title with a consistent format
+ */
+export const setDocumentTitle = (title: string, siteName = "DockDive"): void => {
+  document.title = title ? `${title} | ${siteName}` : siteName;
 };
 
 /**
- * Adds structured data to the page
+ * Updates meta description
  */
-export const addStructuredData = (data: string) => {
-  // Remove any existing structured data
-  const existingScript = document.getElementById('structured-data');
-  if (existingScript) {
-    existingScript.remove();
-  }
-
-  // Add the new structured data
-  const script = document.createElement('script');
-  script.id = 'structured-data';
-  script.type = 'application/ld+json';
-  script.text = data;
-  document.head.appendChild(script);
-};
-
-/**
- * Updates the canonical URL
- */
-export const updateCanonicalUrl = (path: string) => {
-  // Base URL
-  const baseUrl = 'https://yourdomain.com';
-  const url = `${baseUrl}${path}`;
+export const setMetaDescription = (description: string): void => {
+  let metaDescription = document.querySelector('meta[name="description"]');
   
-  // Look for existing canonical tag
-  let canonical = document.querySelector('link[rel="canonical"]');
-  
-  if (!canonical) {
-    // Create new canonical tag if it doesn't exist
-    canonical = document.createElement('link');
-    canonical.rel = 'canonical';
-    document.head.appendChild(canonical);
+  if (!metaDescription) {
+    metaDescription = document.createElement('meta');
+    metaDescription.setAttribute('name', 'description');
+    document.head.appendChild(metaDescription);
   }
   
-  // Update the href attribute
-  canonical.setAttribute('href', url);
+  metaDescription.setAttribute('content', description);
 };
 
 /**
- * Sets up alternate language tags for SEO
+ * Updates canonical URL
  */
-export const setupAlternateLanguages = (path: string, supportedLanguages: string[]) => {
+export const setCanonicalUrl = (url: string): void => {
+  let canonicalLink = document.querySelector('link[rel="canonical"]');
+  
+  if (!canonicalLink) {
+    canonicalLink = document.createElement('link');
+    canonicalLink.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonicalLink);
+  }
+  
+  canonicalLink.setAttribute('href', url);
+};
+
+/**
+ * Updates Open Graph and Twitter meta tags
+ */
+export const setOpenGraphData = (data: OpenGraphData): void => {
+  const tags = [
+    { property: 'og:title', content: data.title },
+    { property: 'og:description', content: data.description },
+    { property: 'og:image', content: data.image },
+    { property: 'og:url', content: data.url },
+    { property: 'og:type', content: data.type || 'website' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: data.title },
+    { name: 'twitter:description', content: data.description },
+    { name: 'twitter:image', content: data.image }
+  ];
+  
+  tags.forEach(tag => {
+    if (!tag.content) return;
+    
+    let metaTag;
+    if (tag.property) {
+      metaTag = document.querySelector(`meta[property="${tag.property}"]`);
+      if (!metaTag) {
+        metaTag = document.createElement('meta');
+        metaTag.setAttribute('property', tag.property);
+        document.head.appendChild(metaTag);
+      }
+    } else if (tag.name) {
+      metaTag = document.querySelector(`meta[name="${tag.name}"]`);
+      if (!metaTag) {
+        metaTag = document.createElement('meta');
+        metaTag.setAttribute('name', tag.name);
+        document.head.appendChild(metaTag);
+      }
+    }
+    
+    if (metaTag) {
+      metaTag.setAttribute('content', tag.content);
+    }
+  });
+};
+
+/**
+ * Sets up alternate language tags for internationalization
+ */
+export const setupAlternateLanguages = (currentLang: string): void => {
   // Base URL
   const baseUrl = 'https://yourdomain.com';
   
-  // Remove existing alternate tags
+  // Remove existing alternate tags - now with proper type handling
   const alternateTags = document.querySelectorAll('link[rel="alternate"][hreflang]');
   alternateTags.forEach(el => {
-    // TypeScript doesn't know that elements returned by querySelectorAll with this selector
-    // will be HTMLLinkElements, so we need to handle removal safely
     if (el instanceof HTMLLinkElement) {
       el.remove();
     } else if (el.parentNode) {
+      // Fallback for browsers where HTMLLinkElement might not be recognized
       el.parentNode.removeChild(el);
     }
   });
   
-  // Add alternate tags for each supported language
-  supportedLanguages.forEach(lang => {
+  // Supported languages
+  const supportedLangs = ['en', 'nl'];
+  
+  // Create new alternate language tags
+  supportedLangs.forEach(lang => {
     const link = document.createElement('link');
     link.rel = 'alternate';
     link.hreflang = lang;
-    link.href = `${baseUrl}/${lang}${path}`;
+    link.href = `${baseUrl}${lang === 'en' ? '' : `/${lang}`}${window.location.pathname}`;
     document.head.appendChild(link);
+  });
+  
+  // Set x-default (usually points to English or a language selector page)
+  const defaultLink = document.createElement('link');
+  defaultLink.rel = 'alternate';
+  defaultLink.hreflang = 'x-default';
+  defaultLink.href = `${baseUrl}${window.location.pathname}`;
+  document.head.appendChild(defaultLink);
+};
+
+/**
+ * Set page metadata all at once - convenience function
+ */
+export const setPageMetadata = (title: string, description: string, url: string, image?: string): void => {
+  setDocumentTitle(title);
+  setMetaDescription(description);
+  setCanonicalUrl(url);
+  setOpenGraphData({
+    title,
+    description,
+    url,
+    image: image || 'https://yourdomain.com/default-og-image.jpg'
   });
 };

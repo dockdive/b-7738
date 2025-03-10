@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Category } from "@/types";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,6 +13,14 @@ interface CategoryFilterProps {
 const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilterProps) => {
   const { t } = useLanguage();
   
+  const getCategoryName = (category: Category) => {
+    const categoryKey = category.name.toLowerCase().replace(/\s+/g, '');
+    const translatedName = t(`categories.${categoryKey}.name`);
+    
+    // If no translation is found, fall back to the original name
+    return translatedName === `categories.${categoryKey}.name` ? category.name : translatedName;
+  };
+  
   return (
     <div className="space-y-2">
       <Button
@@ -20,7 +29,7 @@ const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilt
         className="w-full justify-start"
         onClick={() => onChange(null)}
       >
-        {t('categories.all')} {/* Fixed: removed second parameter */}
+        {t('categories.all')}
       </Button>
       
       {categories?.map((category) => (
@@ -30,7 +39,7 @@ const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilt
           className="w-full justify-start"
           onClick={() => onChange(category.id)}
         >
-          {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}`) || category.name} {/* Fixed: removed second parameter */}
+          {getCategoryName(category)}
         </Button>
       ))}
     </div>

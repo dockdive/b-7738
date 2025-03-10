@@ -1,42 +1,37 @@
 
 {
   "home": {
-    "heroTitle": "Maritieme Bedrijvengids",
-    "heroSubtitle": "Maak verbinding met betrouwbare maritieme bedrijven en diensten wereldwijd",
     "hero": {
-      "title": "De Maritieme Bedrijvengids",
-      "subtitle": "Maak verbinding met toonaangevende bedrijven en dienstverleners in de wereldwijde maritieme industrie",
-      "trustedBy": "Vertrouwd door toonaangevende maritieme bedrijven"
+      "title": "DockDive",
+      "subtitle": "De toonaangevende maritieme bedrijvengids die booteigenaren verbindt met dienstverleners.",
+      "cta": "Vind Maritieme Bedrijven",
+      "search": "Zoek naar maritieme diensten, bootdealers en meer..."
     },
-    "findBusiness": "Vind een Bedrijf",
-    "listBusiness": "Plaats je Bedrijf",
-    "businessesRegistered": "Geregistreerde Bedrijven",
-    "monthlyUsers": "Maandelijkse Gebruikers",
-    "monthlySearches": "Maandelijkse Zoekopdrachten",
-    "featuredBusinesses": "Uitgelichte Bedrijven",
-    "viewAllBusinesses": "Bekijk Alle Bedrijven",
     "categories": {
-      "title": "Bladeren per Categorie",
-      "subtitle": "Verken ons uitgebreide aanbod van maritieme bedrijven per categorie",
-      "viewAll": "Bekijk Alle Categorieën"
+      "title": "Bladeren Per Categorie",
+      "subtitle": "Vind de juiste maritieme bedrijven voor uw behoeften",
+      "viewAll": "Bekijk Alle Categorieën",
+      "list": {
+        "marineServices": "Maritieme Diensten",
+        "boatSales": "Bootverkoop",
+        "maintenanceRepair": "Onderhoud & Reparatie",
+        "marineEquipment": "Maritieme Uitrusting",
+        "boatTransport": "Boottransport",
+        "marineInsurance": "Maritieme Verzekeringen",
+        "marinas": "Jachthavens & Dokken",
+        "boatRentals": "Bootverhuur"
+      }
     },
     "featured": {
-      "title": "Uitgelichte Bedrijven",
-      "subtitle": "Ontdek onze best beoordeelde maritieme bedrijven en dienstverleners",
+      "title": "Uitgelichte Maritieme Bedrijven",
+      "subtitle": "Hooggewaardeerde diensten vertrouwd door booteigenaren",
       "viewAllBusinesses": "Bekijk Alle Bedrijven"
     },
     "cta": {
-      "title": "Doe mee met onze Maritieme Gids",
-      "subtitle": "Plaats je maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap",
-      "addBusiness": "Voeg je Bedrijf toe",
+      "title": "Bent U Een Maritieme Ondernemer?",
+      "subtitle": "Word lid van onze gids om in contact te komen met booteigenaren en uw maritieme bedrijf te laten groeien.",
+      "addBusiness": "Voeg Uw Bedrijf Toe",
       "exploreBusiness": "Verken Bedrijven"
-    },
-    "testimonials": "Wat Onze Gebruikers Zeggen",
-    "latestListings": "Nieuwste Vermeldingen",
-    "joinDirectory": "Doe mee met onze Maritieme Gids",
-    "joinDescription": "Plaats je maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap",
-    "joinCTA": "Begin Nu",
-    "searchPlaceholder": "Zoek naar maritieme bedrijven...",
-    "popularSearches": "Populair: Scheepsreparatie, Maritieme Apparatuur, Scheepsbenodigdheden"
+    }
   }
 }

@@ -2,45 +2,37 @@
 {
   "categories": {
     "all": "Alle Categorieën",
-    "shipyards": {
-      "name": "Scheepswerven",
-      "description": "Faciliteiten voor het bouwen en repareren van schepen"
+    "marineServices": {
+      "name": "Maritieme Diensten",
+      "description": "Professionele diensten voor al uw maritieme behoeften"
     },
-    "boatrepair": {
-      "name": "Bootreparatie",
-      "description": "Diensten voor bootonderhoud en -reparatie"
+    "boatSales": {
+      "name": "Bootverkoop",
+      "description": "Nieuwe en gebruikte boten te koop van vertrouwde dealers"
+    },
+    "maintenanceRepair": {
+      "name": "Onderhoud & Reparatie",
+      "description": "Houd uw vaartuig in topconditie"
+    },
+    "marineEquipment": {
+      "name": "Maritieme Uitrusting",
+      "description": "Kwaliteitsapparatuur en accessoires voor uw boot"
+    },
+    "boatTransport": {
+      "name": "Boottransport",
+      "description": "Professionele boottransportdiensten"
+    },
+    "marineInsurance": {
+      "name": "Maritieme Verzekeringen",
+      "description": "Bescherm uw investering met gespecialiseerde dekking"
     },
     "marinas": {
-      "name": "Jachthavens",
-      "description": "Aanleg- en afmeerfaciliteiten voor boten"
+      "name": "Jachthavens & Dokken",
+      "description": "Veilige havens en aanlegfaciliteiten"
     },
-    "boatrentals": {
+    "boatRentals": {
       "name": "Bootverhuur",
-      "description": "Diensten voor het huren van boten en vaartuigen"
-    },
-    "chandlery": {
-      "name": "Scheepsbenodigdheden",
-      "description": "Winkels die bootuitrusting en -benodigdheden verkopen"
-    },
-    "training": {
-      "name": "Opleiding",
-      "description": "Maritieme educatie- en trainingsdiensten"
-    },
-    "insurance": {
-      "name": "Verzekering",
-      "description": "Maritieme verzekeringsdiensten"
-    },
-    "surveying": {
-      "name": "Keuring",
-      "description": "Bootinspectie- en keuringsdiensten"
-    },
-    "brokerage": {
-      "name": "Makelaardij",
-      "description": "Boot- en jachtverkoopdiensten"
-    },
-    "engineservices": {
-      "name": "Motordiensten",
-      "description": "Reparatie en onderhoud van scheepsmotoren"
+      "description": "Huur boten voor vrije tijd of speciale gelegenheden"
     }
   }
 }

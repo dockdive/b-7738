@@ -10,14 +10,14 @@ export const useBusinessDirectory = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [filteredBusinesses, setFilteredBusinesses] = useState<Business[]>([]);
   
-  // Fetch all businesses - fixed the query function to match TanStack Query's expected format
+  // Fetch all businesses
   const { 
     data: businesses,
     isLoading: businessesLoading,
     error: businessesError
   } = useQuery({
     queryKey: ['businesses'],
-    queryFn: () => fetchBusinesses() // Fixed: wrapped in an anonymous function with no parameters
+    queryFn: () => fetchBusinesses()
   });
   
   // Fetch all categories
@@ -26,7 +26,7 @@ export const useBusinessDirectory = () => {
     isLoading: categoriesLoading
   } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => fetchCategories() // Fixed: wrapped in an anonymous function with no parameters
+    queryFn: () => fetchCategories()
   });
   
   // Filter businesses based on search term and selected category
@@ -34,15 +34,23 @@ export const useBusinessDirectory = () => {
     if (businesses) {
       let filtered = [...businesses];
       
-      // Filter by search term
+      // Filter by search term - improve search to check multiple fields
       if (searchTerm.trim() !== '') {
-        const term = searchTerm.toLowerCase();
-        filtered = filtered.filter(business => 
-          business.name.toLowerCase().includes(term) ||
-          business.description.toLowerCase().includes(term) ||
-          business.city.toLowerCase().includes(term) ||
-          business.country.toLowerCase().includes(term)
-        );
+        const terms = searchTerm.toLowerCase().split(' ');
+        filtered = filtered.filter(business => {
+          const searchFields = [
+            business.name || '',
+            business.description || '',
+            business.city || '',
+            business.country || '',
+            ...(business.services || [])
+          ].map(field => String(field).toLowerCase());
+          
+          // Check if ANY of the terms match ANY of the fields
+          return terms.some(term => 
+            searchFields.some(field => field.includes(term))
+          );
+        });
       }
       
       // Filter by category
@@ -56,7 +64,7 @@ export const useBusinessDirectory = () => {
     }
   }, [businesses, searchTerm, selectedCategory]);
   
-  // Handle view change - convert to string type for Tabs component
+  // Handle view change
   const handleViewChange = (value: string) => {
     setView(value as 'grid' | 'list' | 'map');
   };
