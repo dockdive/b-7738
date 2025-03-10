@@ -78,9 +78,11 @@ export const setupAlternateLanguages = (path: string, supportedLanguages: string
   // Base URL
   const baseUrl = 'https://yourdomain.com';
   
-  // Remove existing alternate tags - now with proper typing
+  // Remove existing alternate tags
   const alternateTags = document.querySelectorAll('link[rel="alternate"][hreflang]');
-  alternateTags.forEach((el: Element) => {
+  alternateTags.forEach(el => {
+    // TypeScript doesn't know that elements returned by querySelectorAll with this selector
+    // will be HTMLLinkElements, so we need to handle removal safely
     if (el instanceof HTMLLinkElement) {
       el.remove();
     } else if (el.parentNode) {
