@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -13,7 +12,6 @@ import CategoryFilter from '@/components/CategoryFilter';
 import logger from '@/services/loggerService';
 import { populateSampleBusinesses } from '@/services/testDataService';
 
-// Business card component
 const BusinessCard = ({ business }: { business: Business }) => {
   const { t } = useLanguage();
   
@@ -64,7 +62,6 @@ const BusinessDirectory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-  // Fetch businesses
   const fetchBusinesses = async () => {
     let query = supabase
       .from('businesses')
@@ -86,14 +83,12 @@ const BusinessDirectory = () => {
       throw error;
     }
     
-    // Cast the status to BusinessStatus type since we know it's valid
     return (data || []).map(business => ({
       ...business,
       status: business.status as BusinessStatus
     }));
   };
 
-  // Fetch categories
   const fetchCategories = async () => {
     const { data, error } = await supabase
       .from('categories')
@@ -144,7 +139,6 @@ const BusinessDirectory = () => {
     }
   });
 
-  // Check if we need to populate sample data
   useEffect(() => {
     const checkForBusinesses = async () => {
       try {
@@ -158,7 +152,6 @@ const BusinessDirectory = () => {
           return;
         }
         
-        // If no businesses exist and we aren't loading, populate sample data
         if ((!data || data.length === 0) && !businessesLoading) {
           const success = await populateSampleBusinesses();
           if (success) {
@@ -167,7 +160,6 @@ const BusinessDirectory = () => {
               description: "Sample businesses have been added to the database",
               variant: "default",
             });
-            // Refetch businesses after adding sample data
             refetchBusinesses();
           }
         }
@@ -179,12 +171,10 @@ const BusinessDirectory = () => {
     checkForBusinesses();
   }, [businessesLoading, refetchBusinesses]);
 
-  // Handle search
   const handleSearch = (value: string) => {
     setSearchTerm(value);
   };
 
-  // Handle category filter
   const handleCategoryChange = (categoryId: number | null) => {
     setSelectedCategory(categoryId);
   };
