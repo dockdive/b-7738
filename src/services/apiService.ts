@@ -1,3 +1,4 @@
+
 // Import necessary types and supabase client
 import { supabase } from "@/integrations/supabase/client";
 import { 
@@ -488,7 +489,7 @@ const sampleBusinesses: Business[] = [
     created_at: "2016-11-05T00:00:00Z",
     updated_at: "2023-07-22T00:00:00Z",
     images: [
-      "https://images.unsplash.com/photo-1533692328991-4061what the f*ck3b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1533692328991-40613b6f2f30?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1593351415075-3bac95314fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
     ]
   },
@@ -590,4 +591,224 @@ const sampleBusinesses: Business[] = [
     is_featured: false,
     status: "approved" as BusinessStatus,
     created_at: "2017-09-30T00:00:00Z",
-    updated_at: "2023-0
+    updated_at: "2023-09-15T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1575457180622-9ca8cbfde32f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1597195436598-d2c8bd598a45?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b013",
+    name: "Sea Ray Boats",
+    description: "Founded in 1959, Sea Ray is one of the world's largest manufacturers of pleasure boats, offering a wide range of sport boats, cruisers, and yachts known for their quality, innovation, and performance.",
+    logo_url: "https://images.unsplash.com/photo-1599155253646-e30f0a5e4939?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 2,
+    rating: 4.6,
+    review_count: 241,
+    city: "Knoxville",
+    country: "USA",
+    services: ["Sport Boat Manufacturing", "Luxury Yacht Building", "After-sales Service", "Dealer Support"],
+    address: "800 S Gay St",
+    zip: "37929",
+    phone: "+1 865-522-4181",
+    email: "info@searay.com",
+    website: "https://www.searay.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2017-11-18T00:00:00Z",
+    updated_at: "2023-09-01T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1607358789922-02e74898fedf?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1601671846525-6573167252a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b014",
+    name: "Nautor's Swan",
+    description: "Founded in 1966 in Finland, Nautor's Swan produces high-end luxury sailing yachts renowned for their elegance, quality craftsmanship, and performance. Each yacht represents the perfect blend of tradition and innovation.",
+    logo_url: "https://images.unsplash.com/photo-1563052543-ee67b80fec4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 1,
+    rating: 4.9,
+    review_count: 112,
+    city: "Jakobstad",
+    country: "Finland",
+    services: ["Luxury Sailboat Manufacturing", "Custom Yacht Building", "Refit Services", "Swan Brokerage"],
+    address: "Pietarsaari",
+    zip: "68600",
+    phone: "+358 6 7601111",
+    email: "info@nautorswan.com",
+    website: "https://www.nautorswan.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2016-12-03T00:00:00Z",
+    updated_at: "2023-08-19T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1548262358-4f6d5f8eef3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1532332248682-206cc786359f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b015",
+    name: "Oyster Yachts",
+    description: "Established in 1973, Oyster Yachts builds luxury blue-water sailing yachts, combining traditional craftsmanship with modern design and technology. Known for creating seaworthy vessels for safe and comfortable ocean crossings.",
+    logo_url: "https://images.unsplash.com/photo-1601042879364-f3947d3f9176?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 1,
+    rating: 4.8,
+    review_count: 129,
+    city: "Southampton",
+    country: "United Kingdom",
+    services: ["Luxury Yacht Building", "Brokerage", "Owner Support", "Worldwide Service"],
+    address: "Saxon Wharf, Lower York Street",
+    zip: "SO14 5QF",
+    phone: "+44 23 8083 1010",
+    email: "info@oysteryachts.com",
+    website: "https://www.oysteryachts.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2018-02-27T00:00:00Z",
+    updated_at: "2023-09-19T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1523294557-3637e1db5690?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1540083127746-0a1a35d2657d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b016",
+    name: "Chris-Craft Boats",
+    description: "Founded in 1874, Chris-Craft is America's oldest boat builder, famous for wooden runabouts that defined the golden age of boating. Today they continue producing premium boats combining classic designs with modern technology.",
+    logo_url: "https://images.unsplash.com/photo-1536364127590-1594e3161294?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 2,
+    rating: 4.7,
+    review_count: 198,
+    city: "Sarasota",
+    country: "USA",
+    services: ["Runabout Manufacturing", "Sport Boat Building", "Cruiser Production", "Parts & Accessories"],
+    address: "8161 15th St E",
+    zip: "34243",
+    phone: "+1 941-351-4900",
+    email: "info@chriscraft.com",
+    website: "https://www.chriscraft.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2018-10-25T00:00:00Z",
+    updated_at: "2023-07-28T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1563296291-752e8f16ef0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b017",
+    name: "Riviera Yachts",
+    description: "Founded in 1980, Riviera is Australia's premium luxury motor yacht builder, creating award-winning designs that blend innovative technology, superior performance, and luxurious comfort for blue-water cruising.",
+    logo_url: "https://images.unsplash.com/photo-1622830098587-775d41d8dc55?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 3,
+    rating: 4.8,
+    review_count: 154,
+    city: "Coomera",
+    country: "Australia",
+    services: ["Motor Yacht Construction", "Custom Design", "Owner Events", "Factory Service Center"],
+    address: "50 Waterway Drive",
+    zip: "QLD 4209",
+    phone: "+61 7 5502 5555",
+    email: "info@riviera.com.au",
+    website: "https://www.rivieraaustralia.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2019-04-05T00:00:00Z",
+    updated_at: "2023-08-22T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1595955585020-01f4615ae528?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1595954424845-9d31c0a45c0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b018",
+    name: "Hinckley Yachts",
+    description: "Established in 1928, Hinckley Yachts is renowned for building handcrafted luxury sailing and power boats that combine traditional craftmanship with cutting-edge technology, including their iconic Picnic Boats.",
+    logo_url: "https://images.unsplash.com/photo-1589218436045-ee24c3d9269c?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 2,
+    rating: 4.9,
+    review_count: 147,
+    city: "Southwest Harbor",
+    country: "USA",
+    services: ["Custom Yacht Building", "Jet Boat Manufacturing", "Service Centers", "Yacht Management"],
+    address: "130 Shore Road",
+    zip: "04679",
+    phone: "+1 207-244-5531",
+    email: "info@hinckleyyachts.com",
+    website: "https://www.hinckleyyachts.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2017-08-12T00:00:00Z",
+    updated_at: "2023-09-05T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1518473222771-1776b4a8389b?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1526761122248-c31ff657e2df?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b019",
+    name: "Grand Banks Yachts",
+    description: "Founded in 1956, Grand Banks Yachts builds premium trawler yachts and motor yachts known for their seaworthiness, craftsmanship, and classic designs. Their vessels combine traditional aesthetics with modern performance.",
+    logo_url: "https://images.unsplash.com/photo-1599231091889-c1860dac9ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 3,
+    rating: 4.7,
+    review_count: 132,
+    city: "Pasir Gudang",
+    country: "Malaysia",
+    services: ["Trawler Yacht Manufacturing", "Motor Yacht Building", "Global Dealer Network", "Parts & Support"],
+    address: "PLO 488, Jalan Suasa",
+    zip: "81707",
+    phone: "+60 7-252-9188",
+    email: "info@grandbanks.com",
+    website: "https://www.grandbanks.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2018-09-09T00:00:00Z",
+    updated_at: "2023-08-17T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1569726072374-45ce78e68dd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1593351415075-3bac95314fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  },
+  {
+    id: "b020",
+    name: "Hanse Yachts",
+    description: "Founded in 1990, Hanse Yachts has become one of the world's leading manufacturers of premium sailing yachts. Known for innovative designs, easy sailing characteristics, and modern interiors with a focus on performance.",
+    logo_url: "https://images.unsplash.com/photo-1533740566848-5f7d3e04e3d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 1,
+    rating: 4.7,
+    review_count: 196,
+    city: "Greifswald",
+    country: "Germany",
+    services: ["Sailing Yacht Manufacturing", "Customization Options", "Dealer Network", "Owner Services"],
+    address: "Ladebower Chaussee 11",
+    zip: "17493",
+    phone: "+49 3834 5792-0",
+    email: "info@hanseyachts.com",
+    website: "https://www.hanseyachts.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2019-02-14T00:00:00Z",
+    updated_at: "2023-09-22T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
+  }
+];
+
+// Mock function to get sample businesses
+export const getSampleBusinesses = (): Business[] => {
+  return sampleBusinesses;
+};
+
