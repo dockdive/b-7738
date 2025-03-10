@@ -1,7 +1,7 @@
 
-name,icon
-Marine Electronics,smartphone
-Navigation Services,compass
-Safety Equipment,shield
-Boat Storage,warehouse
-Marine Training,graduation-cap
+name,icon,description
+Marine Electronics,smartphone,Marine electronics including navigation systems and communication equipment.
+Navigation Services,compass,Navigation services for all vessel types and maritime activities.
+Safety Equipment,shield,Safety equipment including life jackets, fire extinguishers, and emergency signaling devices.
+Boat Storage,warehouse,Secure boat storage facilities for vessels of all sizes.
+Marine Training,graduation-cap,Professional training courses for maritime skills and certifications.

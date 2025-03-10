@@ -1,4 +1,3 @@
-
 // Import necessary types and supabase client
 import { supabase } from "@/integrations/supabase/client";
 import { 
@@ -154,7 +153,12 @@ export const fetchCategories = async (): Promise<Category[]> => {
       .order('name');
     
     if (error) throw new Error(error.message);
-    return data || [];
+    
+    // Add a default description if it's missing
+    return (data || []).map(category => ({
+      ...category,
+      description: category.description || `${category.name} category for maritime businesses.`
+    })) as Category[];
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
@@ -912,3 +916,4 @@ const sampleBusinesses: Business[] = [
 export const getSampleBusinesses = (): Business[] => {
   return sampleBusinesses;
 };
+

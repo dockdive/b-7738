@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 import Papa from 'papaparse';
 import { BusinessCreate, Category, Subcategory } from '@/types';
@@ -328,11 +327,12 @@ export const generateCSVTemplate = (entityType: 'business' | 'category' | 'revie
       ];
       break;
     case 'category':
-      headers = ['name', 'icon'];
+      headers = ['name', 'icon', 'description'];
       sampleData = [
         {
           name: 'Marine Parts',
-          icon: 'anchor'
+          icon: 'anchor',
+          description: 'Marine parts and components for all types of vessels.'
         }
       ];
       break;
