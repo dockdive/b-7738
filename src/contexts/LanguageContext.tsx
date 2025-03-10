@@ -7,14 +7,13 @@ import {
   translationCache, 
   detectBrowserLanguage, 
   getNestedValue, 
-  preloadTranslations 
+  preloadTranslations,
+  reloadTranslations
 } from "@/utils/translationUtils";
 import { LanguageContext, LanguageContextType } from "@/hooks/useLanguageContext";
 import deepMerge from "@/utils/deepMerge";
 
-// Preload all translations for all languages
-preloadTranslations();
-
+// Export the hook and types
 export type { LanguageCode } from "@/constants/languageConstants";
 export { supportedLanguages } from "@/constants/languageConstants";
 export { useLanguage } from "@/hooks/useLanguageContext";
@@ -57,50 +56,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   useEffect(() => {
+    // Ensure document language is set
     document.documentElement.lang = language;
     
-    // Force reload translations when language changes
-    try {
-      // Clear the cache for the current language to ensure fresh loading
-      delete translationCache[language];
-      
-      // Load base language file
-      try {
-        const baseTranslations = require(`@/locales/${language}.json`);
-        translationCache[language] = baseTranslations;
-      } catch (e) {
-        logger.error(`Failed to load base translation file for ${language}`, e);
-      }
-      
-      // Get all category folders
-      const categories = [
-        "business", "footer", "home", "bulkupload", 
-        "conditions", "faq", "match", "messages", 
-        "boat", "boatsearch", "auth", "navigation", 
-        "favorites", "privacy", "cookies", "terms", 
-        "profile", "header", "boats", "subscription", 
-        "search", "common", "sell", "general"
-      ];
-      
-      // Load translation files from category folders
-      for (const category of categories) {
-        try {
-          const categoryTranslation = require(`@/locales/${category}/${language}.json`);
-          if (categoryTranslation && Object.keys(categoryTranslation).length > 0) {
-            if (!translationCache[language]) {
-              translationCache[language] = {};
-            }
-            translationCache[language] = deepMerge(translationCache[language], categoryTranslation);
-          }
-        } catch (e) {
-          logger.warning(`No translation file found for category ${category} and language ${language}`);
-        }
-      }
-      
-      logger.info(`Reloaded translations for ${language}`);
-    } catch (e) {
-      logger.error(`Failed to reload translations for ${language}`, e);
-    }
+    // Reload translations when language changes
+    reloadTranslations(language);
+    
   }, [language]);
 
   const t = (key: string, options?: Record<string, string>): string => {
