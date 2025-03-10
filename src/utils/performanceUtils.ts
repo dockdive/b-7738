@@ -43,15 +43,21 @@ export const prefetchResources = (paths: string[]) => {
   });
 };
 
+// Define a type for the navigator.connection object
+interface NetworkInformation {
+  saveData?: boolean;
+  effectiveType?: string;
+}
+
 /**
  * Detects slow connections and adjusts the experience accordingly
  */
 export const detectSlowConnection = (): boolean => {
   if ('connection' in navigator) {
-    // @ts-ignore - navigator.connection is an experimental API
-    const connection = navigator.connection;
+    // Type cast to our defined interface
+    const connection = navigator.connection as NetworkInformation;
     if (connection) {
-      return connection.saveData || 
+      return !!connection.saveData || 
              connection.effectiveType === 'slow-2g' || 
              connection.effectiveType === '2g';
     }

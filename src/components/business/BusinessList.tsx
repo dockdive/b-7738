@@ -62,7 +62,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
       
       <TabsContent value="map" className="mt-0">
         <div className="bg-gray-100 rounded-lg h-96 flex items-center justify-center">
-          <p className="text-gray-500">{t('business.mapViewComingSoon', 'Map view coming soon')}</p>
+          <p className="text-gray-500">{t('business.mapViewComingSoon')}</p> {/* Fixed: removed second parameter */}
         </div>
       </TabsContent>
     </div>

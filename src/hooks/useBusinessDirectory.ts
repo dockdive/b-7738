@@ -10,14 +10,14 @@ export const useBusinessDirectory = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [filteredBusinesses, setFilteredBusinesses] = useState<Business[]>([]);
   
-  // Fetch all businesses
+  // Fetch all businesses - fixed the query function to match TanStack Query's expected format
   const { 
     data: businesses,
     isLoading: businessesLoading,
     error: businessesError
   } = useQuery({
     queryKey: ['businesses'],
-    queryFn: fetchBusinesses
+    queryFn: () => fetchBusinesses() // Fixed: wrapped in an anonymous function with no parameters
   });
   
   // Fetch all categories
@@ -26,7 +26,7 @@ export const useBusinessDirectory = () => {
     isLoading: categoriesLoading
   } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories
+    queryFn: () => fetchCategories() // Fixed: wrapped in an anonymous function with no parameters
   });
   
   // Filter businesses based on search term and selected category

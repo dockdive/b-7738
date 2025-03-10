@@ -20,7 +20,7 @@ const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilt
         className="w-full justify-start"
         onClick={() => onChange(null)}
       >
-        {t('categories.all', 'All Categories')}
+        {t('categories.all')} {/* Fixed: removed second parameter */}
       </Button>
       
       {categories?.map((category) => (
@@ -30,7 +30,7 @@ const CategoryFilter = ({ categories, selectedCategory, onChange }: CategoryFilt
           className="w-full justify-start"
           onClick={() => onChange(category.id)}
         >
-          {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}.name`, category.name)}
+          {t(`categories.${category.name.toLowerCase().replace(/\s+/g, '')}`) || category.name} {/* Fixed: removed second parameter */}
         </Button>
       ))}
     </div>

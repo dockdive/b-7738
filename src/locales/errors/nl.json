@@ -2,18 +2,18 @@
 {
   "errors": {
     "pageNotFound": "Pagina Niet Gevonden",
-    "pageNotFoundDescription": "De pagina die u zoekt is mogelijk verwijderd, heeft een andere naam gekregen of is tijdelijk niet beschikbaar.",
-    "serverError": "Serverfout",
-    "serverErrorDescription": "We ondervinden technische problemen. Probeer het later opnieuw.",
-    "unauthorized": "Ongeautoriseerde Toegang",
-    "unauthorizedDescription": "U heeft geen toestemming om deze pagina te openen. Log in of neem contact op met de ondersteuning.",
+    "pageNotFoundDescription": "De pagina die je zoekt is mogelijk verwijderd, heeft een andere naam gekregen of is tijdelijk niet beschikbaar.",
+    "serverError": "Server Fout",
+    "serverErrorDescription": "We ondervinden wat technische problemen. Probeer het later opnieuw.",
+    "unauthorized": "Geen Toegang",
+    "unauthorizedDescription": "Je hebt geen toestemming om deze pagina te bekijken. Log in of neem contact op met de support.",
     "businessNotFound": "Bedrijf Niet Gevonden",
-    "businessNotFoundDescription": "Het bedrijf dat u zoekt bestaat niet of is verwijderd.",
-    "formValidation": "Controleer uw formulierinvoer.",
+    "businessNotFoundDescription": "Het bedrijf dat je zoekt bestaat niet of is verwijderd.",
+    "formValidation": "Controleer je formulier invoer.",
     "unexpectedError": "Er is een onverwachte fout opgetreden.",
-    "connectionError": "Verbindingsfout. Controleer uw internetverbinding.",
-    "timeoutError": "Time-out verzoek. Probeer het opnieuw.",
-    "loginFailed": "Inloggen mislukt. Controleer uw inloggegevens.",
+    "connectionError": "Verbindingsfout. Controleer je internetverbinding.",
+    "timeoutError": "Verzoek duurde te lang. Probeer het opnieuw.",
+    "loginFailed": "Inloggen mislukt. Controleer je gegevens.",
     "registrationFailed": "Registratie mislukt. Probeer het opnieuw."
   }
 }
