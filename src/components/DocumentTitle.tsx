@@ -20,21 +20,27 @@ const DocumentTitle = ({ title, description, translationPrefix }: DocumentTitleP
       const titleKey = `${translationPrefix}.title`;
       const descriptionKey = `${translationPrefix}.subtitle`;
       
+      // Only use translated value if it doesn't return the key itself (i.e., translation exists)
       const translatedTitleValue = t(titleKey);
-      if (translatedTitleValue !== titleKey) {
+      if (translatedTitleValue !== titleKey && !translatedTitleValue.startsWith('[') && !translatedTitleValue.endsWith(']')) {
         translatedTitle = translatedTitleValue;
       }
       
       if (description) {
         const translatedDescriptionValue = t(descriptionKey);
-        if (translatedDescriptionValue !== descriptionKey) {
+        if (translatedDescriptionValue !== descriptionKey && !translatedDescriptionValue.startsWith('[') && !translatedDescriptionValue.endsWith(']')) {
           translatedDescription = translatedDescriptionValue;
         }
       }
     }
     
+    // Set default title if translation failed
+    if (!translatedTitle || translatedTitle === title) {
+      translatedTitle = t('general.appName');
+    }
+    
     // Update document title
-    document.title = `${translatedTitle} | Maritime Directory`;
+    document.title = translatedTitle.includes('|') ? translatedTitle : `${translatedTitle} | ${t('general.appName')}`;
     
     // Update meta description if provided
     if (translatedDescription) {

@@ -4,11 +4,14 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { initPerformanceOptimizations } from './utils/performanceUtils';
-import { preloadTranslations } from './utils/translationUtils';
+import { preloadTranslations, ensureRequiredTranslationFiles } from './utils/translationUtils';
 import logger from './services/loggerService';
 
 // Initialize logger
 logger.info('🚀 Application starting...');
+
+// Verify that all required translation files exist
+ensureRequiredTranslationFiles();
 
 // Create root before any async operations
 const root = ReactDOM.createRoot(document.getElementById('root')!);

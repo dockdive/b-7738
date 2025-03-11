@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import HeroSection from "@/components/HeroSection";
@@ -8,14 +8,20 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DocumentTitle from "@/components/DocumentTitle";
 import CategoryLinks from "@/components/CategoryLinks";
+import logger from "@/services/loggerService";
 
 const Index = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  
+  // Log for debugging translation issues
+  useEffect(() => {
+    logger.debug(`Index page rendered with language: ${language}`);
+  }, [language]);
 
   return (
     <>
       <DocumentTitle
-        translationPrefix="home"
+        translationPrefix="home.hero"
         title={t("home.hero.title")}
         description={t("home.hero.subtitle")}
       />

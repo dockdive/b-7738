@@ -8,7 +8,9 @@ import {
   detectBrowserLanguage, 
   getNestedValue, 
   preloadTranslations,
-  reloadTranslations
+  reloadTranslations,
+  areTranslationsLoaded,
+  getFallbackTranslation
 } from "@/utils/translationUtils";
 import { LanguageContext, LanguageContextType } from "@/hooks/useLanguageContext";
 
@@ -18,18 +20,17 @@ export { supportedLanguages } from "@/constants/languageConstants";
 export { useLanguage } from "@/hooks/useLanguageContext";
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState<boolean>(false);
+  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState<boolean>(areTranslationsLoaded());
   
-  // Preload translations on first mount
+  // Preload translations if they aren't already loaded
   useEffect(() => {
-    // Check if translations are already initialized
-    if (Object.keys(translationCache).length === 0) {
+    if (!areTranslationsLoaded()) {
       logger.info("🌐 Initializing translations...");
       preloadTranslations();
+      setIsTranslationsLoaded(true);
+    } else {
+      setIsTranslationsLoaded(true);
     }
-    
-    // Mark translations as loaded
-    setIsTranslationsLoaded(true);
   }, []);
   
   const getInitialLanguage = (): LanguageCode => {
@@ -75,46 +76,31 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     // Ensure document language is set
     document.documentElement.lang = language;
-    
-    // Reload translations when language changes
-    if (isTranslationsLoaded) {
-      reloadTranslations(language);
-    }
-  }, [language, isTranslationsLoaded]);
+  }, [language]);
 
   const t = (key: string, options?: Record<string, string>): string => {
-    // If translations aren't loaded yet, show loading indicator
-    if (!isTranslationsLoaded) {
-      return key === 'general.loading' ? 'Loading...' : `...`;
-    }
-    
     // If showing translation keys for debugging, return the key itself
     if (showTranslationKeys) {
       return `[${key}]`;
     }
     
     // Get translation from current language
-    let text = getNestedValue(translationCache[language], key);
+    let text = translationCache[language] ? getNestedValue(translationCache[language], key) : undefined;
     
     // Fallback to English if translation is missing
     if (text === undefined && language !== "en") {
-      text = getNestedValue(translationCache["en"], key);
+      text = translationCache["en"] ? getNestedValue(translationCache["en"], key) : undefined;
     }
     
-    // Return key if translation is still missing
+    // Use fallback system if still missing
     if (text === undefined) {
-      // Log missing key for debugging
-      logger.warning(`Missing translation key: ${key}`);
+      // Log missing key for debugging (limit frequency to avoid console spam)
+      if (!missingKeys.includes(key)) {
+        logger.warning(`Missing translation key: ${key}`);
+        setMissingKeys(prev => [...prev, key]);
+      }
       
-      // Add to missing keys list if not already present
-      setMissingKeys(prev => {
-        if (!prev.includes(key)) {
-          return [...prev, key];
-        }
-        return prev;
-      });
-      
-      return key;
+      return getFallbackTranslation(key);
     }
     
     // Replace variables in the translation if options are provided
@@ -157,9 +143,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       missingKeys,
       resetMissingKeys
     }
-  }), [language, showTranslationKeys, missingKeys, isTranslationsLoaded]);
+  }), [language, showTranslationKeys, missingKeys]);
 
-  // If translations aren't loaded yet, show a simple loading indicator
+  // If translations aren't loaded yet, show a loading indicator
   if (!isTranslationsLoaded) {
     return (
       <div className="flex items-center justify-center h-screen w-screen">
