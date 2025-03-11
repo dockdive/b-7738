@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { initPerformanceOptimizations } from './utils/performanceUtils';
-import { preloadTranslations, ensureRequiredTranslationFiles } from './utils/translationUtils';
+import { preloadTranslations, ensureRequiredTranslationFiles, areTranslationsLoaded } from './utils/translationUtils';
 import logger from './services/loggerService';
 
 // Initialize logger
@@ -34,22 +34,27 @@ logger.info('📚 Preloading translations...');
 // Start preloading translations
 preloadTranslations();
 
-// Render the app after a small delay to ensure translations are loaded
-// This helps avoid blank screens and "loading" text showing everywhere
-setTimeout(() => {
-  logger.info('🖥️ Rendering application...');
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+// Function to check if translations are loaded and render the app
+const renderApp = () => {
+  if (areTranslationsLoaded()) {
+    logger.info('🖥️ Rendering application with translations loaded...');
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
 
-  // Initialize performance optimizations after the app has rendered
-  window.addEventListener('load', () => {
-    logger.info('🔧 Initializing performance optimizations...');
-    initPerformanceOptimizations();
-    
-    // Log translation status after page load for debugging
-    logger.info('📊 Application fully loaded and rendered');
-  });
-}, 100); // Small delay to ensure translations are processed
+    // Initialize performance optimizations after the app has rendered
+    window.addEventListener('load', () => {
+      logger.info('🔧 Initializing performance optimizations...');
+      initPerformanceOptimizations();
+      logger.info('📊 Application fully loaded and rendered');
+    });
+  } else {
+    // If translations aren't loaded yet, try again in a moment
+    setTimeout(renderApp, 100);
+  }
+};
+
+// Start the render process
+setTimeout(renderApp, 100);

@@ -23,6 +23,9 @@ const categories = [
   "search"
 ];
 
+// Define the required languages that must be loaded
+export const requiredLanguages: LanguageCode[] = ['en', 'nl'];
+
 // Function to detect the browser's language
 export const detectBrowserLanguage = (): LanguageCode => {
   try {
@@ -126,8 +129,6 @@ export function preloadTranslations(): void {
   try {
     logger.info('🌍 Starting translation preload');
     
-    // Define primary languages that must be loaded (English is required)
-    const requiredLanguages: LanguageCode[] = ['en', 'nl'];
     let loadedCount = 0;
     let errorCount = 0;
     
@@ -276,7 +277,6 @@ export function getFallbackTranslation(key: string): string {
 // Set up a helper to ensure all required translation files exist
 export function ensureRequiredTranslationFiles(): void {
   const requiredCategories = ['common', 'general', 'navigation', 'footer'];
-  const requiredLanguages = ['en', 'nl'];
   
   requiredLanguages.forEach(lang => {
     requiredCategories.forEach(category => {
