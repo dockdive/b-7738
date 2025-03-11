@@ -1,8 +1,9 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchBusinesses, fetchCategories } from '@/services/apiService';
 import { Business, Category } from '@/types';
+import logger from '@/services/loggerService';
 
 export const useBusinessDirectory = (initialCategoryId: number | null = null) => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');
@@ -17,7 +18,7 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
     }
   }, [initialCategoryId]);
   
-  // Fetch all businesses with improved error handling
+  // Fetch all businesses with improved error handling and shorter timeout
   const { 
     data: businesses,
     isLoading: businessesLoading,
@@ -25,9 +26,21 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
     refetch: refetchBusinesses
   } = useQuery({
     queryKey: ['businesses', selectedCategory],
-    queryFn: () => fetchBusinesses({ category_id: selectedCategory }),
-    retry: 2,
-    staleTime: 60000 // 1 minute
+    queryFn: async () => {
+      try {
+        logger.info('Fetching businesses for category:', selectedCategory);
+        const data = await fetchBusinesses({ category_id: selectedCategory });
+        logger.info(`Fetched ${data?.length || 0} businesses`);
+        return data;
+      } catch (error) {
+        logger.error('Error fetching businesses:', error);
+        throw error;
+      }
+    },
+    retry: 1,
+    staleTime: 60000, // 1 minute
+    refetchOnWindowFocus: false,
+    gcTime: 300000 // 5 minutes
   });
   
   // Fetch all categories
@@ -37,8 +50,20 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
     error: categoriesError
   } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => fetchCategories(),
-    staleTime: 300000 // 5 minutes
+    queryFn: async () => {
+      try {
+        logger.info('Fetching categories');
+        const data = await fetchCategories();
+        logger.info(`Fetched ${data?.length || 0} categories`);
+        return data;
+      } catch (error) {
+        logger.error('Error fetching categories:', error);
+        throw error;
+      }
+    },
+    staleTime: 300000, // 5 minutes
+    retry: 1,
+    refetchOnWindowFocus: false
   });
   
   // Filter businesses based on search term and selected category
@@ -73,21 +98,27 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
   }, [businesses, searchTerm]);
   
   // Handle view change
-  const handleViewChange = (value: string) => {
+  const handleViewChange = useCallback((value: string) => {
     setView(value as 'grid' | 'list' | 'map');
-  };
+  }, []);
   
   // Handle search term change
-  const handleSearch = (value: string) => {
+  const handleSearch = useCallback((value: string) => {
     setSearchTerm(value);
-  };
+  }, []);
   
   // Handle category selection
-  const handleCategoryChange = (categoryId: number | null) => {
+  const handleCategoryChange = useCallback((categoryId: number | null) => {
     setSelectedCategory(categoryId);
-    // Refetch businesses if category changes
-    refetchBusinesses();
-  };
+  }, []);
+  
+  // Force refetch to update data
+  useEffect(() => {
+    if (selectedCategory !== initialCategoryId && initialCategoryId !== null) {
+      logger.info('Category changed, refetching businesses');
+      refetchBusinesses();
+    }
+  }, [selectedCategory, initialCategoryId, refetchBusinesses]);
   
   return {
     businesses: filteredBusinesses,

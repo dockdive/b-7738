@@ -20,7 +20,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
     return (
       <div className="text-center py-12">
         <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-        <p className="text-gray-500">{t('general.loading')}</p>
+        <p className="text-gray-500">{t('general.loading') || 'Loading...'}</p>
       </div>
     );
   }
@@ -29,7 +29,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
     return (
       <div className="text-center py-12">
         <AlertCircle className="h-8 w-8 mx-auto mb-4 text-red-500" />
-        <p className="text-red-500">{error.message || t('general.error')}</p>
+        <p className="text-red-500">{error.message || t('general.error') || 'An error occurred'}</p>
       </div>
     );
   }
@@ -37,7 +37,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
   if (!businesses || businesses.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">{t('business.filter.noResults')}</p>
+        <p className="text-gray-500">{t('business.filter.noResults') || 'No results found'}</p>
       </div>
     );
   }
@@ -62,7 +62,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
       
       <TabsContent value="map" className="mt-0">
         <div className="bg-gray-100 rounded-lg h-96 flex items-center justify-center">
-          <p className="text-gray-500">{t('business.mapViewComingSoon')}</p>
+          <p className="text-gray-500">{t('business.mapViewComingSoon') || 'Map view coming soon'}</p>
         </div>
       </TabsContent>
     </div>
