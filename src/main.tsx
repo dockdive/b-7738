@@ -32,7 +32,7 @@ window.addEventListener('load', () => {
       const translationTest = require(`./locales/${lang}.json`);
       logger.info(`✅ Base translation file for ${lang} loaded successfully`);
     } catch (e) {
-      logger.warning(`❌ Base translation file for ${lang} not found or has errors`);
+      logger.warn(`❌ Base translation file for ${lang} not found or has errors`);
     }
   });
 });

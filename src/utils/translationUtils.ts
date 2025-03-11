@@ -49,42 +49,51 @@ export function loadTranslations(lang: string): Record<string, any> {
   let failedCategories = 0;
   let failedCategoryNames: string[] = [];
   
-  // Force-load some critical categories first to ensure core translations are available
-  const criticalCategories = ["general", "common", "navigation", "errors"];
-  
   try {
     // First try to load the base language file
-    try {
-      const baseTranslation = require(`@/locales/${lang}.json`);
-      Object.assign(merged, baseTranslation);
-      hasLoadedMainFile = true;
-      logger.info(`✅ Successfully loaded base file for "${lang}"`);
-    } catch (e) {
-      logger.warning(`❌ Failed to load base translation file for language "${lang}"`, e);
-    }
-    
-    // Then load all category-specific files
-    [...criticalCategories, ...translationCategories.filter(c => !criticalCategories.includes(c))].forEach(category => {
-      try {
-        // Import the JSON file from the folder structure
-        const translation = require(`@/locales/${category}/${lang}.json`);
-        // Merge the content
-        deepMerge(merged, translation);
-        loadedCategories++;
-        logger.info(`✅ Loaded category "${category}" for language "${lang}"`);
-      } catch (e) {
-        // Only log as warning for non-critical categories
-        if (criticalCategories.includes(category)) {
-          logger.warning(`⚠️ Missing critical translation file for category "${category}" and language "${lang}"`);
-        } else {
-          logger.info(`ℹ️ No translation file for category "${category}" and language "${lang}"`);
-        }
-        failedCategories++;
-        failedCategoryNames.push(category);
-      }
-    });
+    const baseTranslation = require(`@/locales/${lang}.json`);
+    Object.assign(merged, baseTranslation);
+    hasLoadedMainFile = true;
+    logger.info(`✅ Successfully loaded base file for "${lang}"`);
   } catch (e) {
-    logger.error(`❌ Unexpected error loading translations for "${lang}"`, e);
+    logger.error(`❌ Failed to load base translation file for language "${lang}"`, e);
+    if (typeof window !== 'undefined') {
+      toast({
+        title: "Translation Error",
+        description: `Failed to load base translation file for ${lang}`,
+        variant: "destructive",
+      });
+    }
+  }
+  
+  // Then load all category-specific files and flatten them
+  translationCategories.forEach(category => {
+    try {
+      // Import the JSON file from the folder structure
+      const translation = require(`@/locales/${category}/${lang}.json`);
+      // Directly merge the inner content to flatten the structure
+      Object.keys(translation).forEach(key => {
+        deepMerge(merged, translation);
+      });
+      loadedCategories++;
+      logger.info(`✅ Loaded category "${category}" for language "${lang}"`);
+    } catch (e) {
+      failedCategories++;
+      failedCategoryNames.push(category);
+      logger.warning(`⚠️ Missing translation file for category "${category}" and language "${lang}"`);
+    }
+  });
+  
+  if (failedCategories > 0) {
+    logger.error(`❌ Failed to load ${failedCategories} translation categories for "${lang}": ${failedCategoryNames.join(', ')}`);
+    if (typeof window !== 'undefined' && typeof document !== 'undefined' && document.readyState === 'complete') {
+      // Only show toast when document is fully loaded to avoid too many toasts during initial load
+      toast({
+        title: "Translation Warning",
+        description: `Failed to load ${failedCategories} translation categories for ${lang}`,
+        variant: "default",
+      });
+    }
   }
   
   logger.info(`📊 Translation loading stats for "${lang}": Base file: ${hasLoadedMainFile ? 'Loaded' : 'Failed'}, Categories: ${loadedCategories} loaded, ${failedCategories} failed`);
@@ -117,30 +126,40 @@ export function preloadTranslations(): void {
         }
       } catch (error) {
         logger.error(`❌ Failed to preload translations for "${lang}"`, error);
+        if (typeof window !== 'undefined') {
+          toast({
+            title: "Translation Preload Error",
+            description: `Failed to preload translations for ${lang}`,
+            variant: "destructive",
+          });
+        }
       }
     });
 
     // Ensure English translations are always available as fallback
     if (!translationCache["en"]) {
       logger.error("❌ Critical error: English translations could not be loaded!");
+      if (typeof window !== 'undefined') {
+        toast({
+          title: "Critical Translation Error",
+          description: "English translations could not be loaded. Some UI elements may not display correctly.",
+          variant: "destructive",
+        });
+      }
       // Set empty object to prevent runtime errors
       translationCache["en"] = {};
     }
+
+    // Debug info
+    logger.debug("📚 Translation cache content:", translationCache);
+
+    // Expose the translation cache for debugging purposes
+    if (typeof window !== 'undefined') {
+      // @ts-ignore - This is for debugging only
+      window.__DEBUG_TRANSLATION_CACHE__ = translationCache;
+    }
   } catch (error) {
     logger.error("❌ Unhandled error in preloadTranslations:", error);
-  }
-}
-
-/**
- * Reloads translations for a specific language
- */
-export function reloadTranslations(lang: string): void {
-  logger.info(`🔄 Reloading translations for "${lang}"...`);
-  try {
-    translationCache[lang] = loadTranslations(lang);
-    logger.info(`✅ Successfully reloaded translations for "${lang}"`);
-  } catch (error) {
-    logger.error(`❌ Failed to reload translations for "${lang}"`, error);
   }
 }
 
@@ -154,7 +173,7 @@ export function logMissingTranslations(): void {
     missingTranslations[lang] = [];
     
     // Check for missing expected top-level keys
-    const expectedTopLevelKeys = ['general', 'common', 'navigation', 'home', 'business', 'errors'];
+    const expectedTopLevelKeys = ['general', 'common', 'navigation', 'home', 'business', 'addBusiness'];
     const availableKeys = Object.keys(translationCache[lang]);
     
     expectedTopLevelKeys.forEach(key => {

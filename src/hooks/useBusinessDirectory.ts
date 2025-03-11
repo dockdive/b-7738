@@ -4,41 +4,29 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchBusinesses, fetchCategories } from '@/services/apiService';
 import { Business, Category } from '@/types';
 
-export const useBusinessDirectory = (initialCategoryId: number | null = null) => {
+export const useBusinessDirectory = () => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(initialCategoryId);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [filteredBusinesses, setFilteredBusinesses] = useState<Business[]>([]);
   
-  // Update selectedCategory when initialCategoryId changes
-  useEffect(() => {
-    if (initialCategoryId !== null) {
-      setSelectedCategory(initialCategoryId);
-    }
-  }, [initialCategoryId]);
-  
-  // Fetch all businesses with improved error handling
+  // Fetch all businesses
   const { 
     data: businesses,
     isLoading: businessesLoading,
-    error: businessesError,
-    refetch: refetchBusinesses
+    error: businessesError
   } = useQuery({
-    queryKey: ['businesses', selectedCategory],
-    queryFn: () => fetchBusinesses({ category_id: selectedCategory }),
-    retry: 2,
-    staleTime: 60000 // 1 minute
+    queryKey: ['businesses'],
+    queryFn: () => fetchBusinesses()
   });
   
   // Fetch all categories
   const {
     data: categories,
-    isLoading: categoriesLoading,
-    error: categoriesError
+    isLoading: categoriesLoading
   } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => fetchCategories(),
-    staleTime: 300000 // 5 minutes
+    queryFn: () => fetchCategories()
   });
   
   // Filter businesses based on search term and selected category
@@ -46,7 +34,7 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
     if (businesses) {
       let filtered = [...businesses];
       
-      // Filter by search term
+      // Filter by search term - improve search to check multiple fields
       if (searchTerm.trim() !== '') {
         const terms = searchTerm.toLowerCase().split(' ');
         filtered = filtered.filter(business => {
@@ -54,7 +42,6 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
             business.name || '',
             business.description || '',
             business.city || '',
-            business.state || '',
             business.country || '',
             ...(business.services || [])
           ].map(field => String(field).toLowerCase());
@@ -66,11 +53,16 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
         });
       }
       
+      // Filter by category
+      if (selectedCategory !== null) {
+        filtered = filtered.filter(business => 
+          business.category_id === selectedCategory
+        );
+      }
+      
       setFilteredBusinesses(filtered);
-    } else {
-      setFilteredBusinesses([]);
     }
-  }, [businesses, searchTerm]);
+  }, [businesses, searchTerm, selectedCategory]);
   
   // Handle view change
   const handleViewChange = (value: string) => {
@@ -85,8 +77,6 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
   // Handle category selection
   const handleCategoryChange = (categoryId: number | null) => {
     setSelectedCategory(categoryId);
-    // Refetch businesses if category changes
-    refetchBusinesses();
   };
   
   return {
@@ -95,13 +85,11 @@ export const useBusinessDirectory = (initialCategoryId: number | null = null) =>
     businessesLoading,
     categoriesLoading,
     businessesError,
-    categoriesError,
     view,
     searchTerm,
     selectedCategory,
     handleSearch,
     handleCategoryChange,
-    handleViewChange,
-    refetchBusinesses
+    handleViewChange
   };
 };
