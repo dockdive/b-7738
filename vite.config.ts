@@ -9,8 +9,9 @@ import { execSync } from "child_process";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv) => ({
   server: {
-    host: "::",
+    host: "",
     port: 8080,
+    allowedHosts: ["be7539a5-f5f0-48ec-8f02-bd31e0e258c1.lovableproject.com"],
   },
   plugins: [
     react(),
