@@ -4,7 +4,11 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { initPerformanceOptimizations } from './utils/performanceUtils';
-import { preloadTranslations, ensureRequiredTranslationFiles, areTranslationsLoaded } from './utils/translationUtils';
+import { 
+  preloadTranslations, 
+  ensureRequiredTranslationFiles, 
+  areTranslationsLoaded 
+} from './utils/translationUtils';
 import logger from './services/loggerService';
 
 // Initialize logger
