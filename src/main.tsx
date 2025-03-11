@@ -10,11 +10,16 @@ import logger from './services/loggerService';
 // Initialize logger
 logger.info('🚀 Application starting...');
 
-// Preload translations before rendering the app
+// Create root before any async operations
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+
+// Preload translations before rendering
 logger.info('📚 Preloading translations...');
 preloadTranslations();
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+// Render the app
+logger.info('🖥️ Rendering application...');
+root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
@@ -26,13 +31,5 @@ window.addEventListener('load', () => {
   initPerformanceOptimizations();
   
   // Log translation status after page load for debugging
-  const languages = ['en', 'nl'];
-  languages.forEach(lang => {
-    try {
-      const translationTest = require(`./locales/${lang}.json`);
-      logger.info(`✅ Base translation file for ${lang} loaded successfully`);
-    } catch (e) {
-      logger.warning(`❌ Base translation file for ${lang} not found or has errors`);
-    }
-  });
+  logger.info('📊 Application fully loaded and rendered');
 });

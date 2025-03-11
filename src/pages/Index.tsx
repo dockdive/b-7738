@@ -15,8 +15,9 @@ const Index = () => {
   return (
     <>
       <DocumentTitle
-        title={t("home.title")}
-        description={t("home.subtitle")}
+        translationPrefix="home"
+        title={t("home.hero.title")}
+        description={t("home.hero.subtitle")}
       />
 
       <HeroSection

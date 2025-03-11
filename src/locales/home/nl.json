@@ -1,6 +1,8 @@
 
 {
   "home": {
+    "title": "DockDive",
+    "subtitle": "De toonaangevende maritieme bedrijvengids die booteigenaren verbindt met dienstverleners",
     "hero": {
       "title": "DockDive",
       "subtitle": "De toonaangevende maritieme bedrijvengids die booteigenaren verbindt met dienstverleners.",
@@ -32,6 +34,65 @@
       "subtitle": "Word lid van onze gids om in contact te komen met booteigenaren en uw maritieme bedrijf te laten groeien.",
       "addBusiness": "Voeg Uw Bedrijf Toe",
       "exploreBusiness": "Verken Bedrijven"
+    },
+    "features": {
+      "title": "Onze Functionaliteiten",
+      "tabs": {
+        "business": "Voor Bedrijven",
+        "owners": "Voor Booteigenaren",
+        "community": "Voor De Gemeenschap"
+      },
+      "business": {
+        "exposure": {
+          "title": "Verhoogde Zichtbaarheid",
+          "description": "Vergroot uw bereik en trek nieuwe klanten aan door uw bedrijf in onze maritieme gids te vermelden.",
+          "action": "Bedrijf Toevoegen"
+        },
+        "insights": {
+          "title": "Marktinzichten",
+          "description": "Krijg toegang tot waardevolle gegevens en statistieken om uw bedrijfsstrategie te verbeteren.",
+          "action": "Bekijk Dashboard"
+        },
+        "tools": {
+          "title": "Bedrijfsbeheertools",
+          "description": "Beheer uw vermelding, reviews en klantinteracties met onze gebruiksvriendelijke tools.",
+          "action": "Bulk Upload Gebruiken"
+        }
+      },
+      "owners": {
+        "search": {
+          "title": "Eenvoudig Zoeken",
+          "description": "Vind snel en gemakkelijk de juiste maritieme diensten voor uw specifieke behoeften.",
+          "action": "Start Met Zoeken"
+        },
+        "reviews": {
+          "title": "Betrouwbare Beoordelingen",
+          "description": "Lees en deel ervaringen om weloverwogen beslissingen te nemen over maritieme dienstverleners.",
+          "action": "Bekijk Beoordelingen"
+        },
+        "resources": {
+          "title": "Nuttige Hulpbronnen",
+          "description": "Toegang tot gidsen, artikelen en tips om u te helpen het beste uit uw bootervaring te halen.",
+          "action": "Verken Hulpbronnen"
+        }
+      },
+      "community": {
+        "events": {
+          "title": "Maritieme Evenementen",
+          "description": "Blijf op de hoogte van bootshows, wedstrijden en netwerkbijeenkomsten in uw regio.",
+          "action": "Bekijk Evenementen"
+        },
+        "forums": {
+          "title": "Community Forums",
+          "description": "Deel kennis, stel vragen en maak contact met andere booteigenaren en professionals.",
+          "action": "Neem Deel Aan Discussies"
+        },
+        "newsletter": {
+          "title": "Maritieme Nieuwsbrief",
+          "description": "Ontvang het laatste nieuws, trends en aanbiedingen direct in uw inbox.",
+          "action": "Abonneer Op Nieuwsbrief"
+        }
+      }
     }
   }
 }

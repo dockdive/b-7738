@@ -11,7 +11,6 @@ import {
   reloadTranslations
 } from "@/utils/translationUtils";
 import { LanguageContext, LanguageContextType } from "@/hooks/useLanguageContext";
-import deepMerge from "@/utils/deepMerge";
 
 // Export the hook and types
 export type { LanguageCode } from "@/constants/languageConstants";
@@ -19,6 +18,20 @@ export { supportedLanguages } from "@/constants/languageConstants";
 export { useLanguage } from "@/hooks/useLanguageContext";
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState<boolean>(false);
+  
+  // Preload translations on first mount
+  useEffect(() => {
+    // Check if translations are already initialized
+    if (Object.keys(translationCache).length === 0) {
+      logger.info("🌐 Initializing translations...");
+      preloadTranslations();
+    }
+    
+    // Mark translations as loaded
+    setIsTranslationsLoaded(true);
+  }, []);
+  
   const getInitialLanguage = (): LanguageCode => {
     try {
       const savedLang = localStorage.getItem("maritime-language") as LanguageCode | null;
@@ -41,6 +54,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       localStorage.setItem("maritime-language", lang);
       setLanguageState(lang);
       document.documentElement.lang = lang;
+      
+      // Reload translations when language changes
+      reloadTranslations(lang);
+      
       toast({
         title: "Language Changed",
         description: `Language switched to ${supportedLanguages.find(l => l.code === lang)?.name || lang}`,
@@ -60,11 +77,17 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     document.documentElement.lang = language;
     
     // Reload translations when language changes
-    reloadTranslations(language);
-    
-  }, [language]);
+    if (isTranslationsLoaded) {
+      reloadTranslations(language);
+    }
+  }, [language, isTranslationsLoaded]);
 
   const t = (key: string, options?: Record<string, string>): string => {
+    // If translations aren't loaded yet, show loading indicator
+    if (!isTranslationsLoaded) {
+      return key === 'general.loading' ? 'Loading...' : `...`;
+    }
+    
     // If showing translation keys for debugging, return the key itself
     if (showTranslationKeys) {
       return `[${key}]`;
@@ -134,7 +157,19 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       missingKeys,
       resetMissingKeys
     }
-  }), [language, showTranslationKeys, missingKeys]);
+  }), [language, showTranslationKeys, missingKeys, isTranslationsLoaded]);
+
+  // If translations aren't loaded yet, show a simple loading indicator
+  if (!isTranslationsLoaded) {
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <div className="text-center">
+          <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-lg">Loading translations...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <LanguageContext.Provider value={contextValue}>

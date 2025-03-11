@@ -5,18 +5,39 @@ import { useLanguage } from '@/contexts/LanguageContext';
 interface DocumentTitleProps {
   title: string;
   description?: string;
+  translationPrefix?: string;
 }
 
-const DocumentTitle = ({ title, description }: DocumentTitleProps) => {
-  const { language } = useLanguage();
+const DocumentTitle = ({ title, description, translationPrefix }: DocumentTitleProps) => {
+  const { language, t } = useLanguage();
   
   useEffect(() => {
+    let translatedTitle = title;
+    let translatedDescription = description;
+    
+    // If a translation prefix is provided, try to translate the title and description
+    if (translationPrefix) {
+      const titleKey = `${translationPrefix}.title`;
+      const descriptionKey = `${translationPrefix}.subtitle`;
+      
+      const translatedTitleValue = t(titleKey);
+      if (translatedTitleValue !== titleKey) {
+        translatedTitle = translatedTitleValue;
+      }
+      
+      if (description) {
+        const translatedDescriptionValue = t(descriptionKey);
+        if (translatedDescriptionValue !== descriptionKey) {
+          translatedDescription = translatedDescriptionValue;
+        }
+      }
+    }
+    
     // Update document title
-    const previousTitle = document.title;
-    document.title = `${title} | Maritime Directory`;
+    document.title = `${translatedTitle} | Maritime Directory`;
     
     // Update meta description if provided
-    if (description) {
+    if (translatedDescription) {
       let metaDescription = document.querySelector('meta[name="description"]');
       
       if (!metaDescription) {
@@ -25,16 +46,13 @@ const DocumentTitle = ({ title, description }: DocumentTitleProps) => {
         document.head.appendChild(metaDescription);
       }
       
-      metaDescription.setAttribute('content', description);
+      metaDescription.setAttribute('content', translatedDescription);
     }
     
     // Update language attribute
     document.documentElement.lang = language;
     
-    return () => {
-      document.title = previousTitle;
-    };
-  }, [title, description, language]);
+  }, [title, description, language, translationPrefix, t]);
   
   return null;
 };

@@ -40,17 +40,66 @@ export const getNestedValue = (obj: any, path: string): any => {
 };
 
 /**
- * Loads translations for a given language code
+ * Synchronously loads translations for a given language code
+ * This is important for initial rendering to avoid flashing content
+ */
+export function loadTranslationsSync(lang: string): Record<string, any> {
+  const merged: Record<string, any> = {};
+  
+  try {
+    // First try to load the base language file
+    try {
+      const baseTranslationPath = `@/locales/${lang}.json`;
+      const baseTranslation = require(baseTranslationPath);
+      Object.assign(merged, baseTranslation);
+      logger.info(`✅ Successfully loaded base file for "${lang}"`);
+    } catch (e) {
+      logger.warning(`⚠️ Failed to load base translation file for language "${lang}"`, e);
+    }
+    
+    // Then load all category-specific files
+    translationCategories.forEach(category => {
+      try {
+        if (category.includes('/')) {
+          // Handle nested categories
+          const parts = category.split('/');
+          const translationPath = `@/locales/${parts.join('/')}/${lang}.json`;
+          const translation = require(translationPath);
+          deepMerge(merged, translation);
+        } else {
+          // Handle flat categories
+          const translationPath = `@/locales/${category}/${lang}.json`;
+          const translation = require(translationPath);
+          deepMerge(merged, translation);
+        }
+      } catch (e) {
+        // Just log the error but continue
+        logger.info(`ℹ️ No translation file for category "${category}" and language "${lang}"`);
+      }
+    });
+  } catch (e) {
+    logger.error(`❌ Unexpected error loading translations for "${lang}"`, e);
+  }
+  
+  return merged;
+}
+
+/**
+ * Loads translations for a given language code asynchronously
  */
 export function loadTranslations(lang: string): Record<string, any> {
   const merged: Record<string, any> = {};
   let hasLoadedMainFile = false;
   let loadedCategories = 0;
   let failedCategories = 0;
-  let failedCategoryNames: string[] = [];
+  
+  // Make sure we always have the base translations
+  if (translationCache[lang]) {
+    Object.assign(merged, translationCache[lang]);
+  }
   
   // Force-load some critical categories first to ensure core translations are available
-  const criticalCategories = ["general", "common", "navigation", "errors"];
+  const criticalCategories = ["general", "common", "navigation", "errors", "home"];
   
   try {
     // First try to load the base language file
@@ -60,27 +109,33 @@ export function loadTranslations(lang: string): Record<string, any> {
       hasLoadedMainFile = true;
       logger.info(`✅ Successfully loaded base file for "${lang}"`);
     } catch (e) {
-      logger.warning(`❌ Failed to load base translation file for language "${lang}"`, e);
+      logger.warning(`⚠️ Failed to load base translation file for language "${lang}"`, e);
     }
     
     // Then load all category-specific files
     [...criticalCategories, ...translationCategories.filter(c => !criticalCategories.includes(c))].forEach(category => {
       try {
-        // Import the JSON file from the folder structure
-        const translation = require(`@/locales/${category}/${lang}.json`);
+        // Handle both nested and flat categories
+        let translation;
+        if (category.includes('/')) {
+          const parts = category.split('/');
+          translation = require(`@/locales/${parts.join('/')}/${lang}.json`);
+        } else {
+          translation = require(`@/locales/${category}/${lang}.json`);
+        }
+        
         // Merge the content
         deepMerge(merged, translation);
         loadedCategories++;
         logger.info(`✅ Loaded category "${category}" for language "${lang}"`);
       } catch (e) {
-        // Only log as warning for non-critical categories
+        // Only log as warning for critical categories
         if (criticalCategories.includes(category)) {
           logger.warning(`⚠️ Missing critical translation file for category "${category}" and language "${lang}"`);
         } else {
           logger.info(`ℹ️ No translation file for category "${category}" and language "${lang}"`);
         }
         failedCategories++;
-        failedCategoryNames.push(category);
       }
     });
   } catch (e) {
@@ -101,9 +156,10 @@ export function preloadTranslations(): void {
   try {
     ["en", "nl"].forEach(lang => {
       try {
-        translationCache[lang] = loadTranslations(lang);
+        // Use synchronous loading for initial preload to ensure translations are available immediately
+        translationCache[lang] = loadTranslationsSync(lang);
         logger.info(`✅ Successfully preloaded translations for "${lang}"`);
-
+        
         // Log what translations are available for debugging
         const availableKeys = Object.keys(translationCache[lang]);
         logger.info(`📚 Available top-level translation keys for "${lang}": ${availableKeys.join(', ')}`);
@@ -126,6 +182,19 @@ export function preloadTranslations(): void {
       // Set empty object to prevent runtime errors
       translationCache["en"] = {};
     }
+    
+    // Schedule asynchronous reload after initial load to ensure latest translations
+    setTimeout(() => {
+      ["en", "nl"].forEach(lang => {
+        try {
+          const updatedTranslations = loadTranslations(lang);
+          translationCache[lang] = updatedTranslations;
+          logger.info(`🔄 Refreshed translations for "${lang}"`);
+        } catch (error) {
+          logger.error(`❌ Failed to refresh translations for "${lang}"`, error);
+        }
+      });
+    }, 500);
   } catch (error) {
     logger.error("❌ Unhandled error in preloadTranslations:", error);
   }
@@ -137,7 +206,8 @@ export function preloadTranslations(): void {
 export function reloadTranslations(lang: string): void {
   logger.info(`🔄 Reloading translations for "${lang}"...`);
   try {
-    translationCache[lang] = loadTranslations(lang);
+    const newTranslations = loadTranslations(lang);
+    translationCache[lang] = newTranslations;
     logger.info(`✅ Successfully reloaded translations for "${lang}"`);
   } catch (error) {
     logger.error(`❌ Failed to reload translations for "${lang}"`, error);
