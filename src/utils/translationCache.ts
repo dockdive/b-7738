@@ -5,15 +5,16 @@ import logger from "@/services/loggerService";
 export const translationCache: { [key: string]: any } = {};
 
 // Function to deep merge objects
-export const deepMerge = (target: any, source: any): any => {
-  for (const key in source) {
-    if (source.hasOwnProperty(key)) {
-      if (typeof target[key] === "object" && typeof source[key] === "object") {
+export function deepMerge(target: Record<string, any>, ...sources: Record<string, any>[]): Record<string, any> {
+  sources.forEach(source => {
+    Object.keys(source).forEach(key => {
+      if (source[key] && typeof source[key] === "object" && !Array.isArray(source[key])) {
+        if (!target[key]) target[key] = {};
         deepMerge(target[key], source[key]);
       } else {
         target[key] = source[key];
       }
-    }
-  }
+    });
+  });
   return target;
-};
+}

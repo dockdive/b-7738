@@ -32,16 +32,16 @@ root.render(
 // Verify that all required translation files exist
 ensureRequiredTranslationFiles();
 
-// Preload translations before rendering the main app
+// Start preloading translations before rendering the main app
 logger.info('📚 Preloading translations...');
-
-// Start preloading translations
 preloadTranslations();
 
-// Function to check if translations are loaded and render the app
+// Function to render the app once translations are loaded
 const renderApp = () => {
   if (areTranslationsLoaded()) {
     logger.info('🖥️ Rendering application with translations loaded...');
+    
+    // Render the main application
     root.render(
       <React.StrictMode>
         <App />
@@ -60,5 +60,5 @@ const renderApp = () => {
   }
 };
 
-// Start the render process
+// Start the render process after a short delay
 setTimeout(renderApp, 100);

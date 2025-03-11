@@ -26,34 +26,38 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
     });
   }, [businesses, isLoading, error]);
 
+  // Handle loading state
   if (isLoading) {
     return (
       <div className="text-center py-12" data-testid="business-loading">
         <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-        <p className="text-gray-500">{t('general.loading') || 'Loading...'}</p>
+        <p className="text-gray-500">Loading businesses...</p>
       </div>
     );
   }
 
+  // Handle error state
   if (error) {
     logger.error('Business list error:', error);
     return (
       <div className="text-center py-12" data-testid="business-error">
         <AlertCircle className="h-8 w-8 mx-auto mb-4 text-red-500" />
-        <p className="text-red-500 mb-2">{t('general.error') || 'An error occurred'}</p>
+        <p className="text-red-500 mb-2">Error loading businesses</p>
         <p className="text-sm text-red-400">{error.message}</p>
       </div>
     );
   }
 
+  // Handle empty state
   if (!businesses || businesses.length === 0) {
     return (
       <div className="text-center py-12" data-testid="business-empty">
-        <p className="text-gray-500">{t('business.filter.noResults') || 'No results found'}</p>
+        <p className="text-gray-500">No businesses found</p>
       </div>
     );
   }
 
+  // Render businesses
   return (
     <div data-testid="business-content">
       <TabsContent value="grid" className="mt-0">
@@ -74,7 +78,7 @@ const BusinessList = ({ businesses, isLoading, error, view }: BusinessListProps)
       
       <TabsContent value="map" className="mt-0">
         <div className="bg-gray-100 rounded-lg h-96 flex items-center justify-center">
-          <p className="text-gray-500">{t('business.mapViewComingSoon') || 'Map view coming soon'}</p>
+          <p className="text-gray-500">Map view coming soon</p>
         </div>
       </TabsContent>
     </div>

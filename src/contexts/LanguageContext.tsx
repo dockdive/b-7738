@@ -10,7 +10,8 @@ import {
   preloadTranslations,
   reloadTranslations,
   areTranslationsLoaded,
-  getFallbackTranslation
+  getFallbackTranslation,
+  logMissingTranslations
 } from "@/utils/translationUtils";
 import { LanguageContext, LanguageContextType } from "@/hooks/useLanguageContext";
 
@@ -22,14 +23,31 @@ export { useLanguage } from "@/hooks/useLanguageContext";
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isTranslationsLoaded, setIsTranslationsLoaded] = useState<boolean>(areTranslationsLoaded());
   
-  // Preload translations if they aren't already loaded
+  // Ensure translations are loaded
   useEffect(() => {
     if (!areTranslationsLoaded()) {
       logger.info("🌐 Initializing translations...");
       preloadTranslations();
-      setIsTranslationsLoaded(true);
+      
+      // Check periodically if translations are loaded
+      const checkInterval = setInterval(() => {
+        if (areTranslationsLoaded()) {
+          setIsTranslationsLoaded(true);
+          clearInterval(checkInterval);
+          logger.info("🌐 Translations loaded successfully");
+          
+          // Log missing translations in development
+          if (process.env.NODE_ENV === 'development') {
+            logMissingTranslations();
+          }
+        }
+      }, 100);
+      
+      // Cleanup interval
+      return () => clearInterval(checkInterval);
     } else {
       setIsTranslationsLoaded(true);
+      logger.info("🌐 Translations already loaded");
     }
   }, []);
   
@@ -107,7 +125,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (options) {
       Object.entries(options).forEach(([k, v]) => {
         const regex = new RegExp(`\\{${k}\\}`, "g");
-        text = text.replace(regex, v);
+        text = text.replace(regex, v || '');
       });
     }
     
