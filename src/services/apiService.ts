@@ -531,14 +531,9 @@ const sampleBusinesses: Business[] = [
     created_at: "2016-11-05T00:00:00Z",
     updated_at: "2023-07-22T00:00:00Z",
     images: [
-      "https://images.unsplash.com/photo-1533692328991-40613b6f2f30?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1533692328991-4061a83e2001?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1593351415075-3bac95314fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ],
-    state: null,
-    latitude: 44.2227,
-    longitude: 12.0407,
-    owner_id: "00000000-0000-0000-0000-000000000008",
-    views: 1280
+    ]
   },
   {
     id: "b009",
@@ -653,16 +648,11 @@ const sampleBusinesses: Business[] = [
     is_featured: false,
     status: "approved" as BusinessStatus,
     created_at: "2017-09-30T00:00:00Z",
-    updated_at: "2023-09-15T00:00:00Z",
+    updated_at: "2023-06-20T00:00:00Z",
     images: [
       "https://images.unsplash.com/photo-1575457180622-9ca8cbfde32f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
-      "https://images.unsplash.com/photo-1597195436598-d2c8bd598a45?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ],
-    state: "North Carolina",
-    latitude: 35.6127,
-    longitude: -77.3664,
-    owner_id: "00000000-0000-0000-0000-000000000012",
-    views: 710
+      "https://images.unsplash.com/photo-1529080504353-6b280eebc3f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ]
   },
   {
     id: "b013",
