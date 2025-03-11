@@ -7,50 +7,19 @@ import {
   translationCache, 
   detectBrowserLanguage, 
   getNestedValue, 
-  preloadTranslations,
-  reloadTranslations,
-  areTranslationsLoaded,
-  getFallbackTranslation,
-  logMissingTranslations
+  preloadTranslations 
 } from "@/utils/translationUtils";
 import { LanguageContext, LanguageContextType } from "@/hooks/useLanguageContext";
+import deepMerge from "@/utils/deepMerge";
 
-// Export the hook and types
+// Preload all translations for all languages
+preloadTranslations();
+
 export type { LanguageCode } from "@/constants/languageConstants";
 export { supportedLanguages } from "@/constants/languageConstants";
 export { useLanguage } from "@/hooks/useLanguageContext";
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isTranslationsLoaded, setIsTranslationsLoaded] = useState<boolean>(areTranslationsLoaded());
-  
-  // Ensure translations are loaded
-  useEffect(() => {
-    if (!areTranslationsLoaded()) {
-      logger.info("🌐 Initializing translations...");
-      preloadTranslations();
-      
-      // Check periodically if translations are loaded
-      const checkInterval = setInterval(() => {
-        if (areTranslationsLoaded()) {
-          setIsTranslationsLoaded(true);
-          clearInterval(checkInterval);
-          logger.info("🌐 Translations loaded successfully");
-          
-          // Log missing translations in development
-          if (process.env.NODE_ENV === 'development') {
-            logMissingTranslations();
-          }
-        }
-      }, 100);
-      
-      // Cleanup interval
-      return () => clearInterval(checkInterval);
-    } else {
-      setIsTranslationsLoaded(true);
-      logger.info("🌐 Translations already loaded");
-    }
-  }, []);
-  
   const getInitialLanguage = (): LanguageCode => {
     try {
       const savedLang = localStorage.getItem("maritime-language") as LanguageCode | null;
@@ -73,10 +42,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       localStorage.setItem("maritime-language", lang);
       setLanguageState(lang);
       document.documentElement.lang = lang;
-      
-      // Reload translations when language changes
-      reloadTranslations(lang);
-      
       toast({
         title: "Language Changed",
         description: `Language switched to ${supportedLanguages.find(l => l.code === lang)?.name || lang}`,
@@ -92,8 +57,50 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   useEffect(() => {
-    // Ensure document language is set
     document.documentElement.lang = language;
+    
+    // Force reload translations when language changes
+    try {
+      // Clear the cache for the current language to ensure fresh loading
+      delete translationCache[language];
+      
+      // Load base language file
+      try {
+        const baseTranslations = require(`@/locales/${language}.json`);
+        translationCache[language] = baseTranslations;
+      } catch (e) {
+        logger.error(`Failed to load base translation file for ${language}`, e);
+      }
+      
+      // Get all category folders
+      const categories = [
+        "business", "footer", "home", "bulkupload", 
+        "conditions", "faq", "match", "messages", 
+        "boat", "boatsearch", "auth", "navigation", 
+        "favorites", "privacy", "cookies", "terms", 
+        "profile", "header", "boats", "subscription", 
+        "search", "common", "sell", "general"
+      ];
+      
+      // Load translation files from category folders
+      for (const category of categories) {
+        try {
+          const categoryTranslation = require(`@/locales/${category}/${language}.json`);
+          if (categoryTranslation && Object.keys(categoryTranslation).length > 0) {
+            if (!translationCache[language]) {
+              translationCache[language] = {};
+            }
+            translationCache[language] = deepMerge(translationCache[language], categoryTranslation);
+          }
+        } catch (e) {
+          logger.warning(`No translation file found for category ${category} and language ${language}`);
+        }
+      }
+      
+      logger.info(`Reloaded translations for ${language}`);
+    } catch (e) {
+      logger.error(`Failed to reload translations for ${language}`, e);
+    }
   }, [language]);
 
   const t = (key: string, options?: Record<string, string>): string => {
@@ -103,29 +110,34 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
     
     // Get translation from current language
-    let text = translationCache[language] ? getNestedValue(translationCache[language], key) : undefined;
+    let text = getNestedValue(translationCache[language], key);
     
     // Fallback to English if translation is missing
     if (text === undefined && language !== "en") {
-      text = translationCache["en"] ? getNestedValue(translationCache["en"], key) : undefined;
+      text = getNestedValue(translationCache["en"], key);
     }
     
-    // Use fallback system if still missing
+    // Return key if translation is still missing
     if (text === undefined) {
-      // Log missing key for debugging (limit frequency to avoid console spam)
-      if (!missingKeys.includes(key)) {
-        logger.warning(`Missing translation key: ${key}`);
-        setMissingKeys(prev => [...prev, key]);
-      }
+      // Log missing key for debugging
+      logger.warning(`Missing translation key: ${key}`);
       
-      return getFallbackTranslation(key);
+      // Add to missing keys list if not already present
+      setMissingKeys(prev => {
+        if (!prev.includes(key)) {
+          return [...prev, key];
+        }
+        return prev;
+      });
+      
+      return key;
     }
     
     // Replace variables in the translation if options are provided
     if (options) {
       Object.entries(options).forEach(([k, v]) => {
         const regex = new RegExp(`\\{${k}\\}`, "g");
-        text = text.replace(regex, v || '');
+        text = text.replace(regex, v);
       });
     }
     
@@ -162,18 +174,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       resetMissingKeys
     }
   }), [language, showTranslationKeys, missingKeys]);
-
-  // If translations aren't loaded yet, show a loading indicator
-  if (!isTranslationsLoaded) {
-    return (
-      <div className="flex items-center justify-center h-screen w-screen">
-        <div className="text-center">
-          <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-lg">Loading translations...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <LanguageContext.Provider value={contextValue}>

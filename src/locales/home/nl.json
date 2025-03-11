@@ -1,73 +1,42 @@
 
 {
   "home": {
+    "heroTitle": "Maritieme Bedrijvengids",
+    "heroSubtitle": "Maak verbinding met betrouwbare maritieme bedrijven en diensten wereldwijd",
     "hero": {
-      "title": "De Maritieme Zakengids",
-      "subtitle": "Verbind met maritieme bedrijven wereldwijd",
-      "cta": "Zoek Bedrijven"
+      "title": "De Maritieme Bedrijvengids",
+      "subtitle": "Maak verbinding met toonaangevende bedrijven en dienstverleners in de wereldwijde maritieme industrie",
+      "trustedBy": "Vertrouwd door toonaangevende maritieme bedrijven"
     },
+    "findBusiness": "Vind een Bedrijf",
+    "listBusiness": "Plaats je Bedrijf",
+    "businessesRegistered": "Geregistreerde Bedrijven",
+    "monthlyUsers": "Maandelijkse Gebruikers",
+    "monthlySearches": "Maandelijkse Zoekopdrachten",
+    "featuredBusinesses": "Uitgelichte Bedrijven",
+    "viewAllBusinesses": "Bekijk Alle Bedrijven",
     "categories": {
-      "title": "Verken per Categorie",
-      "seeAll": "Bekijk alle categorieën"
+      "title": "Bladeren per Categorie",
+      "subtitle": "Verken ons uitgebreide aanbod van maritieme bedrijven per categorie",
+      "viewAll": "Bekijk Alle Categorieën"
     },
-    "features": {
-      "title": "Wat We Bieden",
-      "tabs": {
-        "business": "Voor Bedrijven",
-        "owners": "Voor Booteigenaren",
-        "community": "Voor Gemeenschap"
-      },
-      "business": {
-        "exposure": {
-          "title": "Maximale Zichtbaarheid",
-          "description": "Laat uw maritieme diensten zien aan potentiële klanten en vergroot uw bereik in de sector.",
-          "action": "Bedrijf Toevoegen"
-        },
-        "insights": {
-          "title": "Bedrijfsinzichten",
-          "description": "Krijg toegang tot waardevolle gegevens en analyses om uw maritieme zakelijke activiteiten te verbeteren.",
-          "action": "Dashboard Bekijken"
-        },
-        "tools": {
-          "title": "Effectieve Tools",
-          "description": "Beheer uw aanbiedingen en communiceer met klanten via ons gespecialiseerde platform.",
-          "action": "Bulk Upload"
-        }
-      },
-      "owners": {
-        "search": {
-          "title": "Vind Diensten",
-          "description": "Zoek geverifieerde maritieme diensten en bedrijven voor al uw behoeften op het water.",
-          "action": "Zoek Bedrijven"
-        },
-        "reviews": {
-          "title": "Betrouwbare Beoordelingen",
-          "description": "Bekijk en deel ervaringen om de beste maritieme dienstverleners te vinden.",
-          "action": "Bekijk Beoordelingen"
-        },
-        "resources": {
-          "title": "Handige Informatie",
-          "description": "Toegang tot gidsen en tips om geïnformeerde beslissingen te nemen voor uw boot.",
-          "action": "Ontdek Hulpmiddelen"
-        }
-      },
-      "community": {
-        "events": {
-          "title": "Maritieme Evenementen",
-          "description": "Blijf op de hoogte van de nieuwste maritieme evenementen, bootshows en netwerkmogelijkheden.",
-          "action": "Evenementen Bekijken"
-        },
-        "forums": {
-          "title": "Gemeenschapsforum",
-          "description": "Neem deel aan discussies met andere booteigenaren en maritieme professionals.",
-          "action": "Word Lid van Forum"
-        },
-        "newsletter": {
-          "title": "Nieuwsbrief",
-          "description": "Ontvang het laatste nieuws en updates uit de maritieme sector direct in uw inbox.",
-          "action": "Abonneren"
-        }
-      }
-    }
+    "featured": {
+      "title": "Uitgelichte Bedrijven",
+      "subtitle": "Ontdek onze best beoordeelde maritieme bedrijven en dienstverleners",
+      "viewAllBusinesses": "Bekijk Alle Bedrijven"
+    },
+    "cta": {
+      "title": "Doe mee met onze Maritieme Gids",
+      "subtitle": "Plaats je maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap",
+      "addBusiness": "Voeg je Bedrijf toe",
+      "exploreBusiness": "Verken Bedrijven"
+    },
+    "testimonials": "Wat Onze Gebruikers Zeggen",
+    "latestListings": "Nieuwste Vermeldingen",
+    "joinDirectory": "Doe mee met onze Maritieme Gids",
+    "joinDescription": "Plaats je maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap",
+    "joinCTA": "Begin Nu",
+    "searchPlaceholder": "Zoek naar maritieme bedrijven...",
+    "popularSearches": "Populair: Scheepsreparatie, Maritieme Apparatuur, Scheepsbenodigdheden"
   }
 }
