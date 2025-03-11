@@ -153,7 +153,15 @@ export const fetchCategories = async (): Promise<Category[]> => {
       .order('name');
     
     if (error) throw new Error(error.message);
-    return data || [];
+    
+    // Add a default description if it doesn't exist in the database
+    return (data || []).map(item => ({
+      id: item.id,
+      name: item.name,
+      icon: item.icon,
+      description: item.description || `${item.name} category for maritime businesses.`,
+      created_at: item.created_at
+    })) as Category[];
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
@@ -308,7 +316,13 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1584188834841-4f0adb6e76e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1592742272072-c31cd5e33fcf?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    // Adding missing required properties
+    state: null,
+    latitude: 46.7134,
+    longitude: -2.0352,
+    owner_id: "00000000-0000-0000-0000-000000000001",
+    views: 1250
   },
   {
     id: "b002",
@@ -334,7 +348,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1572495425710-0a81e675048e?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1569263900347-06b1e8c825ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Illinois",
+    latitude: 42.2356,
+    longitude: -87.8895,
+    owner_id: "00000000-0000-0000-0000-000000000002",
+    views: 980
   },
   {
     id: "b003",
@@ -360,7 +379,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1589288415562-6ff3a09726cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1569629743714-4d51aedcb891?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 45.0793,
+    longitude: 7.3923,
+    owner_id: "00000000-0000-0000-0000-000000000003",
+    views: 1120
   },
   {
     id: "b004",
@@ -386,7 +410,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1610523137946-34c7165bf8d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1563296291-28f8814112dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "England",
+    latitude: 50.3719,
+    longitude: -4.1425,
+    owner_id: "00000000-0000-0000-0000-000000000004",
+    views: 890
   },
   {
     id: "b005",
@@ -412,7 +441,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1516132006923-6cf348e5dee2?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1591180290025-5d7e35430e9e?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 46.8726,
+    longitude: -1.0152,
+    owner_id: "00000000-0000-0000-0000-000000000005",
+    views: 750
   },
   {
     id: "b006",
@@ -438,7 +472,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1539797838992-a31f9c1cfad4?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1570863160264-28ce9fd47b88?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "New Jersey",
+    latitude: 39.5912,
+    longitude: -74.4460,
+    owner_id: "00000000-0000-0000-0000-000000000006",
+    views: 680
   },
   {
     id: "b007",
@@ -464,7 +503,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1639462701508-0b7969af0c41?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1640276922909-fe221e33fb26?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Dorset",
+    latitude: 50.7135,
+    longitude: -1.9878,
+    owner_id: "00000000-0000-0000-0000-000000000007",
+    views: 1050
   },
   {
     id: "b008",
@@ -488,9 +532,14 @@ const sampleBusinesses: Business[] = [
     created_at: "2016-11-05T00:00:00Z",
     updated_at: "2023-07-22T00:00:00Z",
     images: [
-      "https://images.unsplash.com/photo-1533692328991-4061what the f*ck3b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1533692328991-40613b6f2f30?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1593351415075-3bac95314fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 44.2227,
+    longitude: 12.0407,
+    owner_id: "00000000-0000-0000-0000-000000000008",
+    views: 1280
   },
   {
     id: "b009",
@@ -516,7 +565,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1566926462053-5476cf83f1d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 46.1239,
+    longitude: -0.9381,
+    owner_id: "00000000-0000-0000-0000-000000000009",
+    views: 720
   },
   {
     id: "b010",
@@ -542,7 +596,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1575457180622-9ca8cbfde32f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1529080504353-6b280eebc3f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: "Florida",
+    latitude: 28.9886,
+    longitude: -80.9025,
+    owner_id: "00000000-0000-0000-0000-000000000010",
+    views: 950
   },
   {
     id: "b011",
@@ -568,7 +627,12 @@ const sampleBusinesses: Business[] = [
     images: [
       "https://images.unsplash.com/photo-1542202229-7d93c33f5d07?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
       "https://images.unsplash.com/photo-1542397284385-6010376c5337?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
-    ]
+    ],
+    state: null,
+    latitude: 44.8637,
+    longitude: -0.5460,
+    owner_id: "00000000-0000-0000-0000-000000000011",
+    views: 830
   },
   {
     id: "b012",
@@ -590,4 +654,268 @@ const sampleBusinesses: Business[] = [
     is_featured: false,
     status: "approved" as BusinessStatus,
     created_at: "2017-09-30T00:00:00Z",
-    updated_at: "2023-0
+    updated_at: "2023-09-15T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1575457180622-9ca8cbfde32f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1597195436598-d2c8bd598a45?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: "North Carolina",
+    latitude: 35.6127,
+    longitude: -77.3664,
+    owner_id: "00000000-0000-0000-0000-000000000012",
+    views: 710
+  },
+  {
+    id: "b013",
+    name: "Sea Ray Boats",
+    description: "Founded in 1959, Sea Ray is one of the world's largest manufacturers of pleasure boats, offering a wide range of sport boats, cruisers, and yachts known for their quality, innovation, and performance.",
+    logo_url: "https://images.unsplash.com/photo-1599155253646-e30f0a5e4939?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 2,
+    rating: 4.6,
+    review_count: 241,
+    city: "Knoxville",
+    country: "USA",
+    services: ["Sport Boat Manufacturing", "Luxury Yacht Building", "After-sales Service", "Dealer Support"],
+    address: "800 S Gay St",
+    zip: "37929",
+    phone: "+1 865-522-4181",
+    email: "info@searay.com",
+    website: "https://www.searay.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2017-11-18T00:00:00Z",
+    updated_at: "2023-09-01T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1607358789922-02e74898fedf?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1601671846525-6573167252a4?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: "Tennessee",
+    latitude: 35.9606,
+    longitude: -83.9207,
+    owner_id: "00000000-0000-0000-0000-000000000013",
+    views: 870
+  },
+  {
+    id: "b014",
+    name: "Nautor's Swan",
+    description: "Founded in 1966 in Finland, Nautor's Swan produces high-end luxury sailing yachts renowned for their elegance, quality craftsmanship, and performance. Each yacht represents the perfect blend of tradition and innovation.",
+    logo_url: "https://images.unsplash.com/photo-1563052543-ee67b80fec4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 1,
+    rating: 4.9,
+    review_count: 112,
+    city: "Jakobstad",
+    country: "Finland",
+    services: ["Luxury Sailboat Manufacturing", "Custom Yacht Building", "Refit Services", "Swan Brokerage"],
+    address: "Pietarsaari",
+    zip: "68600",
+    phone: "+358 6 7601111",
+    email: "info@nautorswan.com",
+    website: "https://www.nautorswan.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2016-12-03T00:00:00Z",
+    updated_at: "2023-08-19T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1548262358-4f6d5f8eef3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1532332248682-206cc786359f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: null,
+    latitude: 63.6745,
+    longitude: 22.7010,
+    owner_id: "00000000-0000-0000-0000-000000000014",
+    views: 650
+  },
+  {
+    id: "b015",
+    name: "Oyster Yachts",
+    description: "Established in 1973, Oyster Yachts builds luxury blue-water sailing yachts, combining traditional craftsmanship with modern design and technology. Known for creating seaworthy vessels for safe and comfortable ocean crossings.",
+    logo_url: "https://images.unsplash.com/photo-1601042879364-f3947d3f9176?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 1,
+    rating: 4.8,
+    review_count: 129,
+    city: "Southampton",
+    country: "United Kingdom",
+    services: ["Luxury Yacht Building", "Brokerage", "Owner Support", "Worldwide Service"],
+    address: "Saxon Wharf, Lower York Street",
+    zip: "SO14 5QF",
+    phone: "+44 23 8083 1010",
+    email: "info@oysteryachts.com",
+    website: "https://www.oysteryachts.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2018-02-27T00:00:00Z",
+    updated_at: "2023-09-19T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1523294557-3637e1db5690?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1540083127746-0a1a35d2657d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: "England",
+    latitude: 50.8965,
+    longitude: -1.3872,
+    owner_id: "00000000-0000-0000-0000-000000000015",
+    views: 730
+  },
+  {
+    id: "b016",
+    name: "Chris-Craft Boats",
+    description: "Founded in 1874, Chris-Craft is America's oldest boat builder, famous for wooden runabouts that defined the golden age of boating. Today they continue producing premium boats combining classic designs with modern technology.",
+    logo_url: "https://images.unsplash.com/photo-1536364127590-1594e3161294?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 2,
+    rating: 4.7,
+    review_count: 198,
+    city: "Sarasota",
+    country: "USA",
+    services: ["Runabout Manufacturing", "Sport Boat Building", "Cruiser Production", "Parts & Accessories"],
+    address: "8161 15th St E",
+    zip: "34243",
+    phone: "+1 941-351-4900",
+    email: "info@chriscraft.com",
+    website: "https://www.chriscraft.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2018-10-25T00:00:00Z",
+    updated_at: "2023-07-28T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1563296291-752e8f16ef0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: "Florida",
+    latitude: 27.3975,
+    longitude: -82.5306,
+    owner_id: "00000000-0000-0000-0000-000000000016",
+    views: 920
+  },
+  {
+    id: "b017",
+    name: "Riviera Yachts",
+    description: "Founded in 1980, Riviera is Australia's premium luxury motor yacht builder, creating award-winning designs that blend innovative technology, superior performance, and luxurious comfort for blue-water cruising.",
+    logo_url: "https://images.unsplash.com/photo-1622830098587-775d41d8dc55?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 3,
+    rating: 4.8,
+    review_count: 154,
+    city: "Coomera",
+    country: "Australia",
+    services: ["Motor Yacht Construction", "Custom Design", "Owner Events", "Factory Service Center"],
+    address: "50 Waterway Drive",
+    zip: "QLD 4209",
+    phone: "+61 7 5502 5555",
+    email: "info@riviera.com.au",
+    website: "https://www.rivieraaustralia.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2019-04-05T00:00:00Z",
+    updated_at: "2023-08-22T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1595955585020-01f4615ae528?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1595954424845-9d31c0a45c0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: "Queensland",
+    latitude: -27.8654,
+    longitude: 153.3359,
+    owner_id: "00000000-0000-0000-0000-000000000017",
+    views: 780
+  },
+  {
+    id: "b018",
+    name: "Hinckley Yachts",
+    description: "Established in 1928, Hinckley Yachts is renowned for building handcrafted luxury sailing and power boats that combine traditional craftmanship with cutting-edge technology, including their iconic Picnic Boats.",
+    logo_url: "https://images.unsplash.com/photo-1589218436045-ee24c3d9269c?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 2,
+    rating: 4.9,
+    review_count: 147,
+    city: "Southwest Harbor",
+    country: "USA",
+    services: ["Custom Yacht Building", "Jet Boat Manufacturing", "Service Centers", "Yacht Management"],
+    address: "130 Shore Road",
+    zip: "04679",
+    phone: "+1 207-244-5531",
+    email: "info@hinckleyyachts.com",
+    website: "https://www.hinckleyyachts.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2017-08-12T00:00:00Z",
+    updated_at: "2023-09-05T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1518473222771-1776b4a8389b?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1526761122248-c31ff657e2df?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: "Maine",
+    latitude: 44.2763,
+    longitude: -68.3228,
+    owner_id: "00000000-0000-0000-0000-000000000018",
+    views: 690
+  },
+  {
+    id: "b019",
+    name: "Grand Banks Yachts",
+    description: "Founded in 1956, Grand Banks Yachts builds premium trawler yachts and motor yachts known for their seaworthiness, craftsmanship, and classic designs. Their vessels combine traditional aesthetics with modern performance.",
+    logo_url: "https://images.unsplash.com/photo-1599231091889-c1860dac9ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 3,
+    rating: 4.7,
+    review_count: 132,
+    city: "Pasir Gudang",
+    country: "Malaysia",
+    services: ["Trawler Yacht Manufacturing", "Motor Yacht Building", "Global Dealer Network", "Parts & Support"],
+    address: "PLO 488, Jalan Suasa",
+    zip: "81707",
+    phone: "+60 7-252-9188",
+    email: "info@grandbanks.com",
+    website: "https://www.grandbanks.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2018-09-09T00:00:00Z",
+    updated_at: "2023-08-17T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1569726072374-45ce78e68dd8?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1593351415075-3bac95314fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: "Johor",
+    latitude: 1.4721,
+    longitude: 103.9077,
+    owner_id: "00000000-0000-0000-0000-000000000019",
+    views: 620
+  },
+  {
+    id: "b020",
+    name: "Hanse Yachts",
+    description: "Founded in 1990, Hanse Yachts has become one of the world's leading manufacturers of premium sailing yachts. Known for innovative designs, easy sailing characteristics, and modern interiors with a focus on performance.",
+    logo_url: "https://images.unsplash.com/photo-1533740566848-5f7d3e04e3d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+    category_id: 1,
+    subcategory_id: 1,
+    rating: 4.7,
+    review_count: 196,
+    city: "Greifswald",
+    country: "Germany",
+    services: ["Sailing Yacht Manufacturing", "Customization Options", "Dealer Network", "Owner Services"],
+    address: "Ladebower Chaussee 11",
+    zip: "17493",
+    phone: "+49 3834 5792-0",
+    email: "info@hanseyachts.com",
+    website: "https://www.hanseyachts.com",
+    is_featured: false,
+    status: "approved" as BusinessStatus,
+    created_at: "2019-02-14T00:00:00Z",
+    updated_at: "2023-09-22T00:00:00Z",
+    images: [
+      "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80",
+      "https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80"
+    ],
+    state: null,
+    latitude: 54.0919,
+    longitude: 13.3714,
+    owner_id: "00000000-0000-0000-0000-000000000020",
+    views: 840
+  }
+];
+
+// Mock function to get sample businesses
+export const getSampleBusinesses = (): Business[] => {
+  return sampleBusinesses;
+};

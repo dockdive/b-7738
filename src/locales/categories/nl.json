@@ -3,31 +3,31 @@
   "categories": {
     "all": "Alle Categorieën",
     "marineServices": {
-      "name": "Maritieme Diensten",
+      "name": "Marine Diensten",
       "description": "Professionele diensten voor al uw maritieme behoeften"
     },
     "boatSales": {
       "name": "Bootverkoop",
-      "description": "Nieuwe en gebruikte boten te koop van vertrouwde dealers"
+      "description": "Nieuwe en gebruikte boten te koop van betrouwbare dealers"
     },
     "maintenanceRepair": {
       "name": "Onderhoud & Reparatie",
       "description": "Houd uw vaartuig in topconditie"
     },
     "marineEquipment": {
-      "name": "Maritieme Uitrusting",
+      "name": "Marine Apparatuur",
       "description": "Kwaliteitsapparatuur en accessoires voor uw boot"
     },
     "boatTransport": {
       "name": "Boottransport",
-      "description": "Professionele boottransportdiensten"
+      "description": "Professionele boot transportdiensten"
     },
     "marineInsurance": {
-      "name": "Maritieme Verzekeringen",
+      "name": "Marine Verzekering",
       "description": "Bescherm uw investering met gespecialiseerde dekking"
     },
     "marinas": {
-      "name": "Jachthavens & Dokken",
+      "name": "Jachthavens & Steigers",
       "description": "Veilige havens en aanlegfaciliteiten"
     },
     "boatRentals": {

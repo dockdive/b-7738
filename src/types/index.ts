@@ -57,6 +57,7 @@ export type Category = {
   id: number;
   name: string;
   icon: string;
+  description: string; // Add the description property
   created_at: string;
 };
 
