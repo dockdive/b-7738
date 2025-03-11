@@ -2,10 +2,10 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import { LanguageProvider } from './contexts/LanguageContext'
+import { LanguageProvider } from './contexts/LanguageContext.tsx'
 import { Toaster } from './components/ui/toaster'
 import { Toaster as Sonner } from './components/ui/sonner'
-import TranslationDebugger from './components/TranslationDebugger'
+// import TranslationDebugger from './components/TranslationDebugger'
 
 // Create a function to handle the root creation and rendering
 const renderApp = () => {
@@ -23,7 +23,7 @@ const renderApp = () => {
       <App />
       <Toaster />
       <Sonner />
-      <TranslationDebugger />
+      {/* <TranslationDebugger /> */}
     </LanguageProvider>
   );
 };

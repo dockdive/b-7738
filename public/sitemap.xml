@@ -7,57 +7,57 @@
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <!-- Homepage -->
   <url>
-    <loc>https://yourdomain.com/</loc>
+    <loc>https://compass.dockdive.com/</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://yourdomain.com/nl/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compass.dockdive.com/" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://compass.dockdive.com/nl/" />
   </url>
   
   <!-- Business Directory -->
   <url>
-    <loc>https://yourdomain.com/businesses</loc>
+    <loc>https://compass.dockdive.com/businesses</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/businesses" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://yourdomain.com/nl/businesses" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compass.dockdive.com/businesses" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://compass.dockdive.com/nl/businesses" />
   </url>
   
   <!-- Add Business Page -->
   <url>
-    <loc>https://yourdomain.com/add-business</loc>
+    <loc>https://compass.dockdive.com/add-business</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/add-business" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://yourdomain.com/nl/add-business" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compass.dockdive.com/add-business" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://compass.dockdive.com/nl/add-business" />
   </url>
   
   <!-- Authentication Page -->
   <url>
-    <loc>https://yourdomain.com/auth</loc>
+    <loc>https://compass.dockdive.com/auth</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/auth" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://yourdomain.com/nl/auth" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compass.dockdive.com/auth" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://compass.dockdive.com/nl/auth" />
   </url>
   
   <!-- Bulk Upload Page -->
   <url>
-    <loc>https://yourdomain.com/bulk-upload</loc>
+    <loc>https://compass.dockdive.com/bulk-upload</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://yourdomain.com/bulk-upload" />
-    <xhtml:link rel="alternate" hreflang="nl" href="https://yourdomain.com/nl/bulk-upload" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://compass.dockdive.com/bulk-upload" />
+    <xhtml:link rel="alternate" hreflang="nl" href="https://compass.dockdive.com/nl/bulk-upload" />
   </url>
   
   <!-- Profile Page -->
   <url>
-    <loc>https://yourdomain.com/profile</loc>
+    <loc>https://compass.dockdive.com/profile</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -65,7 +65,7 @@
   
   <!-- Dashboard Page -->
   <url>
-    <loc>https://yourdomain.com/dashboard</loc>
+    <loc>https://compass.dockdive.com/dashboard</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -73,19 +73,19 @@
   
   <!-- Category Pages - Would typically be dynamically generated -->
   <url>
-    <loc>https://yourdomain.com/businesses?category=shipyards</loc>
+    <loc>https://compass.dockdive.com/businesses?category=shipyards</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/businesses?category=marinas</loc>
+    <loc>https://compass.dockdive.com/businesses?category=marinas</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/businesses?category=boat-repair</loc>
+    <loc>https://compass.dockdive.com/businesses?category=boat-repair</loc>
     <lastmod>2024-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
