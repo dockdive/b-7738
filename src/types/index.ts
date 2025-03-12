@@ -170,8 +170,5 @@ export interface Review {
   updated_at?: string;
 }
 
-// Re-export wiki types for easy access
-export type { WikiEntry, WikiSearchResult, WikiServiceInterface, WikiPage, WikiCategory } from './wiki';
-
 // Re-export LanguageCode for global use
 export type { LanguageCode };
