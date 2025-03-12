@@ -58,12 +58,12 @@ export interface Business {
   services?: string[];
   images?: string[];
   opening_hours?: Record<string, string>;
-  owner_id: string; // Make required to match API requirements
+  owner_id: string; // Required - don't change this to optional
   latitude?: number;
   longitude?: number;
 }
 
-// Update BusinessCreate type for form submissions to match API and page requirements
+// Update BusinessCreate to ensure it matches the API requirements
 export interface BusinessCreate {
   name: string;
   description: string;
@@ -79,7 +79,7 @@ export interface BusinessCreate {
   country?: string;
   category_id: number;
   subcategory_id?: number;
-  owner_id: string; // Make required to match API requirements
+  owner_id: string; // This must be required to match API requirements
   user_id?: string;
   status?: BusinessStatusUnion;
   opening_hours?: Record<string, string>;

@@ -21,6 +21,7 @@ export interface WikiSearchResult {
 export interface WikiServiceInterface {
   getEntry: (slug: string) => Promise<WikiEntry>;
   searchEntries: (query: string) => Promise<WikiSearchResult[]>;
+  getEntries?: () => Promise<WikiEntry[]>; // Add this method to the interface
   entries: WikiEntry[];
   loading: boolean;
   error: Error | null;
@@ -55,6 +56,9 @@ export const wikiService: WikiServiceInterface = {
     };
   },
   searchEntries: async (query: string): Promise<WikiSearchResult[]> => {
+    return [];
+  },
+  getEntries: async (): Promise<WikiEntry[]> => {
     return [];
   },
   entries: [],
