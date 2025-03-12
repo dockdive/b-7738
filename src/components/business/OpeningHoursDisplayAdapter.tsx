@@ -3,17 +3,17 @@ import React from 'react';
 import OpeningHoursDisplay from './OpeningHoursDisplay';
 
 interface OpeningHoursDisplayAdapterProps {
-  hours: Record<string, string>;
-  className?: string;
+  openingHours: string | Record<string, string>;
 }
 
-// This adapter component converts a Record<string, string> to a proper ReactNode
-// to fix the type error in BusinessDetail.tsx
-const OpeningHoursDisplayAdapter: React.FC<OpeningHoursDisplayAdapterProps> = ({ 
-  hours, 
-  className 
-}) => {
-  return <OpeningHoursDisplay hours={hours} className={className} />;
+const OpeningHoursDisplayAdapter: React.FC<OpeningHoursDisplayAdapterProps> = ({ openingHours }) => {
+  // Handle string format (convert to object if needed)
+  const formattedHours: Record<string, string> = 
+    typeof openingHours === 'string' 
+      ? { default: openingHours } 
+      : openingHours;
+  
+  return <OpeningHoursDisplay openingHours={formattedHours} />;
 };
 
 export default OpeningHoursDisplayAdapter;

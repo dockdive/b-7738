@@ -62,7 +62,7 @@ export const convertEntryToPage = (entry: WikiEntry): WikiPage => {
     content: entry.content,
     category_id: typeof entry.category === 'string' 
       ? entry.category 
-      : entry.category?.id || 0,
+      : (entry.category?.id || 0),
     created_at: entry.created_at,
     updated_at: entry.updated_at
   };

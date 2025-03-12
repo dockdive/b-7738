@@ -1,1 +1,25 @@
-{"csvUpload":{"title":"Bulk uploaden","description":"Upload meerdere {entityType} records tegelijk met behulp van CSV-indeling","entityTypes":{"business":"Bedrijven","businesses":"Bedrijven","category":"Categorieën","categories":"Categorieën","review":"Beoordelingen","reviews":"Beoordelingen"},"selectFile":"Selecteer CSV-bestand","downloadTemplate":"Sjabloon downloaden","uploadButton":"CSV uploaden","uploading":"Uploaden...","loading":"Laden...","error":"Uploaden mislukt","success":"Uploaden voltooid","successMessage":"Succesvol geüpload {count} records","errorGeneric":"Er is een fout opgetreden tijdens het uploaden","loadSampleData":"Voorbeeldgegevens laden","sampleDataMessage":"Succesvol geladen {count} voorbeeldbedrijven","showLogs":"Logboeken weergeven","hideLogs":"Logboeken verbergen","logs":"Logboeken van bewerkingen","noLogs":"Geen logboeken beschikbaar"},"bulkUpload":{"title":"Tool voor bulkuploads","subtitle":"Importeer eenvoudig meerdere records in de Maritime Directory","prepareCSV":"CSV-bestand voorbereiden","uploadCSV":"Gegevens uploaden","requirements":"Eisen","steps":{"download":"Download de sjabloon voor uw gegevenstype","fill":"Vul uw gegevens in volgens het formaat in het sjabloon","validate":"Controleer uw gegevens op fouten voordat u ze uploadt","save":"Sla uw bestand op in CSV-indeling","select":"Selecteer het voorbereide CSV-bestand","review":"Bekijk de bestandsinformatie","upload":"Klik op de uploadknop om te beginnen","confirm":"Wacht op bevestiging van een succesvolle upload"},"reqDetails":{"format":"CSV-formaat met kopteksten in de eerste rij","headers":"Kopteksten moeten exact overeenkomen met het sjabloon","required":"Verplichte velden mogen niet leeg zijn","size":"Maximale bestandsgrootte: 10 MB"},"tabs":{"businesses":"Bedrijven","categories":"Categorieën","reviews":"Beoordelingen"},"uploadSummary":"Upload Samenvatting","uploadedItems":"{count} {type} succesvol geüpload","entityTypes":{"businesses":"Bedrijven","categories":"Categorieën","reviews":"Beoordelingen"}}}
+
+{
+  "bulkupload": {
+    "title": "Bulk upload bedrijven",
+    "subtitle": "Upload meerdere bedrijven tegelijk",
+    "description": "Upload een CSV-bestand met bedrijfsinformatie",
+    "uploadButton": "CSV uploaden",
+    "downloadTemplate": "Sjabloon downloaden",
+    "instructions": "Instructies",
+    "step1": "1. Download het sjabloonbestand",
+    "step2": "2. Vul de bedrijfsinformatie in",
+    "step3": "3. Upload het ingevulde bestand",
+    "required": "Verplichte velden",
+    "optional": "Optionele velden",
+    "processing": "Verwerken...",
+    "success": "Upload succesvol",
+    "error": "Upload mislukt",
+    "backToBusinesses": "Terug naar bedrijven",
+    "uploadAnother": "Nog een bestand uploaden",
+    "viewBusinesses": "Bekijk geüploade bedrijven",
+    "validationErrors": "Validatiefouten",
+    "rowErrors": "Fouten in rij {row}",
+    "formatError": "Ongeldig bestandsformaat. Upload een CSV-bestand."
+  }
+}
