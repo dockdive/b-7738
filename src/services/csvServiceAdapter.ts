@@ -1,5 +1,5 @@
 
-import { Business, Category, Review, Subcategory, BusinessCreate } from '@/types';
+import { Business, Category, Review, Subcategory, BusinessCreate, BusinessStatusUnion } from '@/types';
 import * as originalCsvService from '@/services/csvService';
 import logger from '@/services/loggerService';
 
@@ -36,7 +36,43 @@ const ensureBusinessFields = (data: any): BusinessCreate => {
     data.logo_url = data.logo;
   }
   
-  return data as BusinessCreate;
+  // Handle status field to ensure it's a valid BusinessStatusUnion
+  if (data.status && typeof data.status === 'string') {
+    data.status = data.status as BusinessStatusUnion;
+  }
+  
+  // Remove any fields that aren't in BusinessCreate
+  const safeData: BusinessCreate = {
+    name: data.name,
+    description: data.description,
+    category_id: parseInt(data.category_id, 10) || 0,
+    logo_url: data.logo_url,
+    website: data.website,
+    email: data.email,
+    phone: data.phone,
+    address: data.address,
+    city: data.city,
+    state: data.state,
+    zip: data.zip,
+    country: data.country,
+    subcategory_id: data.subcategory_id ? parseInt(data.subcategory_id, 10) : undefined,
+    owner_id: data.owner_id,
+    user_id: data.user_id,
+    status: data.status as BusinessStatusUnion,
+    opening_hours: data.opening_hours,
+    is_featured: data.is_featured
+  };
+  
+  return safeData;
+};
+
+// Add helper method to ensure proper category format
+const ensureCategoryFormat = (data: any): Omit<Category, "id" | "created_at"> => {
+  return {
+    name: data.name,
+    icon: data.icon,
+    description: data.description || `${data.name} category`
+  };
 };
 
 // Reexport functions from the original service with adaptations as needed
@@ -86,4 +122,5 @@ export const loadSampleBusinessData = async (
   }
 };
 
-// Add any additional helper functions or type adapters here
+// Export helper functions so they can be used elsewhere
+export { ensureCategoryDescription, ensureBusinessFields, ensureCategoryFormat };

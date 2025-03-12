@@ -20,17 +20,20 @@ export interface Subcategory {
   created_at?: string;
 }
 
-export interface BusinessStatus {
+// Update BusinessStatus to be a union type or an object type consistently
+export interface BusinessStatusObject {
   status: 'pending' | 'approved' | 'rejected';
   reason?: string;
 }
+
+export type BusinessStatusUnion = 'pending' | 'approved' | 'rejected';
 
 export interface Business {
   id: string;
   name: string;
   description: string;
   logo?: string;
-  logo_url?: string; // Added for compatibility with existing code
+  logo_url?: string;
   website?: string;
   email?: string;
   phone?: string;
@@ -44,23 +47,25 @@ export interface Business {
   user_id?: string;
   created_at?: string;
   updated_at?: string;
-  status?: 'pending' | 'approved' | 'rejected';
+  status?: BusinessStatusUnion;
   featured?: boolean;
   is_featured?: boolean; // Alias for featured (for compatibility)
-  rating?: number; // Added for compatibility
-  review_count?: number; // Added for compatibility
-  services?: string[]; // Added for compatibility
-  images?: string[]; // Added for compatibility
-  opening_hours?: Record<string, string>; // Added for compatibility
-  owner_id?: string; // Added for compatibility with API
+  rating?: number;
+  review_count?: number;
+  services?: string[];
+  images?: string[];
+  opening_hours?: Record<string, string>;
+  owner_id?: string;
+  latitude?: number; // Add latitude for map integration
+  longitude?: number; // Add longitude for map integration
 }
 
-// Add BusinessCreate type for form submissions
+// Update BusinessCreate type for form submissions to match API and page requirements
 export interface BusinessCreate {
   name: string;
   description: string;
   logo?: File;
-  logo_url?: string; // Add this for csvService compatibility
+  logo_url?: string;
   website?: string;
   email?: string;
   phone?: string;
@@ -73,9 +78,11 @@ export interface BusinessCreate {
   subcategory_id?: number;
   owner_id?: string;
   user_id?: string;
-  status?: 'pending' | 'approved' | 'rejected';
+  status?: BusinessStatusUnion;
   opening_hours?: Record<string, string>;
-  is_featured?: boolean; // Added to match AddBusiness.tsx usage
+  is_featured?: boolean;
+  latitude?: number; // Add latitude for compatibility with API
+  longitude?: number; // Add longitude for compatibility with API
 }
 
 // Add BusinessFilter type
@@ -84,11 +91,11 @@ export interface BusinessFilter {
   subcategory_id?: number;
   search?: string;
   featured?: boolean;
-  status?: 'pending' | 'approved' | 'rejected';
+  status?: BusinessStatusUnion;
   sort?: 'newest' | 'oldest' | 'name_asc' | 'name_desc' | 'rating' | 'rating_high' | 'rating_low' | 'most_reviewed';
-  country?: string; // Added for compatibility with API
-  city?: string; // Added for compatibility with API
-  rating?: number; // Added for compatibility with API
+  country?: string;
+  city?: string;
+  rating?: number;
 }
 
 export interface User {
@@ -105,10 +112,10 @@ export interface User {
   updated_at?: string;
 }
 
-// Update Profile to be compatible with User (email must not be optional)
+// Update Profile to make it fully compatible with API and User
 export interface Profile {
   id: string;
-  email: string;
+  email: string; // Make email required
   first_name?: string;
   last_name?: string;
   avatar_url?: string;
@@ -120,6 +127,7 @@ export interface Profile {
   updated_at?: string;
   bio?: string;
   website?: string;
+  is_admin?: boolean; // Add to match API response
   social_links?: {
     twitter?: string;
     facebook?: string;
@@ -137,7 +145,8 @@ export interface ProfileUpdate {
   language?: LanguageCode;
   bio?: string;
   website?: string;
-  avatar_url?: string; // Added for compatibility with API
+  avatar_url?: string;
+  email?: string; // Add email for compatibility with API updates
   social_links?: {
     twitter?: string;
     facebook?: string;
@@ -150,10 +159,10 @@ export interface Review {
   id: string;
   business_id: string;
   user_id: string;
-  user_name?: string; // Added for compatibility
+  user_name?: string;
   rating: number;
   comment: string;
-  reply?: string; // Added for compatibility
+  reply?: string;
   created_at?: string;
   updated_at?: string;
 }

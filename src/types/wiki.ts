@@ -44,7 +44,7 @@ export interface WikiCategory {
   description?: string;
 }
 
-// Export a proper wikiService interface that satisfies imports in WikiContext
+// Create a proper wikiService default implementation that satisfies the interface
 export const wikiService: WikiServiceInterface = {
   getEntry: async (slug: string): Promise<WikiEntry> => {
     return {

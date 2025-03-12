@@ -1,1 +1,37 @@
-{"general":{"appName":"Kompas","loading":"Laden...","error":"Fout","success":"Succes","confirm":"Bevestigen","cancel":"Annuleren","save":"Redden","edit":"Bewerken","delete":"Verwijderen","search":"Zoeken","filter":"Filter","sort":"Soort","noResults":"Geen resultaten gevonden","loadMore":"Laad meer","viewAll":"Bekijk alles","showMore":"Toon meer","showLess":"Toon minder","back":"Terug","next":"Volgend","previous":"Vorig","submit":"Opslaan","reset":"Terugstellen","clear":"Duidelijk","apply":"Toepassen","close":"Sluiten","open":"Openen","select":"Selecteren","selected":"Uitverkoren","all":"Alle","none":"Geen","required":"Vereist","optional":"Facultatief"}}
+
+{
+  "general": {
+    "appName": "DockDive",
+    "loading": "Laden...",
+    "error": "Fout",
+    "success": "Succes",
+    "confirm": "Bevestigen",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "search": "Zoeken",
+    "filter": "Filter",
+    "sort": "Sorteren",
+    "noResults": "Geen resultaten gevonden",
+    "loadMore": "Meer laden",
+    "viewAll": "Alles bekijken",
+    "showMore": "Meer tonen",
+    "showLess": "Minder tonen",
+    "back": "Terug",
+    "next": "Volgende",
+    "previous": "Vorige",
+    "submit": "Indienen",
+    "reset": "Resetten",
+    "clear": "Wissen",
+    "apply": "Toepassen",
+    "close": "Sluiten",
+    "open": "Openen",
+    "select": "Selecteren",
+    "selected": "Geselecteerd",
+    "all": "Alle",
+    "none": "Geen",
+    "required": "Verplicht",
+    "optional": "Optioneel"
+  }
+}

@@ -1,45 +1,74 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { WikiEntry, WikiPage, WikiCategory } from '@/types';
+import { WikiEntry, WikiPage, WikiCategory, WikiSearchResult } from '@/types';
+import { wikiService } from '@/types/wiki';
 
-// This adapter helps fix type issues in the original WikiContext
-interface WikiContextAdapterProps {
-  children: React.ReactNode;
+// Interface for the WikiContext
+interface WikiContextType {
+  getEntry: (slug: string) => Promise<WikiEntry>;
+  searchEntries: (query: string) => Promise<WikiSearchResult[]>;
+  entries: WikiEntry[];
+  loading: boolean;
+  error: Error | null;
+  pages: WikiPage[];
+  categories: WikiCategory[];
+  getPageById: (id: number) => WikiPage | undefined;
+  getCategoryById: (id: number) => WikiCategory | undefined;
 }
 
-// The adapter creates a safe context that converts string IDs to numbers when needed
-export const WikiContextAdapter: React.FC<WikiContextAdapterProps> = ({ children }) => {
-  // Safely convert string to number for comparisons
-  const safeNumberConversion = (value: string | number): number => {
+// Create the context with a default value
+const WikiContext = createContext<WikiContextType | undefined>(undefined);
+
+// Provider component
+export const WikiContextAdapter: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [pages, setPages] = useState<WikiPage[]>([]);
+  const [categories, setCategories] = useState<WikiCategory[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Fetch pages and categories here if needed
+    // For now, we'll use empty arrays
+  }, []);
+
+  // Safe type conversion helpers
+  const ensureNumber = (value: any): number => {
     if (typeof value === 'string') {
       return parseInt(value, 10);
     }
-    return value;
+    return typeof value === 'number' ? value : 0;
   };
 
-  // Patch window object to provide safe conversion function
-  if (typeof window !== 'undefined') {
-    (window as any).safeNumberConversion = safeNumberConversion;
+  // Type-safe lookup functions
+  const getPageById = (id: number): WikiPage | undefined => {
+    return pages.find(page => ensureNumber(page.id) === ensureNumber(id));
+  };
+
+  const getCategoryById = (id: number): WikiCategory | undefined => {
+    return categories.find(category => ensureNumber(category.id) === ensureNumber(id));
+  };
+
+  // Provide the context value
+  const contextValue: WikiContextType = {
+    ...wikiService, // Use methods from wikiService
+    pages,
+    categories,
+    getPageById,
+    getCategoryById,
+    loading,
+    error
+  };
+
+  return <WikiContext.Provider value={contextValue}>{children}</WikiContext.Provider>;
+};
+
+// Custom hook for consuming the context
+export const useWikiAdapter = () => {
+  const context = useContext(WikiContext);
+  if (!context) {
+    throw new Error('useWikiAdapter must be used within a WikiContextAdapter');
   }
-
-  return <>{children}</>;
-};
-
-// Helper functions to manage string/number comparisons
-export const compareIds = (id1: string | number, id2: string | number): boolean => {
-  const num1 = typeof id1 === 'string' ? parseInt(id1, 10) : id1;
-  const num2 = typeof id2 === 'string' ? parseInt(id2, 10) : id2;
-  return num1 === num2;
-};
-
-export const getWikiEntryById = (entries: WikiEntry[], id: string | number): WikiEntry | undefined => {
-  const numId = typeof id === 'string' ? parseInt(id, 10) : id;
-  return entries.find(entry => entry.id === numId);
-};
-
-export const getWikiCategoryById = (categories: WikiCategory[], id: string | number): WikiCategory | undefined => {
-  const numId = typeof id === 'string' ? parseInt(id, 10) : id;
-  return categories.find(category => category.id === numId);
+  return context;
 };
 
 export default WikiContextAdapter;
