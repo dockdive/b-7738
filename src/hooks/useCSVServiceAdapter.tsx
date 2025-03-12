@@ -1,64 +1,134 @@
 
-import React, { createContext, useContext, ReactNode } from 'react';
+import { useState } from 'react';
+import { useToast } from '@/components/ui/use-toast';
 import * as csvService from '@/services/csvService';
 import { adaptCategory, adaptCategories } from '@/utils/categoryAdapter';
+import { Business, Category, Review } from '@/types';
+import { useCSVAdapter } from './useCSVAdapter';
 
-// Create context interface for the CSV service adapter
-interface CSVServiceAdapterContextType {
-  parseCsvFile: typeof csvService.parseCsvFile;
-  validateBusinessData: typeof csvService.validateBusinessData;
-  validateCategoryData: typeof csvService.validateCategoryData;
-  validateReviewData: typeof csvService.validateReviewData;
-  processBusinessCsv: typeof csvService.processBusinessCsv;
-  processCategoryCsv: typeof csvService.processCategoryCsv;
-  processReviewCsv: typeof csvService.processReviewCsv;
-  getTemplateFileName: typeof csvService.getTemplateFileName;
-  downloadCsvTemplate: typeof csvService.downloadCsvTemplate;
-}
+export const useCSVServiceAdapter = () => {
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [logs, setLogs] = useState<string[]>([]);
+  const csvAdapter = useCSVAdapter();
 
-// Create context with default values
-const CSVServiceAdapterContext = createContext<CSVServiceAdapterContextType | null>(null);
-
-// Create provider component
-interface CSVServiceAdapterProviderProps {
-  children: ReactNode;
-}
-
-export const CSVServiceAdapterProvider: React.FC<CSVServiceAdapterProviderProps> = ({ children }) => {
-  // Wrap original functions to adapt category objects
-  const processCategoryCsv: typeof csvService.processCategoryCsv = async (data) => {
-    const result = await csvService.processCategoryCsv(data);
-    
-    // Add description field to categories if missing
-    if (result.data) {
-      result.data = adaptCategories(result.data);
+  // Process category data with description field
+  const processCategoryCsv = async (file: File): Promise<Category[]> => {
+    try {
+      setIsLoading(true);
+      setLogs([]);
+      setProgress(0);
+      
+      const result = await csvService.uploadFile(file);
+      
+      if (result.success && result.data) {
+        // Use the adapter to ensure categories have description field
+        const processedCategories = csvAdapter.processCategories(result.data);
+        setLogs(prev => [...prev, `Processed ${processedCategories.length} categories`]);
+        return processedCategories;
+      } else {
+        setLogs(prev => [...prev, `Error: ${result.error || 'Unknown error'}`]);
+        return [];
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error processing category CSV';
+      setLogs(prev => [...prev, `Error: ${message}`]);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: message
+      });
+      return [];
+    } finally {
+      setIsLoading(false);
+      setProgress(100);
     }
-    
-    return result;
   };
 
-  return (
-    <CSVServiceAdapterContext.Provider value={{
-      parseCsvFile: csvService.parseCsvFile,
-      validateBusinessData: csvService.validateBusinessData,
-      validateCategoryData: csvService.validateCategoryData,
-      validateReviewData: csvService.validateReviewData,
-      processBusinessCsv: csvService.processBusinessCsv,
-      processCategoryCsv,
-      processReviewCsv: csvService.processReviewCsv,
-      getTemplateFileName: csvService.getTemplateFileName,
-      downloadCsvTemplate: csvService.downloadCsvTemplate,
-    }}>
-      {children}
-    </CSVServiceAdapterContext.Provider>
-  );
+  // For passthrough methods that don't need adaptation
+  const processBusinessCsv = async (file: File): Promise<Business[]> => {
+    try {
+      setIsLoading(true);
+      setLogs([]);
+      setProgress(0);
+      
+      const result = await csvService.uploadFile(file);
+      
+      if (result.success && result.data) {
+        setLogs(prev => [...prev, `Processed ${result.data.length} businesses`]);
+        return result.data as Business[];
+      } else {
+        setLogs(prev => [...prev, `Error: ${result.error || 'Unknown error'}`]);
+        return [];
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error processing business CSV';
+      setLogs(prev => [...prev, `Error: ${message}`]);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: message
+      });
+      return [];
+    } finally {
+      setIsLoading(false);
+      setProgress(100);
+    }
+  };
+
+  const processReviewCsv = async (file: File): Promise<Review[]> => {
+    try {
+      setIsLoading(true);
+      setLogs([]);
+      setProgress(0);
+      
+      const result = await csvService.uploadFile(file);
+      
+      if (result.success && result.data) {
+        setLogs(prev => [...prev, `Processed ${result.data.length} reviews`]);
+        return result.data as Review[];
+      } else {
+        setLogs(prev => [...prev, `Error: ${result.error || 'Unknown error'}`]);
+        return [];
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error processing review CSV';
+      setLogs(prev => [...prev, `Error: ${message}`]);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: message
+      });
+      return [];
+    } finally {
+      setIsLoading(false);
+      setProgress(100);
+    }
+  };
+
+  // Utility functions
+  const downloadTemplate = (entityType: string) => {
+    const fileName = `${entityType}_template.csv`;
+    const templatePath = `/templates/${fileName}`;
+    
+    const link = document.createElement('a');
+    link.href = templatePath;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return {
+    isLoading,
+    progress,
+    logs,
+    processCategoryCsv,
+    processBusinessCsv,
+    processReviewCsv,
+    downloadTemplate
+  };
 };
 
-// Hook to use the CSV service adapter
-export const useCSVServiceAdapter = () => {
-  const context = useContext(CSVServiceAdapterContext);
-  if (!context) {
-    throw new Error('useCSVServiceAdapter must be used within a CSVServiceAdapterProvider');
-  }
-  return context;
-};
+export default useCSVServiceAdapter;

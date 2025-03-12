@@ -16,6 +16,7 @@ import BulkUpload from "./pages/BulkUpload";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import { CSVAdapterProvider } from "./hooks/useCSVAdapter";
 
 const queryClient = new QueryClient();
 
@@ -24,23 +25,25 @@ const App = () => (
     <LanguageProvider>
       <AppLanguageWrapper>
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Layout>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/businesses" element={<BusinessDirectory />} />
-                <Route path="/businesses/:id" element={<BusinessDetail />} />
-                <Route path="/add-business" element={<AddBusiness />} />
-                <Route path="/bulk-upload" element={<BulkUpload />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Layout>
-          </BrowserRouter>
+          <CSVAdapterProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/businesses" element={<BusinessDirectory />} />
+                  <Route path="/businesses/:id" element={<BusinessDetail />} />
+                  <Route path="/add-business" element={<AddBusiness />} />
+                  <Route path="/bulk-upload" element={<BulkUpload />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
+          </CSVAdapterProvider>
         </TooltipProvider>
       </AppLanguageWrapper>
     </LanguageProvider>

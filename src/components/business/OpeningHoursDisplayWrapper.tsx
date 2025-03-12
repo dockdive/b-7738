@@ -1,13 +1,10 @@
 
 import React from 'react';
+import { OpeningHoursDisplayWrapperProps } from './OpeningHoursDisplayProps';
 import OpeningHoursDisplay from './OpeningHoursDisplay';
 
-interface OpeningHoursDisplayWrapperProps {
-  openingHours: Record<string, string>;
-}
-
-const OpeningHoursDisplayWrapper: React.FC<OpeningHoursDisplayWrapperProps> = ({ openingHours }) => {
-  return <OpeningHoursDisplay openingHours={openingHours} />;
+const OpeningHoursDisplayWrapper: React.FC<OpeningHoursDisplayWrapperProps> = ({ hours }) => {
+  return <OpeningHoursDisplay openingHours={hours} />;
 };
 
 export default OpeningHoursDisplayWrapper;

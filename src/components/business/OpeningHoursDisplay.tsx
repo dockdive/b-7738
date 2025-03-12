@@ -1,40 +1,26 @@
 
 import React from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock } from 'lucide-react';
 import { OpeningHoursDisplayProps } from './OpeningHoursDisplayProps';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { cn } from '@/lib/utils';
 
-const OpeningHoursDisplay: React.FC<OpeningHoursDisplayProps> = ({ hours, className }) => {
+const OpeningHoursDisplay: React.FC<OpeningHoursDisplayProps> = ({ 
+  openingHours = {}, 
+  className = ""
+}) => {
   const { t } = useLanguage();
   
-  if (Object.keys(hours).length === 0) {
-    return null;
-  }
-  
-  const days = [
-    'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
-  ];
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   
   return (
-    <Card className={className}>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Clock className="h-5 w-5 text-primary" />
-          {t('businessDetails.openingHours')}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-1">
-          {days.map(day => (
-            <div key={day} className="flex justify-between">
-              <span className="capitalize font-medium">{t(`businessDetails.${day}`)}</span>
-              <span>{hours[day] || t('businessDetails.closed')}</span>
-            </div>
-          ))}
+    <div className={cn("space-y-2", className)}>
+      {days.map(day => (
+        <div key={day} className="flex justify-between">
+          <span className="font-medium">{t(`business.businessDetails.${day}`)}</span>
+          <span>{openingHours[day] || t('business.businessDetails.closed')}</span>
         </div>
-      </CardContent>
-    </Card>
+      ))}
+    </div>
   );
 };
 
