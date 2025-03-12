@@ -1,4 +1,5 @@
 
 export interface OpeningHoursDisplayProps {
-  openingHours: Record<string, string>;
+  hours: Record<string, string>;
+  className?: string;
 }
