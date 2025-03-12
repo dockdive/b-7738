@@ -20,6 +20,11 @@ export interface Subcategory {
   created_at?: string;
 }
 
+export interface BusinessStatus {
+  status: 'pending' | 'approved' | 'rejected';
+  reason?: string;
+}
+
 export interface Business {
   id: string;
   name: string;
@@ -67,6 +72,8 @@ export interface BusinessCreate {
   subcategory_id?: number;
   owner_id?: string; // Add for compatibility with API
   user_id?: string; // Add for compatibility with API
+  status?: 'pending' | 'approved' | 'rejected'; // Add for compatibility with API
+  opening_hours?: Record<string, string>; // Add for proper handling
 }
 
 // Add BusinessFilter type
@@ -80,12 +87,6 @@ export interface BusinessFilter {
   country?: string; // Added for compatibility with API
   city?: string; // Added for compatibility with API
   rating?: number; // Added for compatibility with API
-}
-
-// Add BusinessStatus type
-export interface BusinessStatus {
-  status: 'pending' | 'approved' | 'rejected';
-  reason?: string;
 }
 
 export interface User {
@@ -145,8 +146,7 @@ export interface Review {
 }
 
 // Re-export wiki types for easy access
-export * from './wiki';
+export type { WikiEntry, WikiSearchResult, WikiServiceInterface, WikiPage, WikiCategory } from './wiki';
 
 // Re-export LanguageCode for global use
 export type { LanguageCode };
-
