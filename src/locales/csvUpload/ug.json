@@ -1,0 +1,29 @@
+
+{
+  "csvUpload": {
+    "title": "CSV ھۆججەت يۈكلەش",
+    "description": "CSV ھۆججەت {entityType} سانلىق مەلۇماتلىرى بىلەن يۈكلەش",
+    "entityTypes": {
+      "business": "كارخانىلار",
+      "category": "كاتېگورىيەلەر",
+      "review": "باھالار"
+    },
+    "uploadButton": "ھۆججەت يۈكلەش",
+    "uploading": "يۈكلەۋاتىدۇ...",
+    "downloadTemplate": "قېلىپ چۈشۈرۈش",
+    "loadSampleData": "ئۈلگە سانلىق مەلۇماتلارنى يۈكلەش",
+    "selectFile": "CSV ھۆججەتنى تاللاش",
+    "fileSelected": "ھۆججەت تاللاندى",
+    "successMessage": "مۇۋەپپەقىيەتلىك! {count} تۈر يۈكلەندى",
+    "sampleDataMessage": "مۇۋەپپەقىيەتلىك! {count} ئۈلگە كارخانا يۈكلەندى",
+    "errorGeneric": "خاتالىق يۈز بەردى",
+    "processingFile": "ھۆججەت بىر تەرەپ قىلىنىۋاتىدۇ...",
+    "showLogs": "خاتىرىلەرنى كۆرسىتىش",
+    "hideLogs": "خاتىرىلەرنى يوشۇرۇش",
+    "logs": "خاتىرىلەر",
+    "noLogs": "خاتىرە يوق",
+    "success": "مۇۋەپپەقىيەتلىك",
+    "error": "خاتالىق",
+    "loading": "يۈكلەۋاتىدۇ..."
+  }
+}
