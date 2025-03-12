@@ -1,17 +1,17 @@
 
 export interface WikiEntry {
-  id: number;
+  id: number | string; // Allow both number and string IDs for flexibility
   slug: string;
   title: string;
   content: string;
   created_at?: string;
   updated_at?: string;
-  category?: string | { id: number; name: string };
+  category?: string | { id: number | string; name: string }; // Allow both number and string IDs
   tags?: string[];
 }
 
 export interface WikiSearchResult {
-  id: number;
+  id: number | string; // Allow both number and string IDs
   slug: string;
   title: string;
   excerpt: string;
@@ -30,17 +30,17 @@ export interface WikiServiceInterface {
 
 // Add additional Wiki types needed by WikiContext
 export interface WikiPage {
-  id: number;
+  id: number | string; // Allow both number and string IDs
   slug: string;
   title: string;
   content: string;
-  category_id: number;
+  category_id: number | string; // Allow both number and string IDs
   created_at?: string;
   updated_at?: string;
 }
 
 export interface WikiCategory {
-  id: number;
+  id: number | string; // Allow both number and string IDs
   name: string;
   slug: string;
   description?: string;
@@ -68,4 +68,14 @@ export const wikiService: WikiServiceInterface = {
   getRelatedEntries: (currentEntry: WikiEntry): WikiEntry[] => {
     return [];
   }
+};
+
+// Helper functions for ID type conversions
+export const normalizeId = (id: number | string): string => {
+  return id?.toString() || '';
+};
+
+export const compareIds = (id1: number | string | undefined, id2: number | string | undefined): boolean => {
+  if (id1 === undefined || id2 === undefined) return false;
+  return normalizeId(id1) === normalizeId(id2);
 };

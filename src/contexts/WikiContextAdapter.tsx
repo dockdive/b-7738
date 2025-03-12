@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { WikiEntry, WikiSearchResult, WikiServiceInterface, wikiService } from '@/types/wiki';
+import { WikiEntry, WikiSearchResult, WikiServiceInterface, wikiService, compareIds } from '@/types/wiki';
 
 // Create a context with the right types
 interface WikiContextType extends WikiServiceInterface {
@@ -60,34 +60,30 @@ export const WikiContextAdapter: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   const getRelatedEntries = (currentEntry: WikiEntry): WikiEntry[] => {
-    // Make sure we're comparing IDs of the same type
-    // Convert string IDs to numbers if needed
-    const currentEntryId = typeof currentEntry.id === 'string' ? parseInt(currentEntry.id, 10) : currentEntry.id;
+    if (!currentEntry) return [];
     
-    // Get category id (either from object or directly)
-    const currentCategoryId = typeof currentEntry.category === 'object' && currentEntry.category 
-      ? currentEntry.category.id 
-      : typeof currentEntry.category === 'string' 
-        ? currentEntry.category 
-        : null;
-    
+    // Using our helper function for ID comparison to avoid type issues
     return entries
       .filter(entry => {
         // Skip the current entry
-        const entryId = typeof entry.id === 'string' ? parseInt(entry.id, 10) : entry.id;
-        if (entryId === currentEntryId) return false;
+        if (compareIds(entry.id, currentEntry.id)) return false;
         
-        // Check if categories match
+        // Get category id (either from object or directly)
+        const currentCategoryId = typeof currentEntry.category === 'object' && currentEntry.category 
+          ? currentEntry.category.id 
+          : typeof currentEntry.category === 'string' 
+            ? currentEntry.category 
+            : null;
+            
         const entryCategoryId = typeof entry.category === 'object' && entry.category 
           ? entry.category.id 
           : typeof entry.category === 'string' 
             ? entry.category 
             : null;
         
-        // Only include if categories match (both need to be strings or both need to be numbers)
+        // Compare category IDs safely
         if (currentCategoryId !== null && entryCategoryId !== null) {
-          // If both are numbers or both are strings, compare them directly
-          return currentCategoryId === entryCategoryId;
+          return compareIds(currentCategoryId, entryCategoryId);
         }
         
         return false;

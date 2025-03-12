@@ -1,0 +1,19 @@
+
+{
+  "wiki": {
+    "title": "Knowledge Base",
+    "search": "Search knowledge base",
+    "recentArticles": "Recent Articles",
+    "popularArticles": "Popular Articles",
+    "categories": "Categories",
+    "relatedArticles": "Related Articles",
+    "noResults": "No articles found",
+    "loading": "Loading articles...",
+    "error": "Error loading articles",
+    "retry": "Try again",
+    "readMore": "Read more",
+    "lastUpdated": "Last updated",
+    "backToList": "Back to articles",
+    "tableOfContents": "Table of Contents"
+  }
+}

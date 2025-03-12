@@ -1,0 +1,19 @@
+
+{
+  "wiki": {
+    "title": "Kennisbank",
+    "search": "Doorzoek kennisbank",
+    "recentArticles": "Recente Artikelen",
+    "popularArticles": "Populaire Artikelen",
+    "categories": "Categorieën",
+    "relatedArticles": "Gerelateerde Artikelen",
+    "noResults": "Geen artikelen gevonden",
+    "loading": "Artikelen laden...",
+    "error": "Fout bij het laden van artikelen",
+    "retry": "Probeer opnieuw",
+    "readMore": "Lees meer",
+    "lastUpdated": "Laatst bijgewerkt",
+    "backToList": "Terug naar artikelen",
+    "tableOfContents": "Inhoudsopgave"
+  }
+}

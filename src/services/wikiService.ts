@@ -10,7 +10,7 @@ const mockWikiEntries: WikiEntry[] = [
     title: 'Maritime Industry Overview',
     content: 'The maritime industry encompasses all enterprises engaged in the operation of ships...',
     created_at: '2023-01-15T08:00:00Z',
-    category: 'general',
+    category: { id: 1, name: 'general' },
     tags: ['industry', 'overview', 'maritime']
   },
   {
@@ -19,7 +19,7 @@ const mockWikiEntries: WikiEntry[] = [
     title: 'Vessel Maintenance Guidelines',
     content: 'Regular maintenance is critical for vessel operation and safety...',
     created_at: '2023-02-10T10:30:00Z',
-    category: 'maintenance',
+    category: { id: 2, name: 'maintenance' },
     tags: ['maintenance', 'vessel', 'safety']
   }
 ];
@@ -90,5 +90,43 @@ export const getEntries = async (): Promise<WikiEntry[]> => {
   });
 };
 
-// Export the list of entries for direct access
-export const entries = [...mockWikiEntries];
+// Get related entries based on category
+export const getRelatedEntries = (currentEntry: WikiEntry): WikiEntry[] => {
+  if (!currentEntry) return [];
+  
+  // If category is a string, find entries with the same category string
+  if (typeof currentEntry.category === 'string') {
+    return mockWikiEntries
+      .filter(entry => 
+        entry.id !== currentEntry.id && 
+        typeof entry.category === 'string' && 
+        entry.category === currentEntry.category
+      )
+      .slice(0, 3);
+  }
+  
+  // If category is an object, find entries with the same category ID
+  if (typeof currentEntry.category === 'object' && currentEntry.category) {
+    return mockWikiEntries
+      .filter(entry => 
+        entry.id !== currentEntry.id && 
+        typeof entry.category === 'object' && 
+        entry.category && 
+        entry.category.id === currentEntry.category.id
+      )
+      .slice(0, 3);
+  }
+  
+  return [];
+};
+
+// Export the wikiService object with all methods
+export const wikiService = {
+  getEntry,
+  searchEntries,
+  getEntries,
+  entries: mockWikiEntries,
+  loading: false,
+  error: null,
+  getRelatedEntries
+};
