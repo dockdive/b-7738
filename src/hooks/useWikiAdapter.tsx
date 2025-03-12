@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect, PropsWithChildren } from "react";
+import { WikiEntry, WikiSearchResult } from "@/types/wiki";
 import { deepMerge } from "@/utils/deepMerge";
 import { toast } from "sonner";
 
@@ -70,11 +71,16 @@ export const useWikiAdapter = () => {
 
   return {
     // Placeholder wiki interface
-    entries: [],
+    entries: [] as WikiEntry[],
     loading: adapterContext?.isLoading || false,
-    error: adapterContext?.hasError || null,
-    getEntry: async (slug: string) => ({ id: 0, title: "", content: "", slug: "" }),
-    searchEntries: async (query: string) => [],
+    error: adapterContext?.hasError ? new Error("Failed to load wiki") : null,
+    getEntry: async (slug: string): Promise<WikiEntry> => ({ 
+      id: 0, 
+      title: "", 
+      content: "", 
+      slug: "" 
+    }),
+    searchEntries: async (query: string): Promise<WikiSearchResult[]> => [],
     // Include adapter-specific features
     isLoading: adapterContext?.isLoading || false,
     hasError: adapterContext?.hasError || false,
