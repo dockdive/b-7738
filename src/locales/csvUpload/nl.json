@@ -19,6 +19,11 @@
     "errorGeneric": "Er is een fout opgetreden",
     "processingFile": "Bestand verwerken...",
     "showLogs": "Toon logs",
-    "hideLogs": "Verberg logs"
+    "hideLogs": "Verberg logs",
+    "logs": "Logs",
+    "noLogs": "Geen logs beschikbaar",
+    "success": "Succes",
+    "error": "Fout",
+    "loading": "Laden..."
   }
 }

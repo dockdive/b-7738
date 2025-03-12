@@ -1,7 +1,6 @@
 
 import React from 'react';
 import OpeningHoursDisplay from '@/components/business/OpeningHoursDisplay';
-import { OpeningHoursDisplayProps } from './OpeningHoursDisplayProps';
 
 // Define props interface that matches what the component expects
 interface OpeningHoursWrapperProps {

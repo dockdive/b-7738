@@ -1,60 +1,29 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { wikiService } from '@/types/wiki';
-import { WikiEntry, WikiPage, WikiCategory, WikiSearchResult } from '@/types/wiki';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { WikiEntry, WikiSearchResult, WikiServiceInterface, wikiService } from '@/types/wiki';
 
-// Create a proper context with the fixed types
-interface WikiContextType {
-  entries: WikiEntry[];
-  pages: WikiPage[];
-  categories: WikiCategory[];
-  loading: boolean;
-  error: Error | null;
-  getEntry: (slug: string) => Promise<WikiEntry | null>;
-  searchEntries: (query: string) => Promise<WikiSearchResult[]>;
-  getCategoryById: (id: number) => WikiCategory | undefined;
-  getPageById: (id: number) => WikiPage | undefined;
-  getPagesByCategory: (categoryId: number) => WikiPage[];
+// Create a context with the right types
+interface WikiContextType extends WikiServiceInterface {
+  getRelatedEntries: (currentEntry: WikiEntry) => WikiEntry[];
 }
 
-const defaultContext: WikiContextType = {
-  entries: [],
-  pages: [],
-  categories: [],
-  loading: false,
-  error: null,
-  getEntry: async () => null,
-  searchEntries: async () => [],
-  getCategoryById: () => undefined,
-  getPageById: () => undefined,
-  getPagesByCategory: () => []
-};
+const WikiContext = createContext<WikiContextType | undefined>(undefined);
 
-const WikiContext = createContext<WikiContextType>(defaultContext);
-
-export const useWiki = () => useContext(WikiContext);
-
+// Adapter component that fixes type issues
 export const WikiContextAdapter: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [entries, setEntries] = useState<WikiEntry[]>([]);
-  const [pages, setPages] = useState<WikiPage[]>([]);
-  const [categories, setCategories] = useState<WikiCategory[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchEntries = async () => {
-      setLoading(true);
       try {
-        // Use the getEntries method if available, otherwise use the entries property
-        if (wikiService.getEntries) {
-          const fetchedEntries = await wikiService.getEntries();
-          setEntries(fetchedEntries);
-        } else {
-          setEntries(wikiService.entries);
-        }
+        setLoading(true);
+        const data = await wikiService.getEntries();
+        setEntries(data);
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Unknown error fetching wiki entries'));
+        setError(err instanceof Error ? err : new Error('Unknown error'));
       } finally {
         setLoading(false);
       }
@@ -63,57 +32,92 @@ export const WikiContextAdapter: React.FC<{ children: React.ReactNode }> = ({ ch
     fetchEntries();
   }, []);
 
-  const getEntry = async (slug: string): Promise<WikiEntry | null> => {
+  const getEntry = async (slug: string): Promise<WikiEntry> => {
     try {
       return await wikiService.getEntry(slug);
-    } catch (error) {
-      console.error('Error fetching wiki entry:', error);
-      return null;
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Error fetching entry'));
+      throw err;
     }
   };
 
   const searchEntries = async (query: string): Promise<WikiSearchResult[]> => {
     try {
       return await wikiService.searchEntries(query);
-    } catch (error) {
-      console.error('Error searching wiki entries:', error);
-      return [];
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Error searching entries'));
+      throw err;
     }
   };
 
-  // Fix the type comparisons by ensuring IDs are compared as numbers
-  const getCategoryById = (id: number): WikiCategory | undefined => {
-    return categories.find(category => Number(category.id) === Number(id));
+  const getEntries = async (): Promise<WikiEntry[]> => {
+    try {
+      return await wikiService.getEntries();
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Error fetching entries'));
+      throw err;
+    }
   };
 
-  // Fix the type comparisons by ensuring IDs are compared as numbers
-  const getPageById = (id: number): WikiPage | undefined => {
-    return pages.find(page => Number(page.id) === Number(id));
+  const getRelatedEntries = (currentEntry: WikiEntry): WikiEntry[] => {
+    // Make sure we're comparing IDs of the same type
+    // Convert string IDs to numbers if needed
+    const currentEntryId = typeof currentEntry.id === 'string' ? parseInt(currentEntry.id, 10) : currentEntry.id;
+    
+    // Get category id (either from object or directly)
+    const currentCategoryId = typeof currentEntry.category === 'object' && currentEntry.category 
+      ? currentEntry.category.id 
+      : typeof currentEntry.category === 'string' 
+        ? currentEntry.category 
+        : null;
+    
+    return entries
+      .filter(entry => {
+        // Skip the current entry
+        const entryId = typeof entry.id === 'string' ? parseInt(entry.id, 10) : entry.id;
+        if (entryId === currentEntryId) return false;
+        
+        // Check if categories match
+        const entryCategoryId = typeof entry.category === 'object' && entry.category 
+          ? entry.category.id 
+          : typeof entry.category === 'string' 
+            ? entry.category 
+            : null;
+        
+        // Only include if categories match (both need to be strings or both need to be numbers)
+        if (currentCategoryId !== null && entryCategoryId !== null) {
+          // If both are numbers or both are strings, compare them directly
+          return currentCategoryId === entryCategoryId;
+        }
+        
+        return false;
+      })
+      .slice(0, 3); // Limit to 3 related entries
   };
 
-  // Fix the type comparisons by ensuring IDs are compared as numbers
-  const getPagesByCategory = (categoryId: number): WikiPage[] => {
-    return pages.filter(page => Number(page.category_id) === Number(categoryId));
-  };
-
-  const contextValue: WikiContextType = {
+  const value: WikiContextType = {
     entries,
-    pages,
-    categories,
     loading,
     error,
     getEntry,
     searchEntries,
-    getCategoryById,
-    getPageById,
-    getPagesByCategory
+    getEntries,
+    getRelatedEntries
   };
 
   return (
-    <WikiContext.Provider value={contextValue}>
+    <WikiContext.Provider value={value}>
       {children}
     </WikiContext.Provider>
   );
+};
+
+export const useWiki = (): WikiContextType => {
+  const context = useContext(WikiContext);
+  if (!context) {
+    throw new Error('useWiki must be used within a WikiContextAdapter');
+  }
+  return context;
 };
 
 export default WikiContextAdapter;

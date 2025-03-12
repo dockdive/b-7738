@@ -19,6 +19,11 @@
     "errorGeneric": "An error occurred",
     "processingFile": "Processing file...",
     "showLogs": "Show logs",
-    "hideLogs": "Hide logs"
+    "hideLogs": "Hide logs",
+    "logs": "Logs",
+    "noLogs": "No logs available",
+    "success": "Success",
+    "error": "Error",
+    "loading": "Loading..."
   }
 }
