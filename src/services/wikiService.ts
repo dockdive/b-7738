@@ -128,5 +128,32 @@ export const wikiService = {
   entries: mockWikiEntries,
   loading: false,
   error: null,
-  getRelatedEntries
+  getRelatedEntries,
+  
+  // Add stubs for the additional methods required by WikiContext
+  canEditWiki: () => false,
+  getAllCategories: async () => [],
+  getAllPages: async () => [],
+  searchPages: async (query: string) => [],
+  getPageBySlug: async (slug: string) => ({
+    id: 0,
+    slug,
+    title: '',
+    content: '',
+    category_id: 0
+  }),
+  getPagesByCategory: async (categoryId: number | string) => [],
+  updatePage: async (page: any) => page,
+  createPage: async (page: any) => ({
+    id: 0,
+    slug: '',
+    title: '',
+    content: '',
+    category_id: 0,
+    ...page
+  }),
+  getPageReviewStatus: async (pageId: number | string) => 'pending',
+  deletePage: async (pageId: number | string) => {},
+  reviewPage: async (pageId: number | string, status: string) => {},
+  getPendingReviews: async () => []
 };

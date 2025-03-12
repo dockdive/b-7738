@@ -25,7 +25,21 @@ export interface WikiServiceInterface {
   entries: WikiEntry[];
   loading: boolean;
   error: Error | null;
-  getRelatedEntries?: (currentEntry: WikiEntry) => WikiEntry[];
+  getRelatedEntries: (currentEntry: WikiEntry) => WikiEntry[];
+  
+  // Add all the methods required by WikiContext
+  canEditWiki?: () => boolean;
+  getAllCategories?: () => Promise<WikiCategory[]>;
+  getAllPages?: () => Promise<WikiPage[]>;
+  searchPages?: (query: string) => Promise<WikiSearchResult[]>;
+  getPageBySlug?: (slug: string) => Promise<WikiEntry>;
+  getPagesByCategory?: (categoryId: number | string) => Promise<WikiEntry[]>;
+  updatePage?: (page: WikiPage) => Promise<WikiPage>;
+  createPage?: (page: Partial<WikiPage>) => Promise<WikiPage>;
+  getPageReviewStatus?: (pageId: number | string) => Promise<string>;
+  deletePage?: (pageId: number | string) => Promise<void>;
+  reviewPage?: (pageId: number | string, status: string) => Promise<void>;
+  getPendingReviews?: () => Promise<WikiPage[]>;
 }
 
 // Add additional Wiki types needed by WikiContext
@@ -67,7 +81,34 @@ export const wikiService: WikiServiceInterface = {
   error: null,
   getRelatedEntries: (currentEntry: WikiEntry): WikiEntry[] => {
     return [];
-  }
+  },
+  
+  // Add implementations for the new methods
+  canEditWiki: () => false,
+  getAllCategories: async () => [],
+  getAllPages: async () => [],
+  searchPages: async (query: string) => [],
+  getPageBySlug: async (slug: string) => ({
+    id: 0,
+    slug,
+    title: '',
+    content: '',
+    category_id: 0
+  }),
+  getPagesByCategory: async (categoryId: number | string) => [],
+  updatePage: async (page: WikiPage) => page,
+  createPage: async (page: Partial<WikiPage>) => ({
+    id: 0,
+    slug: '',
+    title: '',
+    content: '',
+    category_id: 0,
+    ...page
+  }),
+  getPageReviewStatus: async (pageId: number | string) => 'pending',
+  deletePage: async (pageId: number | string) => {},
+  reviewPage: async (pageId: number | string, status: string) => {},
+  getPendingReviews: async () => []
 };
 
 // Helper functions for ID type conversions

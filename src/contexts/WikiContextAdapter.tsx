@@ -98,7 +98,8 @@ export const WikiContextAdapter: React.FC<{ children: React.ReactNode }> = ({ ch
     getEntry,
     searchEntries,
     getEntries,
-    getRelatedEntries
+    getRelatedEntries,
+    ...wikiService // Pass through all additional methods from wikiService
   };
 
   return (
