@@ -5,6 +5,7 @@ import * as csvService from '@/services/csvService';
 import { adaptCategory, adaptCategories } from '@/utils/categoryAdapter';
 import { Business, Category, Review } from '@/types';
 import { useCSVAdapter } from './useCSVAdapter';
+import logger from '@/services/loggerService';
 
 export const useCSVServiceAdapter = () => {
   const { toast } = useToast();
@@ -20,15 +21,19 @@ export const useCSVServiceAdapter = () => {
       setLogs([]);
       setProgress(0);
       
-      const result = await csvService.uploadFile(file);
+      // Note: We don't use uploadFile directly since it's not exported from csvService
+      // Instead use the CSV adapter functionality
+      const data = await csvService.parseCSV(file);
       
-      if (result.success && result.data) {
+      if (data && Array.isArray(data)) {
         // Use the adapter to ensure categories have description field
-        const processedCategories = csvAdapter.processCategories(result.data);
+        const processedCategories = csvAdapter.processCategories(data);
         setLogs(prev => [...prev, `Processed ${processedCategories.length} categories`]);
         return processedCategories;
       } else {
-        setLogs(prev => [...prev, `Error: ${result.error || 'Unknown error'}`]);
+        const errorMsg = 'Invalid data format returned from CSV parsing';
+        setLogs(prev => [...prev, `Error: ${errorMsg}`]);
+        logger.error(errorMsg);
         return [];
       }
     } catch (error) {
@@ -53,13 +58,16 @@ export const useCSVServiceAdapter = () => {
       setLogs([]);
       setProgress(0);
       
-      const result = await csvService.uploadFile(file);
+      // Use parseCSV instead of uploadFile
+      const data = await csvService.parseCSV(file);
       
-      if (result.success && result.data) {
-        setLogs(prev => [...prev, `Processed ${result.data.length} businesses`]);
-        return result.data as Business[];
+      if (data && Array.isArray(data)) {
+        setLogs(prev => [...prev, `Processed ${data.length} businesses`]);
+        return data as Business[];
       } else {
-        setLogs(prev => [...prev, `Error: ${result.error || 'Unknown error'}`]);
+        const errorMsg = 'Invalid data format returned from CSV parsing';
+        setLogs(prev => [...prev, `Error: ${errorMsg}`]);
+        logger.error(errorMsg);
         return [];
       }
     } catch (error) {
@@ -83,13 +91,16 @@ export const useCSVServiceAdapter = () => {
       setLogs([]);
       setProgress(0);
       
-      const result = await csvService.uploadFile(file);
+      // Use parseCSV instead of uploadFile
+      const data = await csvService.parseCSV(file);
       
-      if (result.success && result.data) {
-        setLogs(prev => [...prev, `Processed ${result.data.length} reviews`]);
-        return result.data as Review[];
+      if (data && Array.isArray(data)) {
+        setLogs(prev => [...prev, `Processed ${data.length} reviews`]);
+        return data as Review[];
       } else {
-        setLogs(prev => [...prev, `Error: ${result.error || 'Unknown error'}`]);
+        const errorMsg = 'Invalid data format returned from CSV parsing';
+        setLogs(prev => [...prev, `Error: ${errorMsg}`]);
+        logger.error(errorMsg);
         return [];
       }
     } catch (error) {

@@ -1,9 +1,13 @@
 
 import React from 'react';
-import { OpeningHoursDisplayWrapperProps } from './OpeningHoursDisplayProps';
 import OpeningHoursDisplay from './OpeningHoursDisplay';
+import { OpeningHoursDisplayWrapperProps } from './OpeningHoursDisplayProps';
 
 const OpeningHoursDisplayWrapper: React.FC<OpeningHoursDisplayWrapperProps> = ({ hours }) => {
+  if (!hours) {
+    return null;
+  }
+  
   return <OpeningHoursDisplay openingHours={hours} />;
 };
 
