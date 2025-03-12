@@ -41,9 +41,10 @@ const ensureBusinessFields = (data: any): BusinessCreate => {
     data.status = data.status as BusinessStatusUnion;
   }
 
-  // Add owner_id if not present (required by some API calls)
+  // Ensure owner_id is set (required field)
   if (!data.owner_id) {
     data.owner_id = data.user_id || '';
+    logger.warning('Setting default owner_id since it is required');
   }
   
   // Remove any fields that aren't in BusinessCreate
@@ -89,7 +90,7 @@ export const fixBusinessForAPI = (business: BusinessCreate): Record<string, any>
     name: business.name,
     description: business.description,
     category_id: business.category_id,
-    owner_id: business.owner_id || '',
+    owner_id: business.owner_id || '', // Ensure owner_id is always set
     logo_url: business.logo_url,
     website: business.website,
     email: business.email,

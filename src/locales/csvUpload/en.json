@@ -1,0 +1,24 @@
+
+{
+  "csvUpload": {
+    "title": "Upload CSV File",
+    "description": "Upload a CSV file with {entityType} data",
+    "entityTypes": {
+      "business": "businesses",
+      "category": "categories",
+      "review": "reviews"
+    },
+    "uploadButton": "Upload file",
+    "uploading": "Uploading...",
+    "downloadTemplate": "Download template",
+    "loadSampleData": "Load sample data",
+    "selectFile": "Select a CSV file",
+    "fileSelected": "File selected",
+    "successMessage": "Success! {count} items uploaded",
+    "sampleDataMessage": "Success! {count} sample businesses loaded",
+    "errorGeneric": "An error occurred",
+    "processingFile": "Processing file...",
+    "showLogs": "Show logs",
+    "hideLogs": "Hide logs"
+  }
+}

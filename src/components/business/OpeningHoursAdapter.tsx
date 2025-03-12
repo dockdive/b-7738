@@ -6,7 +6,7 @@ interface OpeningHoursAdapterProps {
   hours?: Record<string, string>;
 }
 
-// Simple adapter component to convert hours to a React node
+// Adapter component to convert hours to a React node
 const OpeningHoursAdapter: React.FC<OpeningHoursAdapterProps> = ({ hours }) => {
   if (!hours) {
     return <p className="text-gray-500">No opening hours available</p>;

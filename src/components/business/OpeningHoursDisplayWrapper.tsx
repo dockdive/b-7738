@@ -1,6 +1,7 @@
 
 import React from 'react';
 import OpeningHoursDisplay from '@/components/business/OpeningHoursDisplay';
+import { OpeningHoursDisplayProps } from './OpeningHoursDisplayProps';
 
 // Define props interface that matches what the component expects
 interface OpeningHoursWrapperProps {
@@ -13,8 +14,7 @@ const OpeningHoursDisplayWrapper: React.FC<OpeningHoursWrapperProps> = ({ hours 
     return <p className="text-gray-500">No opening hours available</p>;
   }
 
-  // We're using a simple wrapper div to avoid any potential prop mismatch
-  // The hours prop will be passed directly to OpeningHoursDisplay
+  // Pass the hours prop to OpeningHoursDisplay with the correct typing
   return (
     <div className="opening-hours-container">
       <OpeningHoursDisplay hours={hours} />

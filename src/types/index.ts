@@ -58,9 +58,9 @@ export interface Business {
   services?: string[];
   images?: string[];
   opening_hours?: Record<string, string>;
-  owner_id?: string;
-  latitude?: number; // Add latitude for map integration
-  longitude?: number; // Add longitude for map integration
+  owner_id: string; // Make required to match API requirements
+  latitude?: number;
+  longitude?: number;
 }
 
 // Update BusinessCreate type for form submissions to match API and page requirements
@@ -79,7 +79,7 @@ export interface BusinessCreate {
   country?: string;
   category_id: number;
   subcategory_id?: number;
-  owner_id?: string;
+  owner_id: string; // Make required to match API requirements
   user_id?: string;
   status?: BusinessStatusUnion;
   opening_hours?: Record<string, string>;
@@ -118,7 +118,7 @@ export interface User {
 // Update Profile to make it fully compatible with API and User
 export interface Profile {
   id: string;
-  email: string; // Make email required
+  email: string; // Required email
   first_name?: string;
   last_name?: string;
   avatar_url?: string;
@@ -130,7 +130,7 @@ export interface Profile {
   updated_at?: string;
   bio?: string;
   website?: string;
-  is_admin?: boolean; // Add to match API response
+  is_admin?: boolean;
   social_links?: {
     twitter?: string;
     facebook?: string;
@@ -149,7 +149,7 @@ export interface ProfileUpdate {
   bio?: string;
   website?: string;
   avatar_url?: string;
-  email?: string; // Add email for compatibility with API updates
+  email?: string;
   social_links?: {
     twitter?: string;
     facebook?: string;
