@@ -2,13 +2,12 @@
 import { LanguageCode } from '@/constants/languageConstants';
 
 // This file adds or updates types needed by the application
-// We're only adding the missing description field to the Category type
 
 export interface Category {
   id: number;
   name: string;
   icon: string;
-  description: string; // Added the required description field
+  description: string; // Required description field
   created_at?: string;
 }
 
@@ -57,3 +56,6 @@ export interface Review {
   created_at?: string;
   updated_at?: string;
 }
+
+// Re-export wiki types for easy access
+export * from './wiki';
