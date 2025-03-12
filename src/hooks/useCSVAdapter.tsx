@@ -1,8 +1,8 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import * as csvService from '@/services/csvService';
-import { Category } from '@/types';
 import logger from '@/services/loggerService';
+import { Category } from '@/types';
+import useCSVServiceAdapter from './useCSVServiceAdapter';
 
 interface CSVAdapterContextType {
   processCategories: (categories: any[]) => Category[];
@@ -12,11 +12,13 @@ interface CSVAdapterContextType {
 const CSVAdapterContext = createContext<CSVAdapterContextType | null>(null);
 
 export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { ensureCategoryDescription } = useCSVServiceAdapter();
+  
   const processCategories = (categories: any[]): Category[] => {
     try {
       logger.info('Processing categories', { count: categories.length });
       
-      return categories.map(cat => ({
+      return categories.map(cat => ensureCategoryDescription({
         id: cat.id,
         name: cat.name,
         icon: cat.icon || '',
