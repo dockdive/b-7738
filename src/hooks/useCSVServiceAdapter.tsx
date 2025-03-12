@@ -1,4 +1,3 @@
-
 import React, { useCallback } from 'react';
 import { uploadCSV, generateCSVTemplate, loadSampleBusinessData } from '@/services/csvServiceAdapter';
 import logger from '@/services/loggerService';
@@ -39,23 +38,37 @@ export const useCSVServiceAdapter = () => {
     }
   }, []);
 
-  // Helper function to ensure categories have description
   const ensureCategoryDescription = useCallback((category: Partial<Category>): Category => {
-    const defaultDescription = category.name ? `Category for ${category.name}` : 'Default category description';
+    if (!category.name) {
+      logger.warning('Category missing name, using default');
+    }
+
+    const name = category.name || 'Untitled Category';
+    const defaultDescription = `Category for ${name}`;
+    
     return {
       id: category.id || 0,
-      name: category.name || '',
+      name: name,
       icon: category.icon || '',
       description: category.description || defaultDescription,
       created_at: category.created_at
     };
   }, []);
 
+  const validateCategoryData = useCallback((category: Partial<Category>): boolean => {
+    if (!category.name) {
+      logger.warning('Invalid category - missing name', category);
+      return false;
+    }
+    return true;
+  }, []);
+
   return {
     processCSV,
     downloadTemplate,
     loadSampleData,
-    ensureCategoryDescription
+    ensureCategoryDescription,
+    validateCategoryData
   };
 };
 
