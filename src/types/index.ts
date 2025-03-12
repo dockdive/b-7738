@@ -60,6 +60,7 @@ export interface BusinessCreate {
   name: string;
   description: string;
   logo?: File;
+  logo_url?: string; // Add this for csvService compatibility
   website?: string;
   email?: string;
   phone?: string;
@@ -104,11 +105,21 @@ export interface User {
   updated_at?: string;
 }
 
-// Add Profile and ProfileUpdate types
-export interface Profile extends User {
+// Update Profile to be compatible with User (email must not be optional)
+export interface Profile {
+  id: string;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  avatar_url?: string;
+  company_name?: string;
+  phone?: string;
+  country?: string;
+  language?: LanguageCode;
+  created_at?: string;
+  updated_at?: string;
   bio?: string;
   website?: string;
-  email?: string; // Added to resolve type errors
   social_links?: {
     twitter?: string;
     facebook?: string;

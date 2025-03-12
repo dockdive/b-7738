@@ -24,6 +24,21 @@ const ensureCategoryDescription = (data: any): Category => {
   return data as Category;
 };
 
+// Helper to ensure business data has compatible fields
+const ensureBusinessFields = (data: any): BusinessCreate => {
+  // Convert is_featured to boolean if it's a string
+  if (typeof data.is_featured === 'string') {
+    data.is_featured = data.is_featured.toLowerCase() === 'true';
+  }
+  
+  // Handle logo to logo_url mapping if needed
+  if (data.logo && !data.logo_url) {
+    data.logo_url = data.logo;
+  }
+  
+  return data as BusinessCreate;
+};
+
 // Reexport functions from the original service with adaptations as needed
 export const uploadCSV = async (
   file: File, 
