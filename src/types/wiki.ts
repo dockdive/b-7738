@@ -6,7 +6,7 @@ export interface WikiEntry {
   content: string;
   created_at?: string;
   updated_at?: string;
-  category?: string;
+  category?: string | { id: number; name: string };
   tags?: string[];
 }
 
@@ -21,7 +21,7 @@ export interface WikiSearchResult {
 export interface WikiServiceInterface {
   getEntry: (slug: string) => Promise<WikiEntry>;
   searchEntries: (query: string) => Promise<WikiSearchResult[]>;
-  getEntries?: () => Promise<WikiEntry[]>; // Add this method to the interface
+  getEntries: () => Promise<WikiEntry[]>; // Add this method to the interface
   entries: WikiEntry[];
   loading: boolean;
   error: Error | null;
