@@ -21,10 +21,11 @@ export interface WikiSearchResult {
 export interface WikiServiceInterface {
   getEntry: (slug: string) => Promise<WikiEntry>;
   searchEntries: (query: string) => Promise<WikiSearchResult[]>;
-  getEntries: () => Promise<WikiEntry[]>; // Add this method to the interface
+  getEntries: () => Promise<WikiEntry[]>; 
   entries: WikiEntry[];
   loading: boolean;
   error: Error | null;
+  getRelatedEntries?: (currentEntry: WikiEntry) => WikiEntry[];
 }
 
 // Add additional Wiki types needed by WikiContext
@@ -63,5 +64,8 @@ export const wikiService: WikiServiceInterface = {
   },
   entries: [],
   loading: false,
-  error: null
+  error: null,
+  getRelatedEntries: (currentEntry: WikiEntry): WikiEntry[] => {
+    return [];
+  }
 };

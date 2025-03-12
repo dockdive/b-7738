@@ -77,5 +77,18 @@ export const searchEntries = async (query: string): Promise<WikiSearchResult[]> 
   });
 };
 
+/**
+ * Get all wiki entries
+ */
+export const getEntries = async (): Promise<WikiEntry[]> => {
+  apiLogger.log('Fetching all wiki entries');
+  
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([...mockWikiEntries]);
+    }, 500); // Simulate network delay
+  });
+};
+
 // Export the list of entries for direct access
 export const entries = [...mockWikiEntries];
