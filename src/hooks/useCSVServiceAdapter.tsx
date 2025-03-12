@@ -45,6 +45,7 @@ export const useCSVServiceAdapter = () => {
       throw new Error('Category name is required');
     }
 
+    // Ensure description is always set, even if it's empty in the source data
     return {
       id: category.id || 0,
       name: category.name,
@@ -59,6 +60,10 @@ export const useCSVServiceAdapter = () => {
       logger.warning('Invalid category - missing name');
       return false;
     }
+    
+    // Additional validation can be added here
+    // For example, validating that icon is present, etc.
+    
     return true;
   }, []);
 

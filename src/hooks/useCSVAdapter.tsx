@@ -20,6 +20,7 @@ export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children
       
       return categories
         .filter(cat => {
+          // Pre-validate each category
           const isValid = validateCategoryData(cat);
           if (!isValid) {
             logger.warning('Skipping invalid category', cat);
@@ -28,6 +29,7 @@ export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children
         })
         .map(cat => {
           try {
+            // Ensure each category has all required fields, especially description
             return ensureCategoryDescription(cat);
           } catch (error) {
             logger.error('Error processing category', { category: cat, error });

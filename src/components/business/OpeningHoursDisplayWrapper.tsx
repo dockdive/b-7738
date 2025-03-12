@@ -15,8 +15,8 @@ const OpeningHoursDisplayWrapper: React.FC<OpeningHoursDisplayWrapperProps> = ({
     <div className={`space-y-2 ${className}`}>
       {days.map(day => (
         <div key={day} className="flex justify-between">
-          <span className="font-medium capitalize">{t(`business.businessDetails.${day}`)}</span>
-          <span>{hours[day] || t('business.businessDetails.closed')}</span>
+          <span className="font-medium capitalize">{t(`businessDetails.${day}`)}</span>
+          <span>{hours[day] || t('businessDetails.closed')}</span>
         </div>
       ))}
     </div>
