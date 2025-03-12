@@ -27,13 +27,13 @@ export interface WikiServiceInterface {
   error: Error | null;
   getRelatedEntries: (currentEntry: WikiEntry) => WikiEntry[];
   
-  // Add all the methods required by WikiContext
+  // Add all the methods required by WikiContext with correct signatures
   canEditWiki?: () => boolean;
   getAllCategories?: () => Promise<WikiCategory[]>;
   getAllPages?: () => Promise<WikiPage[]>;
   searchPages?: (query: string) => Promise<WikiSearchResult[]>;
-  getPageBySlug?: (slug: string) => Promise<WikiEntry>;
-  getPagesByCategory?: (categoryId: number | string) => Promise<WikiEntry[]>;
+  getPageBySlug?: (slug: string) => Promise<WikiPage>;
+  getPagesByCategory?: (categoryId: number | string) => Promise<WikiPage[]>;
   updatePage?: (page: WikiPage) => Promise<WikiPage>;
   createPage?: (page: Partial<WikiPage>) => Promise<WikiPage>;
   getPageReviewStatus?: (pageId: number | string) => Promise<string>;

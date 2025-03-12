@@ -94,6 +94,13 @@ const getRelatedEntries = (currentEntry: WikiEntry): WikiEntry[] => {
     .slice(0, 3); // Limit to 3 related entries
 };
 
+// Mock categories
+const mockWikiCategories: WikiCategory[] = [
+  { id: 1, name: 'Seamanship', slug: 'seamanship', description: 'All about seamanship and sailing techniques' },
+  { id: 2, name: 'Navigation', slug: 'navigation', description: 'Navigation, charts, and route planning' },
+  { id: 3, name: 'Maintenance', slug: 'maintenance', description: 'Boat maintenance and repair guides' }
+];
+
 // Export the service with all required methods
 export const wikiService: WikiServiceInterface = {
   getEntry,
@@ -104,27 +111,54 @@ export const wikiService: WikiServiceInterface = {
   error: null,
   getRelatedEntries,
   
-  // Add stubs for the additional methods required by WikiContext
+  // Add implementations for the additional methods required by WikiContext
   canEditWiki: () => false,
-  getAllCategories: async () => [],
-  getAllPages: async () => [],
-  searchPages: async (query: string) => [],
-  getPageBySlug: async (slug: string) => ({
-    id: 0,
-    slug,
-    title: '',
-    content: '',
-    category_id: 0
-  }),
-  getPagesByCategory: async (categoryId: number | string) => [],
-  updatePage: async (page: any) => page,
-  createPage: async (page: any) => ({
-    id: 0,
-    slug: '',
-    title: '',
-    content: '',
-    category_id: 0,
-    ...page
+  getAllCategories: async () => mockWikiCategories,
+  getAllPages: async () => mockWikiEntries.map(entry => ({
+    id: entry.id,
+    slug: entry.slug,
+    title: entry.title,
+    content: entry.content,
+    category_id: typeof entry.category === 'object' ? entry.category.id : entry.category || 0,
+    created_at: entry.created_at,
+    updated_at: entry.updated_at
+  })),
+  searchPages: async (query: string) => searchEntries(query),
+  getPageBySlug: async (slug: string) => {
+    const entry = await getEntry(slug);
+    return {
+      id: entry.id,
+      slug: entry.slug,
+      title: entry.title,
+      content: entry.content,
+      category_id: typeof entry.category === 'object' ? entry.category.id : entry.category || 0,
+      created_at: entry.created_at,
+      updated_at: entry.updated_at
+    };
+  },
+  getPagesByCategory: async (categoryId: number | string) => mockWikiEntries
+    .filter(entry => {
+      const entryCategoryId = typeof entry.category === 'object' ? entry.category.id : entry.category;
+      return entryCategoryId === categoryId;
+    })
+    .map(entry => ({
+      id: entry.id,
+      slug: entry.slug,
+      title: entry.title,
+      content: entry.content,
+      category_id: typeof entry.category === 'object' ? entry.category.id : entry.category || 0,
+      created_at: entry.created_at,
+      updated_at: entry.updated_at
+    })),
+  updatePage: async (page: WikiPage) => page,
+  createPage: async (page: Partial<WikiPage>) => ({
+    id: Date.now(), // Generate a new ID
+    slug: page.slug || '',
+    title: page.title || '',
+    content: page.content || '',
+    category_id: page.category_id || 0,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
   }),
   getPageReviewStatus: async (pageId: number | string) => 'pending',
   deletePage: async (pageId: number | string) => {},

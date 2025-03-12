@@ -1,89 +1,84 @@
 
-import React, { createContext, useContext, useState, useEffect, PropsWithChildren } from "react";
-import { WikiEntry, WikiSearchResult } from "@/types/wiki";
-import { deepMerge } from "@/utils/deepMerge";
-import { toast } from "sonner";
+import { useContext, createContext } from 'react';
+import { 
+  WikiEntry, 
+  WikiPage, 
+  WikiCategory, 
+  WikiSearchResult,
+  WikiServiceInterface
+} from '@/types/wiki';
 
-// Create a wrapper context that enhances the original context
-export const WikiAdapterContext = createContext<{
-  isLoading: boolean;
-  hasError: boolean;
-  retry: () => void;
-} | null>(null);
+// Create a proper adapter interface that matches the WikiContext
+interface WikiAdapterContextType {
+  entries: WikiEntry[];
+  categories: WikiCategory[];
+  recentEntries: WikiEntry[];
+  popularEntries: WikiEntry[];
+  featuredEntry: WikiEntry | null;
+  loading: boolean;
+  error: Error | null;
+  getEntry: (slug: string) => Promise<WikiEntry>;
+  searchEntries: (query: string) => Promise<WikiSearchResult[]>;
+  getCategoryEntries: (categoryId: number | string) => WikiEntry[];
+  
+  // Admin functions
+  canEditWiki: () => boolean;
+  getAllCategories: () => Promise<WikiCategory[]>;
+  getAllPages: () => Promise<WikiPage[]>;
+  searchPages: (query: string) => Promise<WikiSearchResult[]>;
+  getPageBySlug: (slug: string) => Promise<WikiPage>;
+  getPagesByCategory: (categoryId: number | string) => Promise<WikiPage[]>;
+  updatePage: (page: WikiPage) => Promise<WikiPage>;
+  createPage: (page: Partial<WikiPage>) => Promise<WikiPage>;
+  getPageReviewStatus: (pageId: number | string) => Promise<string>;
+  deletePage: (pageId: number | string) => Promise<void>;
+  reviewPage: (pageId: number | string, status: string) => Promise<void>;
+  getPendingReviews: () => Promise<WikiPage[]>;
+}
 
-export const WikiAdapterProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+// Create an empty context with default values
+const WikiAdapterContext = createContext<WikiAdapterContextType | null>(null);
 
-  useEffect(() => {
-    // Simulate loading completion after a short delay
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const retry = () => {
-    setIsLoading(true);
-    setHasError(false);
-    // Simulate retry logic
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-  };
-
-  // If we're still loading or have an error, show appropriate UI
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-      </div>
-    );
+// Hook to use the Wiki adapter
+export const useWikiAdapter = () => {
+  const context = useContext(WikiAdapterContext);
+  if (!context) {
+    throw new Error('useWikiAdapter must be used within a WikiAdapterProvider');
   }
-
-  if (hasError) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-        <p className="text-lg text-red-500">Failed to load wiki resources</p>
-        <button 
-          onClick={retry}
-          className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <WikiAdapterContext.Provider value={{ isLoading, hasError, retry }}>
-      {children}
-    </WikiAdapterContext.Provider>
-  );
+  return context;
 };
 
-// Enhanced useWiki hook that combines original implementation with our adapter
-export const useWikiAdapter = () => {
-  // We don't directly use the original wiki context to avoid importing it
-  // Will return a placeholder for now
-  const adapterContext = useContext(WikiAdapterContext);
+// Adapter hook for backward compatibility
+export const useWiki = () => {
+  return useWikiAdapter();
+};
 
+// Helper function to convert WikiEntry to WikiPage
+export const convertEntryToPage = (entry: WikiEntry): WikiPage => {
   return {
-    // Placeholder wiki interface
-    entries: [] as WikiEntry[],
-    loading: adapterContext?.isLoading || false,
-    error: adapterContext?.hasError ? new Error("Failed to load wiki") : null,
-    getEntry: async (slug: string): Promise<WikiEntry> => ({ 
-      id: 0, 
-      title: "", 
-      content: "", 
-      slug: "" 
-    }),
-    searchEntries: async (query: string): Promise<WikiSearchResult[]> => [],
-    // Include adapter-specific features
-    isLoading: adapterContext?.isLoading || false,
-    hasError: adapterContext?.hasError || false,
-    retry: adapterContext?.retry || (() => {}),
+    id: entry.id,
+    slug: entry.slug,
+    title: entry.title,
+    content: entry.content,
+    category_id: typeof entry.category === 'string' 
+      ? entry.category 
+      : entry.category?.id || 0,
+    created_at: entry.created_at,
+    updated_at: entry.updated_at
+  };
+};
+
+// Helper function to convert WikiPage to WikiEntry
+export const convertPageToEntry = (page: WikiPage, categoryName?: string): WikiEntry => {
+  return {
+    id: page.id,
+    slug: page.slug,
+    title: page.title,
+    content: page.content,
+    category: categoryName 
+      ? { id: page.category_id, name: categoryName }
+      : page.category_id,
+    created_at: page.created_at,
+    updated_at: page.updated_at
   };
 };

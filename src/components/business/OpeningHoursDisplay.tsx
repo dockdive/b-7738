@@ -5,13 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Clock } from 'lucide-react';
 import { OpeningHoursDisplayProps } from './OpeningHoursDisplayProps';
 
-const OpeningHoursDisplay: React.FC<OpeningHoursDisplayProps> = ({ hours, openingHours }) => {
+const OpeningHoursDisplay: React.FC<OpeningHoursDisplayProps> = ({ hours, className }) => {
   const { t } = useLanguage();
   
-  // Use either hours or openingHours prop, with hours taking precedence
-  const displayHours = hours || openingHours || {};
-  
-  if (Object.keys(displayHours).length === 0) {
+  if (Object.keys(hours).length === 0) {
     return null;
   }
   
@@ -20,7 +17,7 @@ const OpeningHoursDisplay: React.FC<OpeningHoursDisplayProps> = ({ hours, openin
   ];
   
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center gap-2">
           <Clock className="h-5 w-5 text-primary" />
@@ -32,7 +29,7 @@ const OpeningHoursDisplay: React.FC<OpeningHoursDisplayProps> = ({ hours, openin
           {days.map(day => (
             <div key={day} className="flex justify-between">
               <span className="capitalize font-medium">{t(`businessDetails.${day}`)}</span>
-              <span>{displayHours[day] || t('businessDetails.closed')}</span>
+              <span>{hours[day] || t('businessDetails.closed')}</span>
             </div>
           ))}
         </div>

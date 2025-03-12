@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { OpeningHoursDisplay } from './OpeningHoursDisplay';
+import OpeningHoursDisplay from './OpeningHoursDisplay';
 
 interface OpeningHoursDisplayAdapterProps {
   hours: Record<string, string>;

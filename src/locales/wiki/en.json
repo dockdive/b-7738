@@ -14,6 +14,31 @@
     "readMore": "Read more",
     "lastUpdated": "Last updated",
     "backToList": "Back to articles",
-    "tableOfContents": "Table of Contents"
+    "tableOfContents": "Table of Contents",
+    "editor": {
+      "title": "Wiki Editor",
+      "newPage": "New Page",
+      "editPage": "Edit Page",
+      "save": "Save",
+      "cancel": "Cancel",
+      "pageTitle": "Page Title",
+      "pageContent": "Page Content",
+      "category": "Category",
+      "selectCategory": "Select a category",
+      "submitForReview": "Submit for review",
+      "unpublished": "Unpublished",
+      "published": "Published",
+      "pending": "Pending Review",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "admin": {
+      "reviewTitle": "Review Wiki Pages",
+      "pendingReviews": "Pending Reviews",
+      "approve": "Approve",
+      "reject": "Reject",
+      "delete": "Delete",
+      "noReviews": "No pages pending review"
+    }
   }
 }

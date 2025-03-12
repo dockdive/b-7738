@@ -14,6 +14,31 @@
     "readMore": "Lees meer",
     "lastUpdated": "Laatst bijgewerkt",
     "backToList": "Terug naar artikelen",
-    "tableOfContents": "Inhoudsopgave"
+    "tableOfContents": "Inhoudsopgave",
+    "editor": {
+      "title": "Wiki Editor",
+      "newPage": "Nieuwe Pagina",
+      "editPage": "Pagina Bewerken",
+      "save": "Opslaan",
+      "cancel": "Annuleren",
+      "pageTitle": "Pagina Titel",
+      "pageContent": "Pagina Inhoud",
+      "category": "Categorie",
+      "selectCategory": "Selecteer een categorie",
+      "submitForReview": "Indienen voor beoordeling",
+      "unpublished": "Niet gepubliceerd",
+      "published": "Gepubliceerd",
+      "pending": "In afwachting van beoordeling",
+      "approved": "Goedgekeurd",
+      "rejected": "Afgewezen"
+    },
+    "admin": {
+      "reviewTitle": "Wiki Pagina's Beoordelen",
+      "pendingReviews": "Openstaande Beoordelingen",
+      "approve": "Goedkeuren",
+      "reject": "Afwijzen",
+      "delete": "Verwijderen",
+      "noReviews": "Geen pagina's in afwachting van beoordeling"
+    }
   }
 }
