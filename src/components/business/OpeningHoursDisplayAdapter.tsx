@@ -1,34 +1,19 @@
 
 import React from 'react';
-import { OpeningHoursDisplayProps } from './OpeningHoursDisplayProps';
+import { OpeningHoursDisplay } from './OpeningHoursDisplay';
 
-/**
- * Adapter component that converts opening hours object to JSX
- * to solve the ReactNode type issue
- */
-export const OpeningHoursDisplayAdapter: React.FC<OpeningHoursDisplayProps> = ({ 
+interface OpeningHoursDisplayAdapterProps {
+  hours: Record<string, string>;
+  className?: string;
+}
+
+// This adapter component converts a Record<string, string> to a proper ReactNode
+// to fix the type error in BusinessDetail.tsx
+const OpeningHoursDisplayAdapter: React.FC<OpeningHoursDisplayAdapterProps> = ({ 
   hours, 
-  openingHours 
+  className 
 }) => {
-  // Use either hours or openingHours prop, preferring hours if both are provided
-  const displayHours = hours || openingHours || {};
-  
-  return (
-    <div className="opening-hours">
-      {Object.entries(displayHours).length > 0 ? (
-        <ul className="space-y-1">
-          {Object.entries(displayHours).map(([day, time]) => (
-            <li key={day} className="flex justify-between">
-              <span className="font-medium capitalize">{day}:</span>
-              <span>{time}</span>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-500 italic">No opening hours available</p>
-      )}
-    </div>
-  );
+  return <OpeningHoursDisplay hours={hours} className={className} />;
 };
 
 export default OpeningHoursDisplayAdapter;
