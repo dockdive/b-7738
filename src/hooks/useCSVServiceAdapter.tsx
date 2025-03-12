@@ -46,6 +46,7 @@ export const useCSVServiceAdapter = () => {
     }
 
     // Ensure description is always set, even if it's empty in the source data
+    // Generate a default description if none is provided
     return {
       id: category.id || 0,
       name: category.name,
