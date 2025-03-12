@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { LanguageAdapterProvider } from '@/hooks/useLanguageAdapter';
+import { WikiAdapterProvider } from '@/hooks/useWikiAdapter';
 
 interface AppLanguageWrapperProps {
   children: React.ReactNode;
@@ -9,7 +10,9 @@ interface AppLanguageWrapperProps {
 const AppLanguageWrapper: React.FC<AppLanguageWrapperProps> = ({ children }) => {
   return (
     <LanguageAdapterProvider>
-      {children}
+      <WikiAdapterProvider>
+        {children}
+      </WikiAdapterProvider>
     </LanguageAdapterProvider>
   );
 };
