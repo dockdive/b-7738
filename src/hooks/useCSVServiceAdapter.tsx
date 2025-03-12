@@ -41,11 +41,12 @@ export const useCSVServiceAdapter = () => {
 
   // Helper function to ensure categories have description
   const ensureCategoryDescription = useCallback((category: Partial<Category>): Category => {
+    const defaultDescription = category.name ? `Category for ${category.name}` : 'Default category description';
     return {
       id: category.id || 0,
       name: category.name || '',
       icon: category.icon || '',
-      description: category.description || `Category for ${category.name || 'unknown'}`,
+      description: category.description || defaultDescription,
       created_at: category.created_at
     };
   }, []);

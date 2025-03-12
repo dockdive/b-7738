@@ -18,12 +18,14 @@ export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children
     try {
       logger.info('Processing categories', { count: categories.length });
       
-      return categories.map(cat => ensureCategoryDescription({
-        id: cat.id,
-        name: cat.name,
-        icon: cat.icon || '',
-        description: cat.description || `Category for ${cat.name}`
-      }));
+      return categories
+        .filter(cat => validateCategory(cat))
+        .map(cat => ensureCategoryDescription({
+          id: cat.id,
+          name: cat.name,
+          icon: cat.icon || '',
+          description: cat.description || `Category for ${cat.name}`
+        }));
     } catch (error) {
       logger.error('Error processing categories', error);
       return [];
