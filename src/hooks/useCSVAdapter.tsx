@@ -19,8 +19,22 @@ export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children
       logger.info('Processing categories', { count: categories.length });
       
       return categories
-        .filter(validateCategoryData)
-        .map(cat => ensureCategoryDescription(cat));
+        .filter(cat => {
+          const isValid = validateCategoryData(cat);
+          if (!isValid) {
+            logger.warning('Skipping invalid category', cat);
+          }
+          return isValid;
+        })
+        .map(cat => {
+          try {
+            return ensureCategoryDescription(cat);
+          } catch (error) {
+            logger.error('Error processing category', { category: cat, error });
+            return null;
+          }
+        })
+        .filter((cat): cat is Category => cat !== null);
     } catch (error) {
       logger.error('Error processing categories', error);
       return [];

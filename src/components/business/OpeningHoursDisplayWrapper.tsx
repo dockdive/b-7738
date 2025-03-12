@@ -1,14 +1,26 @@
 
 import React from 'react';
-import OpeningHoursDisplay from './OpeningHoursDisplay';
-import { OpeningHoursDisplayWrapperProps } from './OpeningHoursDisplayProps';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-const OpeningHoursDisplayWrapper: React.FC<OpeningHoursDisplayWrapperProps> = ({ hours }) => {
-  if (!hours) {
-    return null;
-  }
-  
-  return <OpeningHoursDisplay openingHours={hours} />;
+interface OpeningHoursDisplayWrapperProps {
+  hours: Record<string, string>;
+  className?: string;
+}
+
+const OpeningHoursDisplayWrapper: React.FC<OpeningHoursDisplayWrapperProps> = ({ hours, className = '' }) => {
+  const { t } = useLanguage();
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+  return (
+    <div className={`space-y-2 ${className}`}>
+      {days.map(day => (
+        <div key={day} className="flex justify-between">
+          <span className="font-medium capitalize">{t(`business.businessDetails.${day}`)}</span>
+          <span>{hours[day] || t('business.businessDetails.closed')}</span>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default OpeningHoursDisplayWrapper;

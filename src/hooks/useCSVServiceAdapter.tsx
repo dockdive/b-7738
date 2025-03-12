@@ -40,24 +40,22 @@ export const useCSVServiceAdapter = () => {
 
   const ensureCategoryDescription = useCallback((category: Partial<Category>): Category => {
     if (!category.name) {
-      logger.warning('Category missing name, using default');
+      logger.warning('Category missing name');
+      throw new Error('Category name is required');
     }
 
-    const name = category.name || 'Untitled Category';
-    const defaultDescription = `Category for ${name}`;
-    
     return {
       id: category.id || 0,
-      name: name,
+      name: category.name,
       icon: category.icon || '',
-      description: category.description || defaultDescription,
+      description: category.description || `Category for ${category.name}`,
       created_at: category.created_at
     };
   }, []);
 
   const validateCategoryData = useCallback((category: Partial<Category>): boolean => {
-    if (!category.name) {
-      logger.warning('Invalid category - missing name', category);
+    if (!category?.name) {
+      logger.warning('Invalid category - missing name');
       return false;
     }
     return true;
