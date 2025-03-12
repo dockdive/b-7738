@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { OpeningHoursDisplay } from '@/components/business/OpeningHoursDisplay';
+import OpeningHoursDisplay from '@/components/business/OpeningHoursDisplay';
 
 // This component serves as a wrapper to ensure type compatibility
 // It accepts Record<string, string> and passes it correctly to OpeningHoursDisplay

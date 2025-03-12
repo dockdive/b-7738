@@ -1,8 +1,7 @@
 
+// utils/deepMerge.ts
 export function deepMerge(target: Record<string, any>, ...sources: Record<string, any>[]) {
   sources.forEach(source => {
-    if (!source) return;
-    
     Object.keys(source).forEach(key => {
       if (source[key] && typeof source[key] === "object" && !Array.isArray(source[key])) {
         if (!target[key]) target[key] = {};
@@ -15,4 +14,4 @@ export function deepMerge(target: Record<string, any>, ...sources: Record<string
   return target;
 }
 
-export default deepMerge;
+export default deepMerge; // Add default export to resolve the import error

@@ -44,11 +44,8 @@ export interface WikiCategory {
   description?: string;
 }
 
-// Export a proper wikiService interface for the WikiContext
-export const wikiService = {
-  getEntries: async (): Promise<WikiEntry[]> => {
-    return [];
-  },
+// Export a proper wikiService interface that satisfies imports in WikiContext
+export const wikiService: WikiServiceInterface = {
   getEntry: async (slug: string): Promise<WikiEntry> => {
     return {
       id: 0,
@@ -59,5 +56,8 @@ export const wikiService = {
   },
   searchEntries: async (query: string): Promise<WikiSearchResult[]> => {
     return [];
-  }
+  },
+  entries: [],
+  loading: false,
+  error: null
 };

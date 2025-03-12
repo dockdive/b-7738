@@ -70,10 +70,11 @@ export interface BusinessCreate {
   country?: string;
   category_id: number;
   subcategory_id?: number;
-  owner_id?: string; // Add for compatibility with API
-  user_id?: string; // Add for compatibility with API
-  status?: 'pending' | 'approved' | 'rejected'; // Add for compatibility with API
-  opening_hours?: Record<string, string>; // Add for proper handling
+  owner_id?: string;
+  user_id?: string;
+  status?: 'pending' | 'approved' | 'rejected';
+  opening_hours?: Record<string, string>;
+  is_featured?: boolean; // Added to match AddBusiness.tsx usage
 }
 
 // Add BusinessFilter type
@@ -107,6 +108,7 @@ export interface User {
 export interface Profile extends User {
   bio?: string;
   website?: string;
+  email?: string; // Added to resolve type errors
   social_links?: {
     twitter?: string;
     facebook?: string;
