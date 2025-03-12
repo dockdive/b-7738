@@ -19,6 +19,7 @@ export interface WikiSearchResult {
 }
 
 export interface WikiServiceInterface {
+  // Core methods
   getEntry: (slug: string) => Promise<WikiEntry>;
   searchEntries: (query: string) => Promise<WikiSearchResult[]>;
   getEntries: () => Promise<WikiEntry[]>; 
@@ -27,7 +28,7 @@ export interface WikiServiceInterface {
   error: Error | null;
   getRelatedEntries: (currentEntry: WikiEntry) => WikiEntry[];
   
-  // Add all the methods required by WikiContext with correct signatures
+  // Admin methods
   canEditWiki?: () => boolean;
   getAllCategories?: () => Promise<WikiCategory[]>;
   getAllPages?: () => Promise<WikiPage[]>;
@@ -42,7 +43,7 @@ export interface WikiServiceInterface {
   getPendingReviews?: () => Promise<WikiPage[]>;
 }
 
-// Add additional Wiki types needed by WikiContext
+// Additional Wiki types needed by WikiContext
 export interface WikiPage {
   id: number | string; // Allow both number and string IDs
   slug: string;
@@ -60,7 +61,7 @@ export interface WikiCategory {
   description?: string;
 }
 
-// Create a proper wikiService default implementation that satisfies the interface
+// Default implementation
 export const wikiService: WikiServiceInterface = {
   getEntry: async (slug: string): Promise<WikiEntry> => {
     return {
@@ -83,7 +84,7 @@ export const wikiService: WikiServiceInterface = {
     return [];
   },
   
-  // Add implementations for the new methods
+  // Default implementations for additional methods
   canEditWiki: () => false,
   getAllCategories: async () => [],
   getAllPages: async () => [],
@@ -119,4 +120,37 @@ export const normalizeId = (id: number | string): string => {
 export const compareIds = (id1: number | string | undefined, id2: number | string | undefined): boolean => {
   if (id1 === undefined || id2 === undefined) return false;
   return normalizeId(id1) === normalizeId(id2);
+};
+
+// Utility functions for converting between WikiPage and WikiEntry
+export const convertPageToEntry = (page: WikiPage): WikiEntry => {
+  return {
+    id: page.id,
+    slug: page.slug,
+    title: page.title,
+    content: page.content,
+    created_at: page.created_at,
+    updated_at: page.updated_at,
+    category: page.category_id.toString() // Convert category_id to string
+  };
+};
+
+export const convertEntryToPage = (entry: WikiEntry): WikiPage => {
+  let category_id: number | string = 0;
+  
+  if (typeof entry.category === 'string') {
+    category_id = entry.category;
+  } else if (entry.category && typeof entry.category === 'object') {
+    category_id = entry.category.id;
+  }
+  
+  return {
+    id: entry.id,
+    slug: entry.slug,
+    title: entry.title,
+    content: entry.content,
+    category_id,
+    created_at: entry.created_at,
+    updated_at: entry.updated_at
+  };
 };
