@@ -47,6 +47,7 @@ export interface Business {
   services?: string[]; // Added for compatibility
   images?: string[]; // Added for compatibility
   opening_hours?: Record<string, string>; // Added for compatibility
+  owner_id?: string; // Added for compatibility with API
 }
 
 // Add BusinessCreate type for form submissions
@@ -64,6 +65,8 @@ export interface BusinessCreate {
   country?: string;
   category_id: number;
   subcategory_id?: number;
+  owner_id?: string; // Add for compatibility with API
+  user_id?: string; // Add for compatibility with API
 }
 
 // Add BusinessFilter type
@@ -73,7 +76,10 @@ export interface BusinessFilter {
   search?: string;
   featured?: boolean;
   status?: 'pending' | 'approved' | 'rejected';
-  sort?: 'newest' | 'oldest' | 'name_asc' | 'name_desc' | 'rating';
+  sort?: 'newest' | 'oldest' | 'name_asc' | 'name_desc' | 'rating' | 'rating_high' | 'rating_low' | 'most_reviewed';
+  country?: string; // Added for compatibility with API
+  city?: string; // Added for compatibility with API
+  rating?: number; // Added for compatibility with API
 }
 
 // Add BusinessStatus type
@@ -117,6 +123,7 @@ export interface ProfileUpdate {
   language?: LanguageCode;
   bio?: string;
   website?: string;
+  avatar_url?: string; // Added for compatibility with API
   social_links?: {
     twitter?: string;
     facebook?: string;
@@ -141,4 +148,5 @@ export interface Review {
 export * from './wiki';
 
 // Re-export LanguageCode for global use
-export { LanguageCode };
+export type { LanguageCode };
+

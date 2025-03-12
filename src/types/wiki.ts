@@ -43,3 +43,21 @@ export interface WikiCategory {
   slug: string;
   description?: string;
 }
+
+// Export a proper wikiService interface for the WikiContext
+export const wikiService = {
+  getEntries: async (): Promise<WikiEntry[]> => {
+    return [];
+  },
+  getEntry: async (slug: string): Promise<WikiEntry> => {
+    return {
+      id: 0,
+      slug,
+      title: '',
+      content: ''
+    };
+  },
+  searchEntries: async (query: string): Promise<WikiSearchResult[]> => {
+    return [];
+  }
+};

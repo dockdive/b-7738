@@ -19,7 +19,7 @@ const ensureCategoryDescription = (data: any): Category => {
   if (!data.description) {
     // Provide a default description if missing
     data.description = `${data.name} category`;
-    logger.warn(`Added default description for category: ${data.name}`);
+    logger.warning(`Added default description for category: ${data.name}`);
   }
   return data as Category;
 };
