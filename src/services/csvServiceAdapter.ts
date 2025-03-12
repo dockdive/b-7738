@@ -40,6 +40,11 @@ const ensureBusinessFields = (data: any): BusinessCreate => {
   if (data.status && typeof data.status === 'string') {
     data.status = data.status as BusinessStatusUnion;
   }
+
+  // Add owner_id if not present (required by some API calls)
+  if (!data.owner_id) {
+    data.owner_id = data.user_id || '';
+  }
   
   // Remove any fields that aren't in BusinessCreate
   const safeData: BusinessCreate = {
@@ -56,11 +61,13 @@ const ensureBusinessFields = (data: any): BusinessCreate => {
     zip: data.zip,
     country: data.country,
     subcategory_id: data.subcategory_id ? parseInt(data.subcategory_id, 10) : undefined,
-    owner_id: data.owner_id,
+    owner_id: data.owner_id || '',
     user_id: data.user_id,
     status: data.status as BusinessStatusUnion,
     opening_hours: data.opening_hours,
-    is_featured: data.is_featured
+    is_featured: data.is_featured,
+    latitude: data.latitude ? parseFloat(data.latitude) : undefined,
+    longitude: data.longitude ? parseFloat(data.longitude) : undefined
   };
   
   return safeData;
@@ -70,9 +77,40 @@ const ensureBusinessFields = (data: any): BusinessCreate => {
 const ensureCategoryFormat = (data: any): Omit<Category, "id" | "created_at"> => {
   return {
     name: data.name,
-    icon: data.icon,
-    description: data.description || `${data.name} category`
+    icon: data.icon || 'building', // Provide a default icon if missing
+    description: data.description || `${data.name} category` // Ensure description exists
   };
+};
+
+// Helper to fix data for API compatibility
+export const fixBusinessForAPI = (business: BusinessCreate): Record<string, any> => {
+  // Create a clean object with only the API-compatible fields
+  const apiData: Record<string, any> = {
+    name: business.name,
+    description: business.description,
+    category_id: business.category_id,
+    owner_id: business.owner_id || '',
+    logo_url: business.logo_url,
+    website: business.website,
+    email: business.email,
+    phone: business.phone,
+    address: business.address,
+    city: business.city,
+    state: business.state,
+    zip: business.zip,
+    country: business.country,
+    is_featured: business.is_featured
+  };
+  
+  // Add optional fields only if they exist
+  if (business.subcategory_id !== undefined) apiData.subcategory_id = business.subcategory_id;
+  if (business.status !== undefined) apiData.status = business.status;
+  if (business.opening_hours !== undefined) apiData.opening_hours = business.opening_hours;
+  if (business.latitude !== undefined) apiData.latitude = business.latitude;
+  if (business.longitude !== undefined) apiData.longitude = business.longitude;
+  if (business.user_id !== undefined) apiData.user_id = business.user_id;
+  
+  return apiData;
 };
 
 // Reexport functions from the original service with adaptations as needed

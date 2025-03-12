@@ -1,1 +1,42 @@
-{"business":{"title":"Bedrijvengids","subtitle":"Vind maritieme bedrijven wereldwijd","filter":{"title":"Filter Bedrijven","category":"Categorie","location":"Plaats","rating":"Beoordeling","services":"Diensten","apply":"Filters toepassen","reset":"Filters resetten","noResults":"Geen enkel bedrijf komt overeen met uw filters","loading":"Bedrijven laden..."},"sort":{"title":"Sorteren op","name":"Naam","rating":"Beoordeling","newest":"Nieuwste","oldest":"Oudst"},"businessCard":{"viewDetails":"Details bekijken","contact":"Contact","website":"Bezoek Website","reviews":"Beoordelingen","showOnMap":"Toon op kaart","featured":"Aanbevolen"},"view":{"grid":"Raster weergave","list":"Lijst weergave","map":"Kaartweergave"},"details":{"about":"Over","services":"Aangeboden diensten","location":"Plaats","contact":"Contactgegevens","reviews":"Beoordelingen","hours":"Openingstijden","established":"Vastgesteld","employees":"Medewerkers","languages":"Talen","writeReview":"Schrijf een review","claimBusiness":"Claim dit bedrijf","report":"Meld dit bedrijf","share":"Delen","verifiedListing":"Geverifieerde vermelding","lastUpdated":"Laatst bijgewerkt","joinedPlatform":"Lid geworden platform"},"featured":"Aanbevolen bedrijven","viewAllBusinesses":"Bekijk alle bedrijven","viewDetails":"Details bekijken"}}
+
+{
+  "businessDetails": {
+    "title": "Bedrijfsdetails",
+    "description": "Informatie over dit bedrijf",
+    "contactInfo": "Contactgegevens",
+    "address": "Adres",
+    "phone": "Telefoon",
+    "email": "E-mail",
+    "website": "Website",
+    "openingHours": "Openingstijden",
+    "openingHoursTitle": "Openingstijden",
+    "closed": "Gesloten",
+    "openFrom": "Open van",
+    "openTo": "tot",
+    "monday": "Maandag",
+    "tuesday": "Dinsdag",
+    "wednesday": "Woensdag",
+    "thursday": "Donderdag",
+    "friday": "Vrijdag",
+    "saturday": "Zaterdag",
+    "sunday": "Zondag",
+    "reviews": "Beoordelingen",
+    "noReviews": "Nog geen beoordelingen",
+    "writeReview": "Schrijf een beoordeling",
+    "services": "Diensten",
+    "noServices": "Geen diensten vermeld",
+    "category": "Categorie",
+    "subcategory": "Subcategorie",
+    "location": "Locatie",
+    "featured": "Uitgelicht",
+    "rating": "Beoordeling",
+    "reviewCount": "Aantal beoordelingen",
+    "share": "Delen",
+    "report": "Rapporteren",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "deleteConfirm": "Weet je zeker dat je dit bedrijf wilt verwijderen?",
+    "deleteSuccess": "Bedrijf verwijderd",
+    "deleteError": "Fout bij het verwijderen van bedrijf"
+  }
+}

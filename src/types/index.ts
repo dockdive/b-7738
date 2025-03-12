@@ -20,13 +20,16 @@ export interface Subcategory {
   created_at?: string;
 }
 
-// Update BusinessStatus to be a union type or an object type consistently
+// Update BusinessStatus to be a union type consistently
+export type BusinessStatusUnion = 'pending' | 'approved' | 'rejected';
+
+// For backward compatibility with existing code
+export type BusinessStatus = BusinessStatusUnion;
+
 export interface BusinessStatusObject {
-  status: 'pending' | 'approved' | 'rejected';
+  status: BusinessStatusUnion;
   reason?: string;
 }
-
-export type BusinessStatusUnion = 'pending' | 'approved' | 'rejected';
 
 export interface Business {
   id: string;
@@ -81,8 +84,8 @@ export interface BusinessCreate {
   status?: BusinessStatusUnion;
   opening_hours?: Record<string, string>;
   is_featured?: boolean;
-  latitude?: number; // Add latitude for compatibility with API
-  longitude?: number; // Add longitude for compatibility with API
+  latitude?: number;
+  longitude?: number;
 }
 
 // Add BusinessFilter type

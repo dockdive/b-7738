@@ -1,60 +1,68 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { WikiEntry, WikiPage, WikiCategory, WikiSearchResult } from '@/types';
-import { wikiService } from '@/types/wiki';
+import { WikiEntry, WikiSearchResult, WikiServiceInterface, WikiPage, WikiCategory, wikiService } from '@/types/wiki';
 
-// Interface for the WikiContext
+// Create a proper adapter to fix type issues
 interface WikiContextType {
+  entries: WikiEntry[];
+  categories: WikiCategory[];
   getEntry: (slug: string) => Promise<WikiEntry>;
   searchEntries: (query: string) => Promise<WikiSearchResult[]>;
-  entries: WikiEntry[];
   loading: boolean;
   error: Error | null;
-  pages: WikiPage[];
-  categories: WikiCategory[];
-  getPageById: (id: number) => WikiPage | undefined;
-  getCategoryById: (id: number) => WikiCategory | undefined;
 }
 
-// Create the context with a default value
 const WikiContext = createContext<WikiContextType | undefined>(undefined);
 
-// Provider component
-export const WikiContextAdapter: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [pages, setPages] = useState<WikiPage[]>([]);
+export const WikiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [entries, setEntries] = useState<WikiEntry[]>([]);
   const [categories, setCategories] = useState<WikiCategory[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
+  // Safe number comparison helper to deal with string/number comparison errors
+  const safeIdCompare = (id1: number | string, id2: number | string): boolean => {
+    return String(id1) === String(id2);
+  };
+
+  const getEntry = async (slug: string): Promise<WikiEntry> => {
+    try {
+      setLoading(true);
+      const entry = await wikiService.getEntry(slug);
+      setLoading(false);
+      return entry;
+    } catch (error) {
+      setLoading(false);
+      setError(error instanceof Error ? error : new Error(String(error)));
+      throw error;
+    }
+  };
+
+  const searchEntries = async (query: string): Promise<WikiSearchResult[]> => {
+    try {
+      setLoading(true);
+      const results = await wikiService.searchEntries(query);
+      setLoading(false);
+      return results;
+    } catch (error) {
+      setLoading(false);
+      setError(error instanceof Error ? error : new Error(String(error)));
+      throw error;
+    }
+  };
+
+  // Initialize entries
   useEffect(() => {
-    // Fetch pages and categories here if needed
-    // For now, we'll use empty arrays
+    if (wikiService.entries && wikiService.entries.length > 0) {
+      setEntries(wikiService.entries);
+    }
   }, []);
 
-  // Safe type conversion helpers
-  const ensureNumber = (value: any): number => {
-    if (typeof value === 'string') {
-      return parseInt(value, 10);
-    }
-    return typeof value === 'number' ? value : 0;
-  };
-
-  // Type-safe lookup functions
-  const getPageById = (id: number): WikiPage | undefined => {
-    return pages.find(page => ensureNumber(page.id) === ensureNumber(id));
-  };
-
-  const getCategoryById = (id: number): WikiCategory | undefined => {
-    return categories.find(category => ensureNumber(category.id) === ensureNumber(id));
-  };
-
-  // Provide the context value
   const contextValue: WikiContextType = {
-    ...wikiService, // Use methods from wikiService
-    pages,
+    entries,
     categories,
-    getPageById,
-    getCategoryById,
+    getEntry,
+    searchEntries,
     loading,
     error
   };
@@ -62,13 +70,10 @@ export const WikiContextAdapter: React.FC<{ children: React.ReactNode }> = ({ ch
   return <WikiContext.Provider value={contextValue}>{children}</WikiContext.Provider>;
 };
 
-// Custom hook for consuming the context
-export const useWikiAdapter = () => {
+export const useWiki = (): WikiContextType => {
   const context = useContext(WikiContext);
   if (!context) {
-    throw new Error('useWikiAdapter must be used within a WikiContextAdapter');
+    throw new Error('useWiki must be used within a WikiProvider');
   }
   return context;
 };
-
-export default WikiContextAdapter;
