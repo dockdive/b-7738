@@ -99,8 +99,8 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
                 <FormMessage />
               </FormItem>
             )}
-          )}
-        />
+          />
+        )}
       </div>
       
       <FormField
