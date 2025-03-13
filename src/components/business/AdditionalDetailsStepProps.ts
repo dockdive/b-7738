@@ -3,6 +3,12 @@ import { UseFormReturn } from 'react-hook-form';
 
 export interface AdditionalDetailsStepProps {
   form?: UseFormReturn<any>; // Make optional for backward compatibility
+  // Add these services-related props back for compatibility
+  services?: string[];
+  serviceInput?: string;
+  setServiceInput?: (value: string) => void;
+  handleAddService?: () => void;
+  handleRemoveService?: (index: number) => void;
   // Backward compatibility for EditBusiness.tsx
   formData?: any;
   updateFormData?: (data: any) => void;
