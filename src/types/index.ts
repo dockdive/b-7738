@@ -32,11 +32,12 @@ export interface BusinessStatusObject {
 }
 
 // Import from business.ts to ensure consistency
-import { Business as BusinessType, BusinessCreate as BusinessCreateType, ProgressCallback as ProgressCallbackType } from './business';
+import { Business as BusinessType, BusinessCreate as BusinessCreateType, BusinessFormData as BusinessFormDataType, ProgressCallback as ProgressCallbackType } from './business';
 
 // Re-export for backward compatibility
 export type Business = BusinessType;
 export type BusinessCreate = BusinessCreateType;
+export type BusinessFormData = BusinessFormDataType;
 export type ProgressCallback = ProgressCallbackType;
 
 // Add BusinessFilter type

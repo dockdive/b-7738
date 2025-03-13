@@ -23,4 +23,4 @@ export interface ContactDetailsStepProps {
   onNext?: () => void;
 }
 
-export default ContactDetailsStepProps;
+export { ContactDetailsStepProps };

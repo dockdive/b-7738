@@ -5,4 +5,5 @@ export interface BusinessStepIndicatorProps {
   onStepClick?: (step: number) => void;
 }
 
-export default BusinessStepIndicatorProps;
+// Remove default export and use named export to match import usage
+export { BusinessStepIndicatorProps };

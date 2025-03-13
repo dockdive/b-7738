@@ -22,4 +22,4 @@ export interface BasicInfoStepProps {
   onNext?: () => void;
 }
 
-export default BasicInfoStepProps;
+export { BasicInfoStepProps };

@@ -23,4 +23,4 @@ export interface AdditionalDetailsStepProps {
   onSubmit?: () => void;
 }
 
-export default AdditionalDetailsStepProps;
+export { AdditionalDetailsStepProps };

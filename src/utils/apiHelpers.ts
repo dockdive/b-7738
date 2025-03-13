@@ -1,12 +1,12 @@
 
 import { BusinessCreate, BusinessStatus } from '@/types/business';
-import { supabaseClient } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/supabase/client';
 
 // Helper function to create a business with proper type handling
 export const createBusiness = async (businessData: BusinessCreate) => {
   // Ensure owner_id is set - this works around the type issue with the API
   if (!businessData.owner_id) {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       businessData.owner_id = user.id;
     }
@@ -17,7 +17,7 @@ export const createBusiness = async (businessData: BusinessCreate) => {
   
   // Remove any properties that don't exist in the businesses table
   // This helps prevent the 'status' property error specifically
-  return supabaseClient
+  return supabase
     .from('businesses')
     .insert(adaptedData);
 };
@@ -27,7 +27,7 @@ export const updateBusiness = async (id: string, businessData: Partial<BusinessC
   // The API doesn't directly match our BusinessCreate type, so we need to adapt it
   const adaptedData: Record<string, any> = { ...businessData };
   
-  return supabaseClient
+  return supabase
     .from('businesses')
     .update(adaptedData)
     .eq('id', id);
