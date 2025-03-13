@@ -1,0 +1,7 @@
+
+/**
+ * Props for the OpeningHoursDisplay component
+ */
+export interface OpeningHoursDisplayProps {
+  hours: Record<string, string>;
+}

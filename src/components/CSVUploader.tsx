@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LogOut, Upload } from 'lucide-react';
@@ -8,7 +7,7 @@ import {
   uploadCSV,
   generateCSVTemplate,
   loadSampleBusinessData
-} from '@/services/csvService';
+} from '@/services/csvServiceAdapter';
 import logger from '@/services/loggerService';
 
 // Import refactored components
@@ -86,10 +85,8 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
     try {
       logger.info(`Downloading template for entity type: ${entityType}`);
       
-      // Generate the CSV content
       const csvContent = generateCSVTemplate(entityType);
       
-      // Create a blob and download link
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');

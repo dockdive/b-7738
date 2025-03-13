@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from "@/contexts/LanguageContext";
 import { UseFormReturn } from 'react-hook-form';
 import { Building2, Upload } from 'lucide-react';
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form';
@@ -87,11 +87,13 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {subcategories.map((subcategory: Subcategory) => (
-                      <SelectItem key={subcategory.id} value={subcategory.id.toString()}>
-                        {subcategory.name}
-                      </SelectItem>
-                    ))}
+                    {subcategories
+                      .filter((sub: Subcategory) => Number(sub.category_id) === Number(category_id))
+                      .map((subcategory: Subcategory) => (
+                        <SelectItem key={subcategory.id} value={subcategory.id.toString()}>
+                          {subcategory.name}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

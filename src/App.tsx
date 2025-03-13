@@ -15,17 +15,8 @@ import BulkUpload from "./pages/BulkUpload";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
-import CategoryPage from "./pages/CategoryPage";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000, // 1 minute
-      retry: 1,
-      refetchOnWindowFocus: false
-    }
-  }
-});
+const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -44,7 +35,6 @@ const App = () => (
               <Route path="/bulk-upload" element={<BulkUpload />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/category/:categoryName" element={<CategoryPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>

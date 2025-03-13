@@ -1,0 +1,24 @@
+
+{
+  "csvUpload": {
+    "title": "CSV Bestand Uploaden",
+    "description": "Upload een CSV bestand met {entityType} gegevens",
+    "entityTypes": {
+      "business": "bedrijven",
+      "category": "categorieën",
+      "review": "beoordelingen"
+    },
+    "uploadButton": "Upload bestand",
+    "uploading": "Bezig met uploaden...",
+    "downloadTemplate": "Download template",
+    "loadSampleData": "Laad voorbeeldgegevens",
+    "selectFile": "Selecteer een CSV bestand",
+    "fileSelected": "Bestand geselecteerd",
+    "successMessage": "Success! {count} items geüpload",
+    "sampleDataMessage": "Success! {count} voorbeeldbedrijven geladen",
+    "errorGeneric": "Er is een fout opgetreden",
+    "processingFile": "Bestand verwerken...",
+    "showLogs": "Toon logs",
+    "hideLogs": "Verberg logs"
+  }
+}
