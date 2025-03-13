@@ -2,6 +2,9 @@
 import { useCSVAdapter } from './useCSVAdapter';
 import csvServiceWrapper from '@/utils/csvServiceWrapper';
 
+// Define a type for progress callback
+type ProgressCallback = (progress: number) => void;
+
 export const useCSVServiceAdapter = () => {
   const { logger } = useCSVAdapter();
   
@@ -92,11 +95,10 @@ export const useCSVServiceAdapter = () => {
     downloadTemplate: handleDownloadTemplate,
     prepareDataForImport: handlePrepareDataForImport,
     generateExampleData: handleGenerateExampleData,
-    // Add the missing methods required by CSVUploader.tsx
     processCSV: handleProcessCSV,
     loadSampleData: handleLoadSampleData
   };
 };
 
-// Add default export for backwards compatibility with existing import in CSVUploader.tsx
+// Export default for backward compatibility with existing import in CSVUploader.tsx
 export default useCSVServiceAdapter;
