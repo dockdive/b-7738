@@ -18,6 +18,9 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import { CSVAdapterProvider } from "./hooks/useCSVAdapter";
 import BusinessMapInjector from "./components/business/BusinessMapInjector";
+import BusinessSeoInjector from "./components/business/BusinessSeoInjector";
+import BusinessSharingTools from "./components/business/BusinessSharingTools";
+import PrintStylesInjector from "./components/PrintStylesInjector";
 
 // Configure React Query with better defaults for debugging
 const queryClient = new QueryClient({
@@ -37,6 +40,7 @@ const App = () => (
         <TooltipProvider>
           <CSVAdapterProvider>
             <BrowserRouter>
+              <PrintStylesInjector />
               <Layout>
                 <Toaster />
                 <Sonner />
@@ -46,8 +50,11 @@ const App = () => (
                   <Route path="/businesses" element={<BusinessDirectory />} />
                   <Route path="/businesses/:id" element={
                     <>
-                      <BusinessDetail />
+                      <BusinessSeoInjector>
+                        <BusinessDetail />
+                      </BusinessSeoInjector>
                       <BusinessMapInjector />
+                      <BusinessSharingTools />
                     </>
                   } />
                   <Route path="/add-business" element={<AddBusiness />} />
