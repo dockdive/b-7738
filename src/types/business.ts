@@ -7,7 +7,7 @@ export interface Business {
   address: string;
   city: string;
   country: string;
-  postal_code?: string; // Add for compatibility with EditBusiness.tsx
+  postal_code?: string;
   zip?: string; // Some places might use zip instead of postal_code
   latitude: number;
   longitude: number;
@@ -16,12 +16,15 @@ export interface Business {
   website: string;
   logo_url: string;
   category_id: number;
-  user_id?: string; // Add for compatibility with EditBusiness.tsx
+  user_id?: string;
+  owner_id?: string;
   is_featured: boolean;
   created_at: string;
   updated_at: string;
-  opening_hours?: Record<string, any>; // Add for compatibility with EditBusiness.tsx
-  services?: string[]; // Add for compatibility with EditBusiness.tsx
+  opening_hours?: Record<string, any>;
+  services?: string[];
+  status?: string;
+  state?: string;
 }
 
 // Types for user profiles
@@ -31,7 +34,7 @@ export interface UserProfile {
   name?: string;
   avatar_url?: string;
   email?: string;
-  role?: string; // Add for compatibility with EditBusiness.tsx
+  role?: string;
   created_at?: string;
   updated_at?: string;
 }
@@ -49,7 +52,8 @@ export interface BusinessFormData {
   email: string;
   phone: string;
   website: string;
-  logo_url: string;
+  logo_url?: string;
   opening_hours?: Record<string, any>;
   services?: string[];
+  state?: string;
 }

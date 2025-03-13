@@ -1,9 +1,6 @@
 
 import { useCSVAdapter } from './useCSVAdapter';
-import csvServiceWrapper from '@/utils/csvServiceWrapper';
-
-// Define a type for progress callback
-type ProgressCallback = (progress: number) => void;
+import csvServiceWrapper, { ProgressCallback } from '@/utils/csvServiceWrapper';
 
 export const useCSVServiceAdapter = () => {
   const { logger } = useCSVAdapter();
@@ -38,7 +35,7 @@ export const useCSVServiceAdapter = () => {
     }
   };
 
-  const handleDownloadTemplate = (templateType: string) => {
+  const handleDownloadTemplate = (templateType: string): Blob => {
     try {
       logger.warn('Downloading template', { templateType });
       return csvServiceWrapper.downloadTemplate(templateType);
@@ -67,7 +64,7 @@ export const useCSVServiceAdapter = () => {
     }
   };
 
-  // Add handlers for the new methods from our wrapper
+  // Handle the new methods from our wrapper
   const handleProcessCSV = async (file: File, templateType: string) => {
     try {
       logger.info('Processing CSV file', { fileName: file.name, templateType });
