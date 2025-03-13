@@ -14,6 +14,7 @@ import {
 import { Category } from '@/types';
 import LoadingIndicator from '@/components/ui/loading-indicator';
 import logger from '@/services/loggerService';
+import sampleDataService from '@/services/sampleDataService';
 
 interface CategorySelectProps {
   value: number | string | null;
@@ -30,9 +31,15 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
 }) => {
   const { t } = useLanguage();
   const [selectedValue, setSelectedValue] = useState<string>(value ? String(value) : '');
+  const [importingCategories, setImportingCategories] = useState<boolean>(false);
 
   // Fetch categories from Supabase
-  const { data: categories, isLoading, error } = useQuery({
+  const { 
+    data: categories, 
+    isLoading, 
+    error,
+    refetch 
+  } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
       logger.info('Fetching categories from Supabase');
@@ -52,6 +59,31 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
     },
   });
 
+  // Import sample categories if none exist
+  useEffect(() => {
+    const importIfEmpty = async () => {
+      if (!isLoading && categories && categories.length === 0 && !importingCategories) {
+        try {
+          setImportingCategories(true);
+          logger.info('No categories found, importing sample data');
+          
+          const importedCount = await sampleDataService.importSampleCategories();
+          
+          if (importedCount > 0) {
+            logger.info(`Imported ${importedCount} sample categories, refreshing data`);
+            await refetch();
+          }
+        } catch (error) {
+          logger.error('Error importing sample categories', error);
+        } finally {
+          setImportingCategories(false);
+        }
+      }
+    };
+    
+    importIfEmpty();
+  }, [categories, isLoading, refetch, importingCategories]);
+
   useEffect(() => {
     // Update the selected value when the value prop changes
     setSelectedValue(value ? String(value) : '');
@@ -63,7 +95,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
     onChange(newValue ? parseInt(newValue, 10) : null);
   };
 
-  if (isLoading) {
+  if (isLoading || importingCategories) {
     return <LoadingIndicator size="sm" variant="inline" />;
   }
 

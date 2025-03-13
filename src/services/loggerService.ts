@@ -1,97 +1,104 @@
 
-/**
- * Log levels for the application
- */
 export enum LogLevel {
-  DEBUG = 'debug',
+  ERROR = 'error',
+  WARN = 'warn',
   INFO = 'info',
-  WARNING = 'warning',
-  ERROR = 'error'
+  DEBUG = 'debug',
+  LOG = 'log'
 }
 
-/**
- * Log entry structure
- */
-export interface LogEntry {
-  timestamp: number;
+interface LoggerOptions {
   level: LogLevel;
-  message: string;
-  data?: any;
+  prefix?: string;
+  enableConsole?: boolean;
 }
 
-// Store logs in memory (cleared on page refresh)
-const logs: LogEntry[] = [];
-
-/**
- * Simple logger service for application-wide logging
- */
-const logger = {
-  // Log informational messages
-  info: (message: string, ...args: any[]): void => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.info(`[INFO] ${message}`, ...args);
-    }
-    logs.push({
-      timestamp: Date.now(),
-      level: LogLevel.INFO,
-      message,
-      data: args.length > 0 ? args : undefined
-    });
-  },
+class Logger {
+  private level: LogLevel;
+  private prefix: string;
+  private enableConsole: boolean;
   
-  // Log warnings
-  warn: (message: string, ...args: any[]): void => {
-    console.warn(`[WARNING] ${message}`, ...args);
-    logs.push({
-      timestamp: Date.now(),
-      level: LogLevel.WARNING,
-      message,
-      data: args.length > 0 ? args : undefined
-    });
-  },
-  
-  // Log errors
-  error: (message: string, error?: any): void => {
-    console.error(`[ERROR] ${message}`, error || '');
-    logs.push({
-      timestamp: Date.now(),
-      level: LogLevel.ERROR,
-      message,
-      data: error
-    });
-  },
-  
-  // Log debug messages (only in development)
-  debug: (message: string, ...args: any[]): void => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.debug(`[DEBUG] ${message}`, ...args);
-    }
-    logs.push({
-      timestamp: Date.now(),
-      level: LogLevel.DEBUG,
-      message,
-      data: args.length > 0 ? args : undefined
-    });
-  },
-  
-  // Provide warning as an alias for warn for backward compatibility
-  warning: (message: string, ...args: any[]): void => {
-    return logger.warn(message, ...args);
+  constructor(options: LoggerOptions) {
+    this.level = options.level || LogLevel.INFO;
+    this.prefix = options.prefix || '[App]';
+    this.enableConsole = options.enableConsole !== false;
   }
-};
+  
+  /**
+   * Log an error message
+   */
+  error(message: string, error?: any): void {
+    if (this.enableConsole) {
+      if (error) {
+        console.error(`${this.prefix} ${message}`, error);
+      } else {
+        console.error(`${this.prefix} ${message}`);
+      }
+    }
+    
+    // Here you could also send errors to a monitoring service
+    // like Sentry or a custom error tracking endpoint
+  }
+  
+  /**
+   * Log a warning message (alias for warn)
+   */
+  warning(message: string, ...args: any[]): void {
+    this.warn(message, ...args);
+  }
+  
+  /**
+   * Log a warning message
+   */
+  warn(message: string, ...args: any[]): void {
+    if (this.shouldLog(LogLevel.WARN) && this.enableConsole) {
+      console.warn(`${this.prefix} ${message}`, ...args);
+    }
+  }
+  
+  /**
+   * Log an info message
+   */
+  info(message: string, ...args: any[]): void {
+    if (this.shouldLog(LogLevel.INFO) && this.enableConsole) {
+      console.info(`${this.prefix} ${message}`, ...args);
+    }
+  }
+  
+  /**
+   * Log a debug message
+   */
+  debug(message: string, ...args: any[]): void {
+    if (this.shouldLog(LogLevel.DEBUG) && this.enableConsole) {
+      console.debug(`${this.prefix} ${message}`, ...args);
+    }
+  }
+  
+  /**
+   * Log a standard message
+   */
+  log(message: string, ...args: any[]): void {
+    if (this.shouldLog(LogLevel.LOG) && this.enableConsole) {
+      console.log(`${this.prefix} ${message}`, ...args);
+    }
+  }
+  
+  /**
+   * Determine if a message of the given level should be logged
+   */
+  private shouldLog(level: LogLevel): boolean {
+    const levels = [LogLevel.ERROR, LogLevel.WARN, LogLevel.INFO, LogLevel.DEBUG, LogLevel.LOG];
+    const currentLevelIndex = levels.indexOf(this.level);
+    const targetLevelIndex = levels.indexOf(level);
+    
+    return targetLevelIndex <= currentLevelIndex;
+  }
+}
 
-/**
- * Get all logs
- */
-export const getLogs = (): LogEntry[] => {
-  return [...logs];
-};
-
-/**
- * Get logs filtered by level
- */
-export const getLogsByLevel = (level: LogLevel): LogEntry[] => {
-  return logs.filter(log => log.level === level);
-};
+// Create and export a default logger instance
+const logger = new Logger({
+  level: process.env.NODE_ENV === 'production' ? LogLevel.ERROR : LogLevel.DEBUG,
+  prefix: '[Maritime]'
+});
 
 export default logger;

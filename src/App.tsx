@@ -12,6 +12,7 @@ import Auth from "./pages/Auth";
 import BusinessDirectory from "./pages/BusinessDirectory";
 import BusinessDetail from "./pages/BusinessDetail";
 import AddBusiness from "./pages/AddBusiness";
+import EditBusiness from "./pages/EditBusiness";
 import BulkUpload from "./pages/BulkUpload";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
@@ -20,7 +21,9 @@ import { CSVAdapterProvider } from "./hooks/useCSVAdapter";
 import BusinessMapInjector from "./components/business/BusinessMapInjector";
 import BusinessSeoInjector from "./components/business/BusinessSeoInjector";
 import BusinessSharingTools from "./components/business/BusinessSharingTools";
+import BusinessSharingToolsContent from "./components/business/BusinessSharingToolsContent";
 import PrintStylesInjector from "./components/PrintStylesInjector";
+import AuthRequired from "./components/auth/AuthRequired";
 
 // Configure React Query with better defaults for debugging
 const queryClient = new QueryClient({
@@ -55,12 +58,30 @@ const App = () => (
                       </BusinessSeoInjector>
                       <BusinessMapInjector />
                       <BusinessSharingTools />
+                      <BusinessSharingToolsContent />
                     </>
                   } />
-                  <Route path="/add-business" element={<AddBusiness />} />
-                  <Route path="/bulk-upload" element={<BulkUpload />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/add-business" element={
+                    <AuthRequired>
+                      <AddBusiness />
+                    </AuthRequired>
+                  } />
+                  <Route path="/edit-business/:id" element={<EditBusiness />} />
+                  <Route path="/bulk-upload" element={
+                    <AuthRequired>
+                      <BulkUpload />
+                    </AuthRequired>
+                  } />
+                  <Route path="/profile" element={
+                    <AuthRequired>
+                      <Profile />
+                    </AuthRequired>
+                  } />
+                  <Route path="/dashboard" element={
+                    <AuthRequired>
+                      <Dashboard />
+                    </AuthRequired>
+                  } />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>
