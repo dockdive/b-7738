@@ -16,15 +16,20 @@ export interface Business {
   website: string;
   logo_url: string;
   category_id: number;
+  subcategory_id?: number;
   user_id?: string;
   owner_id?: string; // Make owner_id optional to match the database
   is_featured: boolean;
+  featured?: boolean; // Alias for is_featured
   created_at: string;
   updated_at: string;
   opening_hours?: Record<string, any>;
   services?: string[];
   status?: string;
   state?: string;
+  rating?: number; // Add rating property
+  review_count?: number; // Add review_count property
+  images?: string[]; // Add images property
 }
 
 // Types for user profiles

@@ -32,11 +32,12 @@ export interface BusinessStatusObject {
 }
 
 // Import from business.ts to ensure consistency
-import { Business as BusinessType, BusinessFormData } from './business';
+import { Business as BusinessType, BusinessFormData, ProgressCallback as ProgressCallbackType } from './business';
 
 // Re-export for backward compatibility
 export type Business = BusinessType;
 export type { BusinessFormData };
+export type ProgressCallback = ProgressCallbackType;
 
 // Update BusinessCreate to ensure it matches the API requirements
 export interface BusinessCreate {
@@ -63,6 +64,9 @@ export interface BusinessCreate {
   services?: string[];
   latitude?: number;
   longitude?: number;
+  rating?: number;
+  review_count?: number;
+  images?: string[];
 }
 
 // Add BusinessFilter type
@@ -173,12 +177,8 @@ export interface WikiSearchResult {
 // Re-export LanguageCode for global use
 export type { LanguageCode };
 
-// CSV and Progress-related types
-export type ProgressCallback = (progress: number) => void;
+// Import CSV-related types from csv.ts
+import { CSVResult as CSVResultType } from './csv';
 
-export interface CSVResult {
-  success: boolean;
-  data?: any[] | string[][];
-  count?: number;
-  error?: string;
-}
+// Re-export CSV-related types
+export type CSVResult = CSVResultType;
