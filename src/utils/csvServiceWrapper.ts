@@ -1,5 +1,5 @@
 
-import csvService from '@/services/csvService';
+import * as csvService from '@/services/csvService';
 
 // This wrapper adds the missing methods needed by CSVUploader.tsx
 // without modifying the protected csvService.ts file
