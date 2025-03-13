@@ -6,4 +6,5 @@ export interface OpeningHoursDisplayProps {
 
 export interface OpeningHoursDisplayWrapperProps {
   hours?: Record<string, string>;
+  className?: string;
 }

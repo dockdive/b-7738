@@ -60,7 +60,8 @@ export const cleanBusinessDataForAPI = (data: Record<string, any>) => {
     'name', 'description', 'category_id', 'subcategory_id', 
     'address', 'city', 'state', 'country', 'zip',
     'email', 'phone', 'website', 'logo_url',
-    'owner_id', 'is_featured'
+    'owner_id', 'is_featured', 'user_id', 'postal_code',
+    'opening_hours', 'services'
   ];
   
   knownFields.forEach(field => {
