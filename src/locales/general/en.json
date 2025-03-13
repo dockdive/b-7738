@@ -1,6 +1,7 @@
 
 {
   "general": {
+    "appName":  "Compass",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
