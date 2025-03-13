@@ -21,5 +21,32 @@
     "validationErrors": "Validation Errors",
     "rowErrors": "Errors in row {row}",
     "formatError": "Invalid file format. Please upload a CSV file."
+  },
+  "csvUpload": {
+    "title": "Bulk Upload",
+    "description": "Upload multiple {entityType} records at once using CSV format",
+    "entityTypes": {
+      "business": "Business",
+      "businesses": "Businesses",
+      "category": "Category",
+      "categories": "Categories",
+      "review": "Review",
+      "reviews": "Reviews"
+    },
+    "selectFile": "Select CSV File",
+    "downloadTemplate": "Download Template",
+    "uploadButton": "Upload CSV",
+    "uploading": "Uploading...",
+    "loading": "Loading...",
+    "error": "Upload Failed",
+    "success": "Upload Complete",
+    "successMessage": "Successfully uploaded {count} records",
+    "errorGeneric": "An error occurred during upload",
+    "loadSampleData": "Load Sample Data",
+    "sampleDataMessage": "Successfully loaded {count} sample businesses",
+    "showLogs": "Show Logs",
+    "hideLogs": "Hide Logs",
+    "logs": "Operation Logs",
+    "noLogs": "No logs available"
   }
 }

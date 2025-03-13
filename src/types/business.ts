@@ -1,75 +1,48 @@
 
-// Types for the business entity
 export interface Business {
   id: string;
   name: string;
   description: string;
-  address: string;
-  city: string;
-  country: string;
-  postal_code?: string;
-  zip?: string; // Some places might use zip instead of postal_code
-  latitude: number;
-  longitude: number;
-  email: string;
-  phone: string;
-  website: string;
-  logo_url: string;
   category_id: number;
   subcategory_id?: number;
-  user_id?: string;
-  owner_id?: string; // Make owner_id optional to match the database
-  is_featured: boolean;
-  featured?: boolean; // Alias for is_featured
-  created_at: string;
-  updated_at: string;
-  opening_hours?: Record<string, any>;
-  services?: string[];
-  status?: string;
-  state?: string;
-  rating?: number; // Add rating property
-  review_count?: number; // Add review_count property
-  images?: string[]; // Add images property
-}
-
-// Types for user profiles
-export interface UserProfile {
-  id: string;
-  user_id: string;
-  name?: string;
-  avatar_url?: string;
-  email?: string;
-  role?: string; // Add role property
-  created_at?: string;
-  updated_at?: string;
-}
-
-// Extend the import to include missing properties
-export interface BusinessFormData {
-  name: string;
-  description: string;
-  category_id: number;
   address: string;
   city: string;
+  state: string;
+  zip: string;
   country: string;
-  postal_code?: string;
-  zip?: string;
-  email: string;
   phone: string;
+  email: string;
   website: string;
-  logo_url?: string;
-  opening_hours?: Record<string, any>;
+  logo_url: string;
+  is_featured: boolean;
+  owner_id: string;
+  status: string;
+  created_at: string;
+  updated_at?: string;
+  latitude: number;
+  longitude: number;
+  
+  // Additional properties that were missing
+  rating?: number;
+  review_count?: number;
+  images?: string[];
+  opening_hours?: Record<string, string>;
   services?: string[];
-  state?: string;
+  postal_code?: string; // Alternative to zip
 }
 
-// Export ProgressCallback for CSV operations
-export type ProgressCallback = (progress: number) => void;
+export type BusinessCreate = Omit<Business, 'id' | 'created_at' | 'updated_at'> & {
+  id?: string;
+  created_at?: string;
+  updated_at?: string;
+  logo?: File;
+  owner_id?: string; // Make this optional as it might be set by the backend
+};
 
-// Define result type for business operations
-export interface BusinessResult {
-  success: boolean;
-  data?: any[];
-  count?: number;
-  error?: string;
+export type BusinessUpdate = Partial<BusinessCreate>;
+
+export enum BusinessStatus {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  REJECTED = 'rejected'
 }

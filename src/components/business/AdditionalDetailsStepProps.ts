@@ -1,19 +1,24 @@
 
-import { UseFormReturn } from 'react-hook-form';
-
 export interface AdditionalDetailsStepProps {
-  form?: UseFormReturn<any>; // Make optional for backward compatibility
-  // Add these services-related props back for compatibility
-  services?: string[];
-  serviceInput?: string;
-  setServiceInput?: (value: string) => void;
-  handleAddService?: () => void;
-  handleRemoveService?: (index: number) => void;
-  // Backward compatibility for EditBusiness.tsx
-  formData?: any;
-  updateFormData?: (data: any) => void;
+  formData?: {
+    name?: string;
+    description?: string;
+    category_id?: any;
+    subcategory_id?: any;
+    address?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    postal_code?: string;
+    zip?: string;
+    email?: string;
+    phone?: string;
+    website?: string;
+    opening_hours?: Record<string, string>;
+    services?: any[];
+    logo_url?: string;
+  };
+  updateFormData?: (data: Partial<any>) => void;
   onBack?: () => void;
   onSubmit?: () => void;
 }
-
-export default AdditionalDetailsStepProps;

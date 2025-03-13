@@ -1,11 +1,19 @@
 
-// Define the expected result format for CSV operations
 export interface CSVResult {
   success: boolean;
   data?: any[] | string[][];
   count?: number;
-  error?: string; // Use error instead of errors to match the actual implementation
+  error?: string; // Changed from errors to error to match the API
 }
 
-// Re-export ProgressCallback for use across the application
-export type ProgressCallback = (progress: number) => void;
+export interface CSVImportOptions {
+  entityType: string;
+  onProgress?: (progress: number) => void;
+  onSuccess?: (result: CSVResult) => void;
+  onError?: (error: string) => void;
+}
+
+export interface CSVExportOptions {
+  entityType: string;
+  filename?: string;
+}
