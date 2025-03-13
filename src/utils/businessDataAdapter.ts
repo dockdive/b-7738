@@ -49,3 +49,35 @@ export const adaptProfileData = (profile: any) => {
   
   return adaptedProfile;
 };
+
+// Helper function to clean business data before sending to the API
+export const cleanBusinessDataForAPI = (data: Record<string, any>) => {
+  // Create a clean copy with known fields
+  const cleanData: Record<string, any> = {};
+  
+  // Add fields that we know exist in the table
+  const knownFields = [
+    'name', 'description', 'category_id', 'subcategory_id', 
+    'address', 'city', 'state', 'country', 'zip',
+    'email', 'phone', 'website', 'logo_url',
+    'owner_id', 'is_featured'
+  ];
+  
+  knownFields.forEach(field => {
+    if (data[field] !== undefined) {
+      cleanData[field] = data[field];
+    }
+  });
+  
+  // Ensure required fields
+  if (!cleanData.name) {
+    cleanData.name = 'Untitled Business';
+  }
+  
+  // Special handling for zip/postal_code
+  if (!cleanData.zip && data.postal_code) {
+    cleanData.zip = data.postal_code;
+  }
+  
+  return cleanData;
+};

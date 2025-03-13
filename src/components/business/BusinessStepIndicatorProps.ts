@@ -1,6 +1,6 @@
 
 export interface BusinessStepIndicatorProps {
-  currentStep: number;
+  currentStep?: number;
   activeStep?: number;
   onStepClick?: (step: number) => void;
 }

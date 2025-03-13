@@ -1,6 +1,7 @@
 
 import { BusinessCreate, BusinessStatus } from '@/types/business';
 import { supabase } from '@/integrations/supabase/client';
+import { cleanBusinessDataForAPI } from './businessDataAdapter';
 
 // Helper function to create a business with proper type handling
 export const createBusiness = async (businessData: BusinessCreate) => {
@@ -12,17 +13,8 @@ export const createBusiness = async (businessData: BusinessCreate) => {
     }
   }
   
-  // The API doesn't directly match our BusinessCreate type, so we need to adapt it
-  const adaptedData: Record<string, any> = { ...businessData };
-
-  // Ensure required fields exist
-  if (!adaptedData.name) {
-    adaptedData.name = 'Untitled Business';
-  }
-  
-  if (!adaptedData.owner_id) {
-    throw new Error('Owner ID is required');
-  }
+  // Clean and adapt the data for the API
+  const adaptedData = cleanBusinessDataForAPI(businessData);
   
   // Remove any properties that don't exist in the businesses table
   // This helps prevent the 'status' property error specifically
@@ -33,8 +25,8 @@ export const createBusiness = async (businessData: BusinessCreate) => {
 
 // Helper function to update a business with proper type handling
 export const updateBusiness = async (id: string, businessData: Partial<BusinessCreate>) => {
-  // The API doesn't directly match our BusinessCreate type, so we need to adapt it
-  const adaptedData: Record<string, any> = { ...businessData };
+  // Clean and adapt the data for the API
+  const adaptedData = cleanBusinessDataForAPI(businessData);
   
   return supabase
     .from('businesses')

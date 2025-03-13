@@ -33,7 +33,7 @@ export interface Business {
 }
 
 // Add a type for form data used in business components
-export interface BusinessFormData {
+export type BusinessFormData = {
   name: string;
   description: string;
   category_id: number | null;

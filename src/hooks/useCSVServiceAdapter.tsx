@@ -71,7 +71,7 @@ export const useCSVServiceAdapter = () => {
   const handleProcessCSV = async (file: File, templateType: string, onProgress?: ProgressCallback) => {
     try {
       logger.info('Processing CSV file', { fileName: file.name, templateType });
-      return await csvServiceWrapper.processCSV(file, templateType);
+      return await csvServiceWrapper.processCSV(file, templateType, onProgress);
     } catch (error) {
       logger.error('Error processing CSV', error);
       throw error;
