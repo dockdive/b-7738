@@ -8,6 +8,11 @@ export interface AdditionalDetailsStepProps {
   setServiceInput: (value: string) => void;
   handleAddService: () => void;
   handleRemoveService: (index: number) => void;
+  // Backward compatibility for EditBusiness.tsx
+  formData?: any;
+  updateFormData?: (data: any) => void;
+  onBack?: () => void;
+  onSubmit?: () => void;
 }
 
 export default AdditionalDetailsStepProps;

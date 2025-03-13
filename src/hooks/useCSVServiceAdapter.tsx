@@ -1,6 +1,6 @@
 
 import { useCSVAdapter } from './useCSVAdapter';
-import { csvService } from '@/services/csvService';
+import * as csvService from '@/services/csvService';
 
 export const useCSVServiceAdapter = () => {
   const { logger } = useCSVAdapter();

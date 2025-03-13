@@ -160,4 +160,9 @@ const logger = new Logger({
   prefix: '[Maritime]'
 });
 
+// Export the instance methods directly
+export const getLogs = () => logger.getLogs();
+export const getLogsByLevel = (level: LogLevel) => logger.getLogsByLevel(level);
+export const clearLogs = () => logger.clearLogs();
+
 export default logger;
