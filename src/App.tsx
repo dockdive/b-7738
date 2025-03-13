@@ -16,8 +16,16 @@ import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import { CSVAdapterProvider } from "./hooks/useCSVAdapter";
+import BusinessMapInjector from "./components/business/BusinessMapInjector";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -32,7 +40,12 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/businesses" element={<BusinessDirectory />} />
-                <Route path="/businesses/:id" element={<BusinessDetail />} />
+                <Route path="/businesses/:id" element={
+                  <>
+                    <BusinessDetail />
+                    <BusinessMapInjector />
+                  </>
+                } />
                 <Route path="/add-business" element={<AddBusiness />} />
                 <Route path="/bulk-upload" element={<BulkUpload />} />
                 <Route path="/profile" element={<Profile />} />
