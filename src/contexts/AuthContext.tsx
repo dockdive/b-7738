@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { supabase, supabaseFallback } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import logger from '@/services/loggerService';
 
@@ -28,19 +28,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [usingFallback, setUsingFallback] = useState(false);
+
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL; // Use the Supabase base URL from .env
+  const healthCheckUrl = `${supabaseUrl}/auth/v1/health`; // Construct the auth health endpoint
 
   useEffect(() => {
     const getInitialSession = async () => {
       try {
+        logger.info('Fetching initial session from Supabase...');
         const { data, error } = await supabase.auth.getSession();
         if (error) throw error;
         setSession(data.session);
         setUser(data.session?.user || null);
-        setUsingFallback(false);
       } catch (supabaseError) {
         logger.error('Supabase session fetch error:', supabaseError);
-        setError('Failed to fetch session from Supabase');
+        setError(`Failed to fetch session: ${supabaseError.message}`);
       } finally {
         setLoading(false);
       }
@@ -60,9 +62,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => authListener.subscription.unsubscribe();
   }, []);
 
+  const testFetch = async () => {
+    try {
+      logger.info(`Testing fetch to Supabase health check at ${healthCheckUrl}...`);
+      const response = await fetch(healthCheckUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP Status: ${response.status}, Message: ${response.statusText}`);
+      }
+      logger.info('Fetch successful:', await response.json());
+    } catch (error: any) {
+      logger.error('Fetch test failed:', error);
+      setError(`Fetch test failed: ${error.message}`);
+    }
+  };
+
+  useEffect(() => {
+    testFetch();
+  }, []);
+
   const signIn = async (email: string, password: string) => {
     try {
       setLoading(true);
+      logger.info('Attempting to sign in user...');
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       toast.success('Signed in successfully');
@@ -80,6 +101,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, metadata: UserMetadata = {}) => {
     try {
       setLoading(true);
+      logger.info('Attempting to sign up user...');
       const { data, error } = await supabase.auth.signUp({ email, password, options: { data: metadata } });
       if (error) throw error;
       toast.success('Signed up successfully. Check your email for confirmation.');
@@ -97,6 +119,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       setLoading(true);
+      logger.info('Signing out user...');
       await supabase.auth.signOut();
       toast.success('Signed out successfully');
       setUser(null);
@@ -113,6 +136,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const resetPassword = async (email: string) => {
     try {
       setLoading(true);
+      logger.info(`Requesting password reset for email: ${email}`);
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/reset-password`,
       });
