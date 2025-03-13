@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import logger from '@/services/loggerService';
+import loggerAdapter from '@/utils/loggerAdapter';
 import { Category } from '@/types';
 import useCSVServiceAdapter from './useCSVServiceAdapter';
 
@@ -16,14 +16,14 @@ export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children
   
   const processCategories = (categories: any[]): Category[] => {
     try {
-      logger.info('Processing categories', { count: categories.length });
+      loggerAdapter.info('Processing categories', { count: categories.length });
       
       return categories
         .filter(cat => {
           // Pre-validate each category
           const isValid = validateCategoryData(cat);
           if (!isValid) {
-            logger.warn('Skipping invalid category', cat);
+            loggerAdapter.warning('Skipping invalid category', cat);
           }
           return isValid;
         })
@@ -32,13 +32,13 @@ export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children
             // Ensure each category has all required fields, especially description
             return ensureCategoryDescription(cat);
           } catch (error) {
-            logger.error('Error processing category', { category: cat, error });
+            loggerAdapter.error('Error processing category', { category: cat, error });
             return null;
           }
         })
         .filter((cat): cat is Category => cat !== null);
     } catch (error) {
-      logger.error('Error processing categories', error);
+      loggerAdapter.error('Error processing categories', error);
       return [];
     }
   };
