@@ -4,12 +4,10 @@
  */
 import logger from "@/services/loggerService";
 
+// Create a type-safe logger adapter that ensures all original methods are preserved
+// along with the warning alias
 const loggerAdapter = {
   ...logger,
-  // Provide warning as an alias for warn for backward compatibility
-  warning: (...args: Parameters<typeof logger.warn>) => {
-    return logger.warn(...args);
-  }
 };
 
 export default loggerAdapter;

@@ -72,6 +72,11 @@ const logger = {
       message,
       data: args.length > 0 ? args : undefined
     });
+  },
+  
+  // Provide warning as an alias for warn for backward compatibility
+  warning: (message: string, ...args: any[]): void => {
+    return logger.warn(message, ...args);
   }
 };
 

@@ -1,7 +1,10 @@
 
 /**
  * A simple logger utility for API operations
+ * Uses same interface as main logger for consistency
  */
+import { LogLevel } from "@/services/loggerService";
+
 export const apiLogger = {
   log: (message: string, ...args: any[]) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -17,9 +20,19 @@ export const apiLogger = {
     console.warn(`[API WARNING] ${message}`, ...args);
   },
   
+  warning: (message: string, ...args: any[]) => {
+    console.warn(`[API WARNING] ${message}`, ...args);
+  },
+  
   info: (message: string, ...args: any[]) => {
     if (process.env.NODE_ENV !== 'production') {
       console.info(`[API INFO] ${message}`, ...args);
+    }
+  },
+  
+  debug: (message: string, ...args: any[]) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.debug(`[API DEBUG] ${message}`, ...args);
     }
   }
 };
