@@ -3,25 +3,7 @@ import React, { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import logger from "@/services/loggerService";
-
-// Define LogLevel enum to match the one in loggerService
-enum LogLevel {
-  ERROR = 'error',
-  WARN = 'warn',
-  INFO = 'info',
-  DEBUG = 'debug',
-  LOG = 'log'
-}
-
-// Implement functions to get logs from the logger service
-const getLogs = () => {
-  return logger.getAll ? logger.getAll() : []; 
-};
-
-const getLogsByLevel = (level: LogLevel) => {
-  return logger.getByLevel ? logger.getByLevel(level) : [];
-};
+import { LogLevel, getLogs, getLogsByLevel } from "@/services/loggerService";
 
 interface LogViewerProps {
   visible: boolean;
