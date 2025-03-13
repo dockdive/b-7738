@@ -23,6 +23,9 @@ export default defineConfig(({ mode }) => {
     // Add this to ensure environment variables are properly loaded during development
     build: {
       sourcemap: true,
+    },
+    server: {
+      allowedHosts: ["be7539a5-f5f0-48ec-8f02-bd31e0e258c1.lovableproject.com"]
     }
   }
 })
