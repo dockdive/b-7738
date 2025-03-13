@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import BusinessSeoWrapper from './BusinessSeoWrapper';
+import { adaptBusinessData } from '@/utils/businessDataAdapter';
 
 interface BusinessSeoInjectorProps {
   children: React.ReactNode;
@@ -34,7 +35,8 @@ const BusinessSeoInjector: React.FC<BusinessSeoInjectorProps> = ({ children }) =
         return null;
       }
       
-      return data;
+      // Adapt the data to ensure correct types, especially for JSONB fields
+      return data ? adaptBusinessData(data) : null;
     },
     enabled: isBusinessDetailPage,
     retry: 1, // Only retry once

@@ -11,13 +11,27 @@ export const adaptBusinessData = (business: any) => {
     adaptedData.postal_code = adaptedData.zip;
   }
   
-  // Ensure opening_hours exists
+  // Ensure opening_hours exists and is correctly typed
   if (!adaptedData.opening_hours) {
     adaptedData.opening_hours = {};
+  } else if (typeof adaptedData.opening_hours === 'string') {
+    try {
+      adaptedData.opening_hours = JSON.parse(adaptedData.opening_hours);
+    } catch (e) {
+      adaptedData.opening_hours = {};
+    }
   }
   
-  // Ensure services exists
+  // Ensure services exists and is correctly typed
   if (!adaptedData.services) {
+    adaptedData.services = [];
+  } else if (typeof adaptedData.services === 'string') {
+    try {
+      adaptedData.services = JSON.parse(adaptedData.services);
+    } catch (e) {
+      adaptedData.services = [];
+    }
+  } else if (!Array.isArray(adaptedData.services)) {
     adaptedData.services = [];
   }
   
@@ -78,6 +92,15 @@ export const cleanBusinessDataForAPI = (data: Record<string, any>) => {
   // Special handling for zip/postal_code
   if (!cleanData.zip && data.postal_code) {
     cleanData.zip = data.postal_code;
+  }
+  
+  // Make sure opening_hours and services are proper JSON
+  if (cleanData.opening_hours && typeof cleanData.opening_hours !== 'string') {
+    cleanData.opening_hours = JSON.stringify(cleanData.opening_hours);
+  }
+  
+  if (cleanData.services && Array.isArray(cleanData.services)) {
+    cleanData.services = JSON.stringify(cleanData.services);
   }
   
   return cleanData;
