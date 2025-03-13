@@ -41,7 +41,7 @@ export const useCSVServiceAdapter = () => {
 
   const ensureCategoryDescription = useCallback((category: Partial<Category>): Category => {
     if (!category.name) {
-      logger.warning('Category missing name');
+      logger.warn('Category missing name');
       throw new Error('Category name is required');
     }
 
@@ -58,7 +58,7 @@ export const useCSVServiceAdapter = () => {
 
   const validateCategoryData = useCallback((category: Partial<Category>): boolean => {
     if (!category?.name) {
-      logger.warning('Invalid category - missing name');
+      logger.warn('Invalid category - missing name');
       return false;
     }
     

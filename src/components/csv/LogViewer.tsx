@@ -33,10 +33,10 @@ const LogViewer: React.FC<LogViewerProps> = ({ visible }) => {
           <Tabs defaultValue="all" onValueChange={(value) => setLogTab(value as LogLevel | 'all')}>
             <TabsList className="grid grid-cols-5 mb-4">
               <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="debug">Debug</TabsTrigger>
-              <TabsTrigger value="info">Info</TabsTrigger>
-              <TabsTrigger value="warning">Warning</TabsTrigger>
-              <TabsTrigger value="error">Error</TabsTrigger>
+              <TabsTrigger value={LogLevel.DEBUG}>Debug</TabsTrigger>
+              <TabsTrigger value={LogLevel.INFO}>Info</TabsTrigger>
+              <TabsTrigger value={LogLevel.WARNING}>Warning</TabsTrigger>
+              <TabsTrigger value={LogLevel.ERROR}>Error</TabsTrigger>
             </TabsList>
             
             <div className="max-h-60 overflow-y-auto border rounded-md p-2 bg-slate-50">

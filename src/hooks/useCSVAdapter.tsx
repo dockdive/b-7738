@@ -23,7 +23,7 @@ export const CSVAdapterProvider: React.FC<{ children: ReactNode }> = ({ children
           // Pre-validate each category
           const isValid = validateCategoryData(cat);
           if (!isValid) {
-            logger.warning('Skipping invalid category', cat);
+            logger.warn('Skipping invalid category', cat);
           }
           return isValid;
         })
