@@ -15,6 +15,9 @@ export const useBusinessMap = () => {
     
     const { latitude, longitude, name } = business;
     
+    // Don't render if no coordinates
+    if (!latitude || !longitude) return null;
+    
     // Format address from business object
     const formatAddress = (business: BusinessLocation) => {
       const parts = [

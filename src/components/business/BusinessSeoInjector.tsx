@@ -18,8 +18,8 @@ const BusinessSeoInjector: React.FC<BusinessSeoInjectorProps> = ({ children }) =
   const isBusinessDetailPage = !!id && window.location.pathname.includes('/businesses/');
   
   // Only fetch business data if we're on a business detail page
-  const { data: business } = useQuery({
-    queryKey: ['business', id],
+  const { data: business, isError } = useQuery({
+    queryKey: ['business-seo', id],
     queryFn: async () => {
       if (!id || !isBusinessDetailPage) return null;
       
@@ -27,17 +27,41 @@ const BusinessSeoInjector: React.FC<BusinessSeoInjectorProps> = ({ children }) =
         .from('businesses')
         .select('*')
         .eq('id', id)
-        .single();
+        .maybeSingle(); // Use maybeSingle to handle missing data gracefully
         
       if (error) {
-        console.error('Error fetching business:', error);
+        console.error('Error fetching business for SEO:', error);
         return null;
       }
       
       return data;
     },
     enabled: isBusinessDetailPage,
+    retry: 1, // Only retry once
+    staleTime: 10 * 60 * 1000, // 10 minutes cache for SEO data
   });
+  
+  useEffect(() => {
+    // Update view count for the business if it exists
+    const incrementViews = async () => {
+      if (id && isBusinessDetailPage && business) {
+        try {
+          const { error } = await supabase
+            .from('businesses')
+            .update({ views: (business.views || 0) + 1 })
+            .eq('id', id);
+            
+          if (error) {
+            console.error('Error incrementing view count:', error);
+          }
+        } catch (error) {
+          console.error('Error in view count update:', error);
+        }
+      }
+    };
+    
+    incrementViews();
+  }, [id, isBusinessDetailPage, business]);
   
   // If not on a business detail page, just render children
   if (!isBusinessDetailPage) {
