@@ -44,6 +44,7 @@ export interface Business {
   city?: string;
   state?: string;
   zip?: string;
+  postal_code?: string; // Alias for zip (for backward compatibility)
   country?: string;
   category_id: number;
   subcategory_id?: number;
@@ -76,6 +77,7 @@ export interface BusinessCreate {
   city?: string;
   state?: string;
   zip?: string;
+  postal_code?: string; // Alias for zip
   country?: string;
   category_id: number;
   subcategory_id?: number;
@@ -84,6 +86,7 @@ export interface BusinessCreate {
   status?: BusinessStatusUnion;
   opening_hours?: Record<string, string>;
   is_featured?: boolean;
+  services?: string[];
   latitude?: number;
   longitude?: number;
 }
@@ -113,6 +116,7 @@ export interface User {
   language?: LanguageCode;
   created_at?: string;
   updated_at?: string;
+  role?: string; // Add role for backward compatibility
 }
 
 // Update Profile to make it fully compatible with API and User
@@ -131,6 +135,7 @@ export interface Profile {
   bio?: string;
   website?: string;
   is_admin?: boolean;
+  role?: string; // Add role for backward compatibility
   social_links?: {
     twitter?: string;
     facebook?: string;

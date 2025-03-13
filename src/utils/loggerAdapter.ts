@@ -6,7 +6,7 @@ import logger from '@/services/loggerService';
 const loggerAdapter = {
   error: (message: string, data?: any) => logger.error(message, data),
   warn: (message: string, data?: any) => logger.warn(message, data),
-  warning: (message: string, data?: any) => logger.warning(message, data),
+  warning: (message: string, data?: any) => logger.warn(message, data), // Alias for warn
   info: (message: string, data?: any) => logger.info(message, data),
   debug: (message: string, data?: any) => logger.debug(message, data),
   log: (message: string, data?: any) => logger.log(message, data)

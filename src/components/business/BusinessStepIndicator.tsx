@@ -10,7 +10,7 @@ const BusinessStepIndicator: React.FC<BusinessStepIndicatorProps> = ({
   onStepClick 
 }) => {
   // Use activeStep if provided, otherwise fall back to currentStep for backward compatibility
-  const currentActiveStep = activeStep || currentStep || 1;
+  const currentActiveStep = activeStep !== undefined ? activeStep : currentStep !== undefined ? currentStep : 1;
   const { t } = useLanguage();
 
   const handleStepClick = (step: number) => {
