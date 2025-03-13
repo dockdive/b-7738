@@ -82,18 +82,14 @@ export type Database = {
           logo_url: string | null
           longitude: number | null
           name: string
-          opening_hours: Json | null
           owner_id: string
           phone: string | null
-          postal_code: string | null
           rating: number | null
           review_count: number | null
-          services: Json | null
           state: string | null
           status: string | null
           subcategory_id: number | null
           updated_at: string | null
-          user_id: string | null
           views: number | null
           website: string | null
           zip: string | null
@@ -112,18 +108,14 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name: string
-          opening_hours?: Json | null
           owner_id: string
           phone?: string | null
-          postal_code?: string | null
           rating?: number | null
           review_count?: number | null
-          services?: Json | null
           state?: string | null
           status?: string | null
           subcategory_id?: number | null
           updated_at?: string | null
-          user_id?: string | null
           views?: number | null
           website?: string | null
           zip?: string | null
@@ -142,18 +134,14 @@ export type Database = {
           logo_url?: string | null
           longitude?: number | null
           name?: string
-          opening_hours?: Json | null
           owner_id?: string
           phone?: string | null
-          postal_code?: string | null
           rating?: number | null
           review_count?: number | null
-          services?: Json | null
           state?: string | null
           status?: string | null
           subcategory_id?: number | null
           updated_at?: string | null
-          user_id?: string | null
           views?: number | null
           website?: string | null
           zip?: string | null
@@ -178,21 +166,18 @@ export type Database = {
       categories: {
         Row: {
           created_at: string | null
-          description: string
           icon: string
           id: number
           name: string
         }
         Insert: {
           created_at?: string | null
-          description: string
           icon: string
           id?: number
           name: string
         }
         Update: {
           created_at?: string | null
-          description?: string
           icon?: string
           id?: number
           name?: string
@@ -211,7 +196,6 @@ export type Database = {
           language: string | null
           last_name: string | null
           phone: string | null
-          role: string | null
           updated_at: string | null
         }
         Insert: {
@@ -225,7 +209,6 @@ export type Database = {
           language?: string | null
           last_name?: string | null
           phone?: string | null
-          role?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -239,7 +222,6 @@ export type Database = {
           language?: string | null
           last_name?: string | null
           phone?: string | null
-          role?: string | null
           updated_at?: string | null
         }
         Relationships: []

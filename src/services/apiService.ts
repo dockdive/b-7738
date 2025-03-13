@@ -1,3 +1,4 @@
+
 // Import necessary types and supabase client
 import { supabase } from "@/integrations/supabase/client";
 import { 

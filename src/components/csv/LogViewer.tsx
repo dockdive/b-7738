@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { LogLevel, getLogs, getLogsByLevel } from "@/services/loggerService";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogLevel, getLogs, getLogsByLevel } from "@/services/loggerService";
 
 interface LogViewerProps {
   visible: boolean;
@@ -33,10 +33,10 @@ const LogViewer: React.FC<LogViewerProps> = ({ visible }) => {
           <Tabs defaultValue="all" onValueChange={(value) => setLogTab(value as LogLevel | 'all')}>
             <TabsList className="grid grid-cols-5 mb-4">
               <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value={LogLevel.DEBUG}>Debug</TabsTrigger>
-              <TabsTrigger value={LogLevel.INFO}>Info</TabsTrigger>
-              <TabsTrigger value={LogLevel.WARN}>Warning</TabsTrigger>
-              <TabsTrigger value={LogLevel.ERROR}>Error</TabsTrigger>
+              <TabsTrigger value="debug">Debug</TabsTrigger>
+              <TabsTrigger value="info">Info</TabsTrigger>
+              <TabsTrigger value="warning">Warning</TabsTrigger>
+              <TabsTrigger value="error">Error</TabsTrigger>
             </TabsList>
             
             <div className="max-h-60 overflow-y-auto border rounded-md p-2 bg-slate-50">
@@ -46,7 +46,7 @@ const LogViewer: React.FC<LogViewerProps> = ({ visible }) => {
                     key={index} 
                     className={`text-xs my-1 p-1 ${
                       log.level === LogLevel.ERROR ? 'text-red-600 bg-red-50' :
-                      log.level === LogLevel.WARN ? 'text-amber-600 bg-amber-50' :
+                      log.level === LogLevel.WARNING ? 'text-amber-600 bg-amber-50' :
                       log.level === LogLevel.INFO ? 'text-blue-600 bg-blue-50' :
                       'text-gray-600 bg-gray-50'
                     } rounded`}

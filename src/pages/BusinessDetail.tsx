@@ -309,7 +309,7 @@ const BusinessDetail = () => {
                       <Clock className="h-5 w-5 text-gray-500 mr-3 mt-0.5" />
                       <div>
                         <p className="font-medium text-gray-700">{t("business.openingHours")}</p>
-                        {/* <p className="text-gray-600 whitespace-pre-line">{business.opening_hours}</p> */}
+                        <p className="text-gray-600 whitespace-pre-line">{business.opening_hours}</p>
                       </div>
                     </div>
                   )}

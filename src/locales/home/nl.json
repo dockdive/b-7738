@@ -1,1 +1,42 @@
-{"home":{"heroTitle":"Maritieme bedrijvengids","heroSubtitle":"Kom in contact met vertrouwde maritieme bedrijven en diensten over de hele wereld","hero":{"title":"De Maritieme Bedrijvengids","subtitle":"Kom in contact met de toonaangevende bedrijven en dienstverleners van de wereldwijde maritieme industrie","trustedBy":"Vertrouwd door toonaangevende maritieme bedrijven"},"findBusiness":"Zoek een bedrijf","listBusiness":"Vermeld uw bedrijf","businessesRegistered":"Geregistreerde bedrijven","monthlyUsers":"Maandelijkse gebruikers","monthlySearches":"Maandelijkse zoekopdrachten","featuredBusinesses":"Aanbevolen bedrijven","viewAllBusinesses":"Bekijk alle bedrijven","categories":{"title":"Blader op categorie","subtitle":"Ontdek ons uitgebreide aanbod van maritieme bedrijven per categorie","viewAll":"Bekijk alle categorieën"},"featured":{"title":"Aanbevolen bedrijven","subtitle":"Ontdek onze best beoordeelde maritieme bedrijven en dienstverleners","viewAllBusinesses":"Bekijk alle bedrijven"},"cta":{"title":"Word lid van onze Maritieme Directory","subtitle":"Maak een lijst van uw maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap","addBusiness":"Voeg uw bedrijf toe","exploreBusiness":"Ontdek bedrijven"},"testimonials":"Wat onze gebruikers zeggen","latestListings":"Laatste aanbiedingen","joinDirectory":"Word lid van onze Maritieme Directory","joinDescription":"Maak een lijst van uw maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap","joinCTA":"Ga nu aan de slag","searchPlaceholder":"Zoeken naar maritieme bedrijven...","popularSearches":"Populair: scheepsreparatie, uitrusting van zeeschepen, chandlery"}}
+
+{
+  "home": {
+    "heroTitle": "Maritieme Bedrijvengids",
+    "heroSubtitle": "Maak verbinding met betrouwbare maritieme bedrijven en diensten wereldwijd",
+    "hero": {
+      "title": "De Maritieme Bedrijvengids",
+      "subtitle": "Maak verbinding met toonaangevende bedrijven en dienstverleners in de wereldwijde maritieme industrie",
+      "trustedBy": "Vertrouwd door toonaangevende maritieme bedrijven"
+    },
+    "findBusiness": "Vind een Bedrijf",
+    "listBusiness": "Plaats je Bedrijf",
+    "businessesRegistered": "Geregistreerde Bedrijven",
+    "monthlyUsers": "Maandelijkse Gebruikers",
+    "monthlySearches": "Maandelijkse Zoekopdrachten",
+    "featuredBusinesses": "Uitgelichte Bedrijven",
+    "viewAllBusinesses": "Bekijk Alle Bedrijven",
+    "categories": {
+      "title": "Bladeren per Categorie",
+      "subtitle": "Verken ons uitgebreide aanbod van maritieme bedrijven per categorie",
+      "viewAll": "Bekijk Alle Categorieën"
+    },
+    "featured": {
+      "title": "Uitgelichte Bedrijven",
+      "subtitle": "Ontdek onze best beoordeelde maritieme bedrijven en dienstverleners",
+      "viewAllBusinesses": "Bekijk Alle Bedrijven"
+    },
+    "cta": {
+      "title": "Doe mee met onze Maritieme Gids",
+      "subtitle": "Plaats je maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap",
+      "addBusiness": "Voeg je Bedrijf toe",
+      "exploreBusiness": "Verken Bedrijven"
+    },
+    "testimonials": "Wat Onze Gebruikers Zeggen",
+    "latestListings": "Nieuwste Vermeldingen",
+    "joinDirectory": "Doe mee met onze Maritieme Gids",
+    "joinDescription": "Plaats je maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap",
+    "joinCTA": "Begin Nu",
+    "searchPlaceholder": "Zoek naar maritieme bedrijven...",
+    "popularSearches": "Populair: Scheepsreparatie, Maritieme Apparatuur, Scheepsbenodigdheden"
+  }
+}
