@@ -1,80 +1,75 @@
 
-import React, { useCallback } from 'react';
-import { uploadCSV, generateCSVTemplate, loadSampleBusinessData } from '@/services/csvServiceAdapter';
-import loggerAdapter from '@/utils/loggerAdapter';
-import { Category } from '@/types';
+import { useCSVAdapter } from './useCSVAdapter';
+import { csvService } from '@/services/csvService';
 
 export const useCSVServiceAdapter = () => {
-  const processCSV = useCallback(async (
-    file: File, 
-    entityType: 'business' | 'category' | 'review',
-    progressCallback: (progress: number) => void
-  ) => {
+  const { logger } = useCSVAdapter();
+
+  const parseCSV = async (file: File) => {
     try {
-      loggerAdapter.info(`Processing ${entityType} CSV file: ${file.name}`);
-      return await uploadCSV(file, entityType, progressCallback);
+      logger.info('Starting CSV parsing', { fileName: file.name });
+      return await csvService.parseCSV(file);
     } catch (error) {
-      loggerAdapter.error(`Error processing ${entityType} CSV:`, error);
+      logger.error('Error parsing CSV', error);
       throw error;
     }
-  }, []);
+  };
 
-  const downloadTemplate = useCallback((entityType: 'business' | 'category' | 'review') => {
+  const validateCSV = async (records: any[], templateType: string) => {
     try {
-      loggerAdapter.info(`Generating template for ${entityType}`);
-      return generateCSVTemplate(entityType);
+      logger.info('Validating CSV data', { recordCount: records.length, templateType });
+      return await csvService.validateCSV(records, templateType);
     } catch (error) {
-      loggerAdapter.error(`Error generating template for ${entityType}:`, error);
+      logger.error('Error validating CSV', error);
       throw error;
     }
-  }, []);
+  };
 
-  const loadSampleData = useCallback(async (progressCallback: (progress: number) => void) => {
+  const importCSV = async (records: any[], templateType: string) => {
     try {
-      loggerAdapter.info('Loading sample business data');
-      return await loadSampleBusinessData(progressCallback);
+      logger.info('Importing CSV data to database', { recordCount: records.length, templateType });
+      return await csvService.importCSV(records, templateType);
     } catch (error) {
-      loggerAdapter.error('Error loading sample data:', error);
+      logger.error('Error importing CSV', error);
       throw error;
     }
-  }, []);
+  };
 
-  const ensureCategoryDescription = useCallback((category: Partial<Category>): Category => {
-    if (!category.name) {
-      loggerAdapter.warn('Category missing name');
-      throw new Error('Category name is required');
+  const downloadTemplate = (templateType: string) => {
+    try {
+      logger.warn('Downloading template', { templateType });
+      return csvService.downloadTemplate(templateType);
+    } catch (error) {
+      logger.error('Error downloading template', error);
+      throw error;
     }
+  };
 
-    // Ensure description is always set, even if it's empty in the source data
-    // Generate a default description if none is provided
-    return {
-      id: category.id || 0,
-      name: category.name,
-      icon: category.icon || '',
-      description: category.description || `Category for ${category.name}`,
-      created_at: category.created_at
-    };
-  }, []);
-
-  const validateCategoryData = useCallback((category: Partial<Category>): boolean => {
-    if (!category?.name) {
-      loggerAdapter.warn('Invalid category - missing name');
-      return false;
+  const prepareDataForImport = (records: any[], templateType: string) => {
+    try {
+      return csvService.prepareDataForImport(records, templateType);
+    } catch (error) {
+      logger.error('Error preparing data for import', error);
+      throw error;
     }
-    
-    // Additional validation can be added here
-    // For example, validating that icon is present, etc.
-    
-    return true;
-  }, []);
+  };
+
+  const generateExampleData = (templateType: string, count = 5) => {
+    try {
+      logger.warn('Generating example data', { templateType, count });
+      return csvService.generateExampleData(templateType, count);
+    } catch (error) {
+      logger.error('Error generating example data', error);
+      throw error;
+    }
+  };
 
   return {
-    processCSV,
+    parseCSV,
+    validateCSV,
+    importCSV,
     downloadTemplate,
-    loadSampleData,
-    ensureCategoryDescription,
-    validateCategoryData
+    prepareDataForImport,
+    generateExampleData
   };
 };
-
-export default useCSVServiceAdapter;
