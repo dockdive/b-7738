@@ -1,20 +1,21 @@
 
-import React from 'react';
-import { LanguageAdapterProvider } from '@/hooks/useLanguageAdapter';
-import { WikiAdapterProvider } from '@/hooks/useWikiAdapter';
+import React, { ReactNode, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AppLanguageWrapperProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const AppLanguageWrapper: React.FC<AppLanguageWrapperProps> = ({ children }) => {
-  return (
-    <LanguageAdapterProvider>
-      <WikiAdapterProvider>
-        {children}
-      </WikiAdapterProvider>
-    </LanguageAdapterProvider>
-  );
+  const { language } = useLanguage();
+  
+  // Effect to set the language on the document element
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = ['ar', 'he', 'fa', 'ur', 'ps', 'ug'].includes(language) ? 'rtl' : 'ltr';
+  }, [language]);
+  
+  return <>{children}</>;
 };
 
 export default AppLanguageWrapper;

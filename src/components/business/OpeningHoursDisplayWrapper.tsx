@@ -1,23 +1,24 @@
 
 import React from 'react';
-import OpeningHoursDisplay from '@/components/business/OpeningHoursDisplay';
-import { OpeningHoursDisplayProps } from './OpeningHoursDisplayProps';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-// Define props interface that matches what the component expects
-interface OpeningHoursWrapperProps {
-  hours: Record<string, string> | undefined;
+interface OpeningHoursDisplayWrapperProps {
+  hours: Record<string, string>;
+  className?: string;
 }
 
-// Create a wrapper component for OpeningHoursDisplay
-const OpeningHoursDisplayWrapper: React.FC<OpeningHoursWrapperProps> = ({ hours }) => {
-  if (!hours || Object.keys(hours).length === 0) {
-    return <p className="text-gray-500">No opening hours available</p>;
-  }
+const OpeningHoursDisplayWrapper: React.FC<OpeningHoursDisplayWrapperProps> = ({ hours, className = '' }) => {
+  const { t } = useLanguage();
+  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-  // Pass the hours prop to OpeningHoursDisplay with the correct typing
   return (
-    <div className="opening-hours-container">
-      <OpeningHoursDisplay hours={hours} />
+    <div className={`space-y-2 ${className}`}>
+      {days.map(day => (
+        <div key={day} className="flex justify-between">
+          <span className="font-medium capitalize">{t(`businessDetails.${day}`)}</span>
+          <span>{hours[day] || t('businessDetails.closed')}</span>
+        </div>
+      ))}
     </div>
   );
 };

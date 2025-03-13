@@ -170,8 +170,26 @@ export interface Review {
   updated_at?: string;
 }
 
-// Re-export wiki types for easy access
-export type { WikiEntry, WikiSearchResult, WikiServiceInterface, WikiPage, WikiCategory } from './wiki';
+// Wiki types to address the WikiContext errors
+export interface WikiPage {
+  id: string;
+  title: string;
+  content: string;
+  category_id: number;
+  created_at?: string;
+  updated_at?: string;
+  author_id?: string;
+  status?: 'draft' | 'published' | 'archived';
+  tags?: string[];
+}
+
+export interface WikiSearchResult {
+  id: string;
+  title: string;
+  excerpt: string;
+  created_at?: string;
+  author_id?: string;
+}
 
 // Re-export LanguageCode for global use
 export type { LanguageCode };

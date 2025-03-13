@@ -1,14 +1,11 @@
+
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LogOut, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { 
-  uploadCSV,
-  generateCSVTemplate,
-  loadSampleBusinessData
-} from '@/services/csvServiceAdapter';
 import logger from '@/services/loggerService';
+import useCSVServiceAdapter from '@/hooks/useCSVServiceAdapter';
 
 // Import refactored components
 import CSVFileInput from '@/components/csv/CSVFileInput';
@@ -23,6 +20,7 @@ type CSVUploaderProps = {
 
 const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => {
   const { t } = useLanguage();
+  const { processCSV, downloadTemplate, loadSampleData } = useCSVServiceAdapter();
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +46,7 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
 
     try {
       logger.info(`Starting upload of file: ${file.name}`);
-      const result = await uploadCSV(file, entityType, (progress) => {
+      const result = await processCSV(file, entityType, (progress) => {
         setProgress(progress);
       });
       
@@ -85,7 +83,7 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
     try {
       logger.info(`Downloading template for entity type: ${entityType}`);
       
-      const csvContent = generateCSVTemplate(entityType);
+      const csvContent = downloadTemplate(entityType);
       
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -115,7 +113,7 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
     try {
       logger.info('Starting sample business data loading');
       
-      const result = await loadSampleBusinessData((progress) => {
+      const result = await loadSampleData((progress) => {
         setProgress(progress);
       });
       

@@ -91,15 +91,6 @@ const Header = () => {
                 {t("navigation.blog")}
               </a>
               <a
-                href="https://dockdive.com/wiki"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center"
-              >
-                <BookOpen className="h-4 w-4 mr-2" />
-                {t("navigation.wiki")}
-              </a>
-              <a
                 href="https://dockdive.com/match"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -238,16 +229,6 @@ const Header = () => {
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 {t("navigation.blog")}
-              </a>
-              <a
-                href="https://dockdive.com/wiki"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md flex items-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <BookOpen className="h-4 w-4 mr-2" />
-                {t("navigation.wiki")}
               </a>
               <a
                 href="https://dockdive.com/match"

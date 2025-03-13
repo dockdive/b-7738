@@ -1,24 +1,29 @@
 
 {
   "csvUpload": {
-    "title": "CSV Bestand Uploaden",
-    "description": "Upload een CSV bestand met {entityType} gegevens",
+    "title": "CSV Uploader",
+    "description": "Upload CSV-bestanden om grote hoeveelheden {entityType}gegevens te importeren",
     "entityTypes": {
-      "business": "bedrijven",
-      "category": "categorieën",
-      "review": "beoordelingen"
+      "business": "bedrijf",
+      "category": "categorie",
+      "review": "beoordeling"
     },
-    "uploadButton": "Upload bestand",
-    "uploading": "Bezig met uploaden...",
-    "downloadTemplate": "Download template",
-    "loadSampleData": "Laad voorbeeldgegevens",
-    "selectFile": "Selecteer een CSV bestand",
+    "uploadButton": "CSV uploaden",
+    "uploading": "Uploaden...",
+    "downloadTemplate": "Sjabloon downloaden",
+    "loadSampleData": "Voorbeeldgegevens laden",
+    "selectFile": "CSV-bestand selecteren",
     "fileSelected": "Bestand geselecteerd",
-    "successMessage": "Success! {count} items geüpload",
-    "sampleDataMessage": "Success! {count} voorbeeldbedrijven geladen",
-    "errorGeneric": "Er is een fout opgetreden",
+    "successMessage": "{count} records succesvol verwerkt",
+    "sampleDataMessage": "{count} voorbeeldrecords succesvol geladen",
+    "errorGeneric": "Er is een fout opgetreden tijdens het uploaden",
     "processingFile": "Bestand verwerken...",
-    "showLogs": "Toon logs",
-    "hideLogs": "Verberg logs"
+    "showLogs": "Logs weergeven",
+    "hideLogs": "Logs verbergen",
+    "logs": "Debuglogs",
+    "noLogs": "Geen logs",
+    "success": "Succes",
+    "error": "Fout",
+    "loading": "Laden..."
   }
 }
