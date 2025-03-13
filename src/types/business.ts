@@ -17,7 +17,7 @@ export interface Business {
   logo_url: string;
   category_id: number;
   user_id?: string;
-  owner_id?: string;
+  owner_id?: string; // Make owner_id optional to match the database
   is_featured: boolean;
   created_at: string;
   updated_at: string;
@@ -34,7 +34,7 @@ export interface UserProfile {
   name?: string;
   avatar_url?: string;
   email?: string;
-  role?: string;
+  role?: string; // Add role property
   created_at?: string;
   updated_at?: string;
 }

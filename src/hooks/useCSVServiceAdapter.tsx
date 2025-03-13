@@ -84,6 +84,16 @@ export const useCSVServiceAdapter = () => {
       throw error;
     }
   };
+  
+  const handleLoadSampleBusinessData = async (onProgress?: ProgressCallback) => {
+    try {
+      logger.info('Loading sample business data');
+      return await csvServiceWrapper.loadSampleBusinessData(onProgress);
+    } catch (error) {
+      logger.error('Error loading sample business data', error);
+      throw error;
+    }
+  };
 
   return {
     parseCSV: handleParseCSV,
@@ -93,7 +103,8 @@ export const useCSVServiceAdapter = () => {
     prepareDataForImport: handlePrepareDataForImport,
     generateExampleData: handleGenerateExampleData,
     processCSV: handleProcessCSV,
-    loadSampleData: handleLoadSampleData
+    loadSampleData: handleLoadSampleData,
+    loadSampleBusinessData: handleLoadSampleBusinessData
   };
 };
 

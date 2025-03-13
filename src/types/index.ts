@@ -59,7 +59,7 @@ export interface Business {
   services?: string[];
   images?: string[];
   opening_hours?: Record<string, string>;
-  owner_id?: string;
+  owner_id?: string; // Make owner_id optional to match database
   latitude?: number;
   longitude?: number;
 }
@@ -81,7 +81,7 @@ export interface BusinessCreate {
   country?: string;
   category_id: number;
   subcategory_id?: number;
-  owner_id?: string;
+  owner_id?: string; // Make owner_id optional to match database
   user_id?: string;
   status?: BusinessStatusUnion;
   opening_hours?: Record<string, string>;
