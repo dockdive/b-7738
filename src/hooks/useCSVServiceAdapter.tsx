@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { useCSVAdapter } from './useCSVAdapter';
 import csvServiceWrapper from '@/utils/csvServiceWrapper';
-import { CSVResult } from '@/types/csv';
+import { CSVResult, CSVImportOptions } from '@/types/csv';
 import { ProgressCallback } from '@/types/business';
 
 export const useCSVServiceAdapter = () => {

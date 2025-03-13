@@ -1,4 +1,3 @@
-
 import { ProgressCallback } from './business';
 
 export interface CSVResult {
@@ -18,4 +17,10 @@ export interface CSVServiceWrapper {
   generateExampleData: (templateType: string, count?: number) => any[];
   processCSV: (file: File, templateType: string, onProgress?: ProgressCallback) => Promise<CSVResult>;
   loadSampleData: (templateType: string, count?: number) => Promise<CSVResult>;
+}
+
+// Add this interface to fix the missing type error
+export interface CSVImportOptions {
+  templateType: string;
+  onProgress?: ProgressCallback;
 }

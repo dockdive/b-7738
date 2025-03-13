@@ -1,4 +1,3 @@
-
 import { BusinessFormData } from '@/types/business';
 
 export interface ContactDetailsStepProps {

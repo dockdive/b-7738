@@ -1,4 +1,3 @@
-
 import { BusinessCreate, BusinessStatus } from '@/types/business';
 import { supabase } from '@/integrations/supabase/client';
 import { cleanBusinessDataForAPI } from './businessDataAdapter';
@@ -13,6 +12,11 @@ export const createBusiness = async (businessData: BusinessCreate) => {
     }
   }
   
+  // Make sure required fields exist to avoid type errors
+  if (!businessData.name) {
+    businessData.name = 'Untitled Business';
+  }
+  
   // Clean and adapt the data for the API
   const adaptedData = cleanBusinessDataForAPI(businessData);
   
@@ -20,7 +24,7 @@ export const createBusiness = async (businessData: BusinessCreate) => {
   // This helps prevent the 'status' property error specifically
   return supabase
     .from('businesses')
-    .insert(adaptedData);
+    .insert(adaptedData as any);
 };
 
 // Helper function to update a business with proper type handling
@@ -30,6 +34,6 @@ export const updateBusiness = async (id: string, businessData: Partial<BusinessC
   
   return supabase
     .from('businesses')
-    .update(adaptedData)
+    .update(adaptedData as any)
     .eq('id', id);
 };

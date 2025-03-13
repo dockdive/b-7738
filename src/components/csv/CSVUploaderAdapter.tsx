@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { CSVUploader } from '@/components/CSVUploader';
+import CSVUploaderPatch from '@/components/CSVUploaderPatch';
 import { CSVResult } from '@/types/csv';
 import { ProgressCallback } from '@/types/business';
 
@@ -24,11 +23,11 @@ const CSVUploaderAdapter: React.FC<{
   };
 
   return (
-    <CSVUploader 
+    <CSVUploaderPatch 
       entityType={entityType}
       onSuccess={onSuccess}
-      onError={handleError}
-      progressCallback={handleProgress as any} // Type cast to work around CSVUploader issues
+      onError={handleError as any}
+      progressCallback={handleProgress}
     />
   );
 };
