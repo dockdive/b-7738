@@ -1,0 +1,21 @@
+
+{
+  "navigation": {
+    "home": "Home",
+    "businesses": "Bedrijven",
+    "about": "Over Ons",
+    "contact": "Contact",
+    "profile": "Profiel",
+    "dashboard": "Dashboard",
+    "addBusiness": "Bedrijf Toevoegen",
+    "myBusinesses": "Mijn Bedrijven",
+    "adminPanel": "Beheerderspaneel",
+    "sellYourBoat": "Verkoop Je Boot",
+    "browseBusinesses": "Doorzoek Bedrijven",
+    "backToHome": "Terug naar Home",
+    "backToBusinesses": "Terug naar Bedrijven",
+    "login": "Inloggen",
+    "register": "Registreren",
+    "logout": "Uitloggen"
+  }
+}

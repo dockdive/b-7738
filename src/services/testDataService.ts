@@ -2,6 +2,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import logger from './loggerService';
 import { generateSampleBusinessData } from './csvService';
+import { BusinessStatus } from '@/types';
 
 /**
  * Populates the database with sample businesses
@@ -54,7 +55,7 @@ export const populateSampleBusinesses = async (): Promise<boolean> => {
           latitude: business.latitude,
           longitude: business.longitude,
           owner_id: '00000000-0000-0000-0000-000000000000', // This will be replaced by the RLS policy
-          status: 'approved' // Set to approved so they show up in the directory
+          status: 'approved' as BusinessStatus // Cast to BusinessStatus type
         })));
       
       if (error) {
