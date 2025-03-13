@@ -35,7 +35,7 @@ const LogViewer: React.FC<LogViewerProps> = ({ visible }) => {
               <TabsTrigger value="all">All</TabsTrigger>
               <TabsTrigger value={LogLevel.DEBUG}>Debug</TabsTrigger>
               <TabsTrigger value={LogLevel.INFO}>Info</TabsTrigger>
-              <TabsTrigger value={LogLevel.WARNING}>Warning</TabsTrigger>
+              <TabsTrigger value={LogLevel.WARN}>Warning</TabsTrigger>
               <TabsTrigger value={LogLevel.ERROR}>Error</TabsTrigger>
             </TabsList>
             
@@ -46,7 +46,7 @@ const LogViewer: React.FC<LogViewerProps> = ({ visible }) => {
                     key={index} 
                     className={`text-xs my-1 p-1 ${
                       log.level === LogLevel.ERROR ? 'text-red-600 bg-red-50' :
-                      log.level === LogLevel.WARNING ? 'text-amber-600 bg-amber-50' :
+                      log.level === LogLevel.WARN ? 'text-amber-600 bg-amber-50' :
                       log.level === LogLevel.INFO ? 'text-blue-600 bg-blue-50' :
                       'text-gray-600 bg-gray-50'
                     } rounded`}

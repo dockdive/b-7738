@@ -1,24 +1,15 @@
 
 import logger from '@/services/loggerService';
 
-/**
- * Creates a logger adapter that ensures all logging methods are available
- * even if accessed through destructuring
- */
-export const createLoggerAdapter = () => {
-  return {
-    info: (...args: Parameters<typeof logger.info>) => logger.info(...args),
-    error: (...args: Parameters<typeof logger.error>) => logger.error(...args),
-    warn: (...args: Parameters<typeof logger.warn>) => logger.warn(...args),
-    warning: (...args: Parameters<typeof logger.warning>) => logger.warning(...args),
-    debug: (...args: Parameters<typeof logger.debug>) => logger.debug(...args),
-    log: (...args: Parameters<typeof logger.log>) => logger.log(...args),
-    getLogs: () => logger.getLogs(),
-    getLogsByLevel: (level: any) => logger.getLogsByLevel(level),
-    clearLogs: () => logger.clearLogs()
-  };
+// This adapter ensures that we have a consistent interface
+// for all logging operations across the application
+const loggerAdapter = {
+  error: (message: string, data?: any) => logger.error(message, data),
+  warn: (message: string, data?: any) => logger.warn(message, data),
+  warning: (message: string, data?: any) => logger.warning(message, data),
+  info: (message: string, data?: any) => logger.info(message, data),
+  debug: (message: string, data?: any) => logger.debug(message, data),
+  log: (message: string, data?: any) => logger.log(message, data)
 };
 
-// Export a default instance of the adapter
-const loggerAdapter = createLoggerAdapter();
 export default loggerAdapter;
