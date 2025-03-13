@@ -1,48 +1,28 @@
 
-import { defineConfig, ConfigEnv } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
-import { componentTagger } from "lovable-tagger";
-import fs from "fs";
-import { execSync } from "child_process";
+import { defineConfig, loadEnv } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }: ConfigEnv) => ({
-  server: {
-    host: "",
-    port: 8080,
-    allowedHosts: ["be7539a5-f5f0-48ec-8f02-bd31e0e258c1.lovableproject.com"],
-  },
-  plugins: [
-    react(),
-    mode === 'development' && componentTagger(),
-  ].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  build: {
-    minify: mode === 'production' ? 'esbuild' : false,
-    sourcemap: mode === 'production',
-    rollupOptions: {
-      onwarn(warning, warn) {
-        if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('use client')) return;
-        warn(warning);
+export default defineConfig(({ mode }) => {
+  // Load environment variables
+  const env = loadEnv(mode, process.cwd())
+  
+  return {
+    plugins: [react()],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
       },
-      output: {
-        manualChunks: (id) => {
-          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) return 'vendor';
-          if (id.includes('@radix-ui/react-')) return 'ui';
-          if (id.includes('recharts')) return 'charts';
-          if (id.includes('react-hook-form') || id.includes('@hookform/resolvers')) return 'forms';
-          if (id.includes('/locales/')) return 'locales';
-          if (id.includes('lodash')) return 'lodash';
-          return null;
-        },
-      },
-      treeshake: mode === 'production',
     },
-  },
-  css: { devSourcemap: true },
-}));
+    define: {
+      // Make Supabase variables available
+      'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(env.VITE_SUPABASE_URL || "https://houhjguqdfolfqnzbkrs.supabase.co"),
+      'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvdWhqZ3VxZGZvbGZxbnpia3JzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzNjkwMjYsImV4cCI6MjA1Njk0NTAyNn0.P3Pis60wqIGniZftExxYOL6xBQ8JHKTQdHlZ0AsdkD0"),
+    },
+    // Add this to ensure environment variables are properly loaded during development
+    build: {
+      sourcemap: true,
+    }
+  }
+})

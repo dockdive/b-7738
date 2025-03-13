@@ -1,59 +1,42 @@
 
 {
-  "business": {
-    "title": "Business Directory",
-    "subtitle": "Find maritime businesses worldwide",
-    "filter": {
-      "title": "Filter Businesses",
-      "category": "Category",
-      "location": "Location",
-      "rating": "Rating",
-      "services": "Services",
-      "apply": "Apply Filters",
-      "reset": "Reset Filters",
-      "noResults": "No businesses match your filters",
-      "loading": "Loading businesses..."
-    },
-    "sort": {
-      "title": "Sort By",
-      "name": "Name",
-      "rating": "Rating",
-      "newest": "Newest",
-      "oldest": "Oldest"
-    },
-    "businessCard": {
-      "viewDetails": "View Details",
-      "contact": "Contact",
-      "website": "Visit Website",
-      "reviews": "Reviews",
-      "showOnMap": "Show on Map",
-      "featured": "Featured"
-    },
-    "view": {
-      "grid": "Grid View",
-      "list": "List View",
-      "map": "Map View"
-    },
-    "details": {
-      "about": "About",
-      "services": "Services Offered",
-      "location": "Location",
-      "contact": "Contact Information",
-      "reviews": "Reviews",
-      "hours": "Business Hours",
-      "established": "Established",
-      "employees": "Employees",
-      "languages": "Languages",
-      "writeReview": "Write a Review",
-      "claimBusiness": "Claim this Business",
-      "report": "Report this Business",
-      "share": "Share",
-      "verifiedListing": "Verified Listing",
-      "lastUpdated": "Last Updated",
-      "joinedPlatform": "Joined Platform"
-    },
-    "featured": "Featured Businesses",
-    "viewAllBusinesses": "View All Businesses",
-    "viewDetails": "View Details"
+  "businessDetails": {
+    "title": "Business Details",
+    "description": "Information about this business",
+    "contactInfo": "Contact Information",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "website": "Website",
+    "openingHours": "Opening Hours",
+    "openingHoursTitle": "Opening Hours",
+    "closed": "Closed",
+    "openFrom": "Open from",
+    "openTo": "to",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet",
+    "writeReview": "Write a review",
+    "services": "Services",
+    "noServices": "No services listed",
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "location": "Location",
+    "featured": "Featured",
+    "rating": "Rating",
+    "reviewCount": "Reviews count",
+    "share": "Share",
+    "report": "Report",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this business?",
+    "deleteSuccess": "Business deleted",
+    "deleteError": "Error deleting business"
   }
 }

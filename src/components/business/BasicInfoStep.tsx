@@ -87,11 +87,13 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {subcategories.map((subcategory: Subcategory) => (
-                      <SelectItem key={subcategory.id} value={subcategory.id.toString()}>
-                        {subcategory.name}
-                      </SelectItem>
-                    ))}
+                    {subcategories
+                      .filter((sub: Subcategory) => Number(sub.category_id) === Number(category_id))
+                      .map((subcategory: Subcategory) => (
+                        <SelectItem key={subcategory.id} value={subcategory.id.toString()}>
+                          {subcategory.name}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

@@ -5,7 +5,13 @@ import './index.css'
 import { LanguageProvider } from './contexts/LanguageContext.tsx'
 import { Toaster } from './components/ui/toaster'
 import { Toaster as Sonner } from './components/ui/sonner'
-// import TranslationDebugger from './components/TranslationDebugger'
+
+/**
+ * Progressive Enhancement Approach:
+ * 1. Show loading indicator immediately
+ * 2. Load React app when browser is ready
+ * 3. Replace loading indicator with fully functional app
+ */
 
 // Create a function to handle the root creation and rendering
 const renderApp = () => {
@@ -18,14 +24,7 @@ const renderApp = () => {
   console.log("Rendering application...");
   
   const root = createRoot(rootElement);
-  root.render(
-    <LanguageProvider>
-      <App />
-      <Toaster />
-      <Sonner />
-      {/* <TranslationDebugger /> */}
-    </LanguageProvider>
-  );
+  root.render(<App />);
 };
 
 // Add a loading indicator to let users know the app is initializing
