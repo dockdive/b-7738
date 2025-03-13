@@ -1,21 +1,20 @@
 
 {
-  "navigation": {
+    "navigation": {
     "home": "Home",
     "businesses": "Businesses",
-    "about": "About Us",
+    "about": "About",
+    "blog": "Blog",
+    "wiki": "Wiki",
+    "crew": "Crew",
+    "buyBoats": "Boats",
+    "sellBoats": "Sell Boats",    
     "contact": "Contact",
     "profile": "Profile",
     "dashboard": "Dashboard",
     "addBusiness": "Add Business",
     "myBusinesses": "My Businesses",
     "adminPanel": "Admin Panel",
-    "sellYourBoat": "Sell Your Boat",
-    "browseBusinesses": "Browse Businesses",
-    "backToHome": "Back to Home",
-    "backToBusinesses": "Back to Businesses",
-    "login": "Login",
-    "register": "Register",
-    "logout": "Logout"
+    "sellYourBoat": "Sell Your Boat"
   }
 }

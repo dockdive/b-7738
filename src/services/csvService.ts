@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import Papa from 'papaparse';
 import { BusinessCreate, Category, Subcategory } from '@/types';
@@ -194,11 +195,10 @@ const processCategories = async (
       // Log the data being processed
       logger.debug(`Processing category: ${row.name}`, row);
       
-      // Create category object with description field
+      // Create category object
       const category: Omit<Category, 'id' | 'created_at'> = {
         name: row.name,
-        icon: row.icon,
-        description: row.description || `${row.name} category for maritime businesses.`
+        icon: row.icon
       };
       
       // Insert into database
@@ -328,12 +328,11 @@ export const generateCSVTemplate = (entityType: 'business' | 'category' | 'revie
       ];
       break;
     case 'category':
-      headers = ['name', 'icon', 'description'];
+      headers = ['name', 'icon'];
       sampleData = [
         {
           name: 'Marine Parts',
-          icon: 'anchor',
-          description: 'Marine parts and components for all types of vessels.'
+          icon: 'anchor'
         }
       ];
       break;

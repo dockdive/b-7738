@@ -26,10 +26,10 @@ const Footer: React.FC = () => {
                   Marine Services
                 </Link>
               </li>
-              <li>
-                <Link to="/directory" className="text-gray-300 hover:text-white">
-                  Boat Sales
-                </Link>
+               <li>
+                <a href="https://dockdive.com/sell" className="text-gray-300 hover:text-white">
+                  {t('footer.boatselling')}
+                </a>
               </li>
               <li>
                 <Link to="/directory" className="text-gray-300 hover:text-white">
@@ -79,9 +79,9 @@ const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <Link to="/faq" className="text-gray-300 hover:text-white">
+                <a href="https://dockdive.com/faq" className="text-gray-300 hover:text-white">
                   {t('footer.faq')}
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

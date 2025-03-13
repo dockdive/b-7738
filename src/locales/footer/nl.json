@@ -3,18 +3,14 @@
   "footer": {
     "categories": "Categorieën",
     "legal": "Juridisch",
-    "terms": "Voorwaarden",
+    "terms": "Servicevoorwaarden",
     "privacy": "Privacybeleid",
     "cookies": "Cookiebeleid",
-    "company": "Bedrijf",
+    "allRightsReserved": "Alle Rechten Voorbehouden",
+    "contactUs": "Neem Contact Op",
     "aboutUs": "Over Ons",
-    "contactUs": "Contact",
+    "helpCenter": "Helpcentrum",
     "faq": "Veelgestelde Vragen",
-    "allRightsReserved": "Alle rechten voorbehouden",
-    "followUs": "Volg Ons",
-    "newsletter": "Nieuwsbrief",
-    "subscribeToNewsletter": "Abonneer op onze nieuwsbrief",
-    "yourEmail": "Uw e-mailadres",
-    "subscribe": "Abonneren"
+    "partners": "Partners"
   }
 }
