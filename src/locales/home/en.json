@@ -1,1 +1,37 @@
-{"home":{"heroTitle":"Maritime Business Directory","heroSubtitle":"Connect with trusted maritime businesses and services worldwide","hero":{"title":"The Maritime Business Directory","subtitle":"Connect with the global maritime industry's leading companies and service providers","trustedBy":"Trusted by leading maritime companies"},"findBusiness":"Find a Business","listBusiness":"List Your Business","businessesRegistered":"Registered Businesses","monthlyUsers":"Monthly Users","monthlySearches":"Monthly Searches","featuredBusinesses":"Featured Businesses","viewAllBusinesses":"View All Businesses","categories":{"title":"Browse by Category","subtitle":"Explore our extensive range of maritime businesses by category","viewAll":"View All Categories"},"featured":{"title":"Featured Businesses","subtitle":"Discover our top-rated maritime businesses and service providers","viewAllBusinesses":"View All Businesses"},"cta":{"title":"Join our Maritime Directory","subtitle":"List your maritime business and gain visibility within the global maritime community","addBusiness":"Add Your Business","exploreBusiness":"Explore Businesses"},"testimonials":"What Our Users Say","latestListings":"Latest Listings","joinDirectory":"Join our Maritime Directory","joinDescription":"List your maritime business and gain visibility within the global maritime community","joinCTA":"Get Started Now","searchPlaceholder":"Search for maritime businesses...","popularSearches":"Popular: Ship Repair, Marine Equipment, Chandlery"}}
+
+{
+  "home": {
+    "hero": {
+      "title": "DockDive",
+      "subtitle": "The leading maritime business directory connecting boat owners with service providers.",
+      "cta": "Find Marine Businesses",
+      "search": "Search for marine services, boat dealers, and more..."
+    },
+    "categories": {
+      "title": "Browse By Category",
+      "subtitle": "Find the right maritime businesses for your needs",
+      "viewAll": "View All Categories",
+      "list": {
+        "marineServices": "Marine Services",
+        "boatSales": "Boat Sales",
+        "maintenanceRepair": "Maintenance & Repair",
+        "marineEquipment": "Marine Equipment",
+        "boatTransport": "Boat Transport",
+        "marineInsurance": "Marine Insurance",
+        "marinas": "Marinas & Docks",
+        "boatRentals": "Boat Rentals"
+      }
+    },
+    "featured": {
+      "title": "Featured Marine Businesses",
+      "subtitle": "Top-rated services trusted by boat owners",
+      "viewAllBusinesses": "View All Businesses"
+    },
+    "cta": {
+      "title": "Are You a Marine Business Owner?",
+      "subtitle": "Join our directory to connect with boat owners and grow your maritime business.",
+      "addBusiness": "Add Your Business",
+      "exploreBusiness": "Explore Businesses"
+    }
+  }
+}

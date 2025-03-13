@@ -1,1 +1,65 @@
-{"csvUpload":{"title":"Bulk uploaden","description":"Upload meerdere {entityType} records tegelijk met behulp van CSV-indeling","entityTypes":{"business":"Bedrijven","businesses":"Bedrijven","category":"Categorieën","categories":"Categorieën","review":"Beoordelingen","reviews":"Beoordelingen"},"selectFile":"Selecteer CSV-bestand","downloadTemplate":"Sjabloon downloaden","uploadButton":"CSV uploaden","uploading":"Uploaden...","loading":"Laden...","error":"Uploaden mislukt","success":"Uploaden voltooid","successMessage":"Succesvol geüpload {count} records","errorGeneric":"Er is een fout opgetreden tijdens het uploaden","loadSampleData":"Voorbeeldgegevens laden","sampleDataMessage":"Succesvol geladen {count} voorbeeldbedrijven","showLogs":"Logboeken weergeven","hideLogs":"Logboeken verbergen","logs":"Logboeken van bewerkingen","noLogs":"Geen logboeken beschikbaar"},"bulkUpload":{"title":"Tool voor bulkuploads","subtitle":"Importeer eenvoudig meerdere records in de Maritime Directory","prepareCSV":"CSV-bestand voorbereiden","uploadCSV":"Gegevens uploaden","requirements":"Eisen","steps":{"download":"Download de sjabloon voor uw gegevenstype","fill":"Vul uw gegevens in volgens het formaat in het sjabloon","validate":"Controleer uw gegevens op fouten voordat u ze uploadt","save":"Sla uw bestand op in CSV-indeling","select":"Selecteer het voorbereide CSV-bestand","review":"Bekijk de bestandsinformatie","upload":"Klik op de uploadknop om te beginnen","confirm":"Wacht op bevestiging van een succesvolle upload"},"reqDetails":{"format":"CSV-formaat met kopteksten in de eerste rij","headers":"Kopteksten moeten exact overeenkomen met het sjabloon","required":"Verplichte velden mogen niet leeg zijn","size":"Maximale bestandsgrootte: 10 MB"},"tabs":{"businesses":"Bedrijven","categories":"Categorieën","reviews":"Beoordelingen"},"uploadSummary":"Upload Samenvatting","uploadedItems":"{count} {type} succesvol geüpload","entityTypes":{"businesses":"Bedrijven","categories":"Categorieën","reviews":"Beoordelingen"}}}
+
+{
+  "csvUpload": {
+    "title": "Bulk Upload",
+    "description": "Upload meerdere {entityType} tegelijk met CSV-formaat",
+    "entityTypes": {
+      "business": "bedrijven",
+      "businesses": "bedrijven",
+      "category": "categorieën",
+      "categories": "categorieën",
+      "review": "beoordelingen",
+      "reviews": "beoordelingen"
+    },
+    "selectFile": "Selecteer CSV-bestand",
+    "downloadTemplate": "Download Sjabloon",
+    "uploadButton": "Upload CSV",
+    "uploading": "Uploaden...",
+    "loading": "Laden...",
+    "error": "Upload Mislukt",
+    "success": "Upload Voltooid",
+    "successMessage": "Succesvol {count} records geüpload",
+    "errorGeneric": "Er is een fout opgetreden tijdens het uploaden",
+    "loadSampleData": "Laad Voorbeeldgegevens",
+    "sampleDataMessage": "Succesvol {count} voorbeeldbedrijven geladen",
+    "showLogs": "Toon Logboeken",
+    "hideLogs": "Verberg Logboeken",
+    "logs": "Operatie Logboeken",
+    "noLogs": "Geen logboeken beschikbaar"
+  },
+  "bulkUpload": {
+    "title": "Bulk Upload Tool",
+    "subtitle": "Importeer eenvoudig meerdere records in de Maritieme Gids",
+    "prepareCSV": "Bereid CSV-bestand voor",
+    "uploadCSV": "Upload Gegevens",
+    "requirements": "Vereisten",
+    "steps": {
+      "download": "Download het sjabloon voor je gegevenstype",
+      "fill": "Vul je gegevens in volgens het formaat in het sjabloon",
+      "validate": "Controleer je gegevens op fouten voor het uploaden",
+      "save": "Sla je bestand op in CSV-formaat",
+      "select": "Selecteer je voorbereide CSV-bestand",
+      "review": "Bekijk de bestandsinformatie",
+      "upload": "Klik op de uploadknop om te beginnen",
+      "confirm": "Wacht op bevestiging van succesvolle upload"
+    },
+    "reqDetails": {
+      "format": "CSV-formaat met headers in de eerste rij",
+      "headers": "Headers moeten exact overeenkomen met het sjabloon",
+      "required": "Verplichte velden mogen niet leeg zijn",
+      "size": "Maximale bestandsgrootte: 10MB"
+    },
+    "tabs": {
+      "businesses": "Bedrijven",
+      "categories": "Categorieën",
+      "reviews": "Beoordelingen"
+    },
+    "uploadSummary": "Upload Samenvatting",
+    "uploadedItems": "{count} {type} succesvol geüpload",
+    "entityTypes": {
+      "businesses": "bedrijven",
+      "categories": "categorieën",
+      "reviews": "beoordelingen"
+    }
+  }
+}

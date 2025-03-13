@@ -11,7 +11,7 @@ import HeroSection from "@/components/HeroSection";
 import SearchBar from "@/components/SearchBar";
 import CategoryFilter from "@/components/CategoryFilter";
 import logger from "@/services/loggerService";
-// import { logMissingTranslations } from "@/utils/translationUtils";
+import { logMissingTranslations } from "@/utils/translationUtils";
 import { Business, Category } from "@/types";
 
 const Home = () => {
@@ -21,7 +21,7 @@ const Home = () => {
   useEffect(() => {
     logger.info("Home component mounted");
     // Debug: log what translations are missing
-    // logMissingTranslations();
+    logMissingTranslations();
   }, []);
   
   // Fetch featured businesses with proper error handling

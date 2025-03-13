@@ -1,1 +1,16 @@
-{"footer":{"boatselling":"Boat Selling","categories":"Categories","legal":"Legal","terms":"Terms of Service","privacy":"Privacy Policy","cookies":"Cookie Policy","allRightsReserved":"All Rights Reserved","contactUs":"Contact Us","aboutUs":"About Us","helpCenter":"Help Center","faq":"FAQ","partners":"Partners"}}
+
+{
+  "footer": {
+    "categories": "Categories",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy",
+    "allRightsReserved": "All Rights Reserved",
+    "contactUs": "Contact Us",
+    "aboutUs": "About Us",
+    "helpCenter": "Help Center",
+    "faq": "FAQ",
+    "partners": "Partners"
+  }
+}

@@ -1,1 +1,22 @@
-{"search":{"search":"Zoeken","businessOrService":"Zoeken naar een bedrijf of dienst...","byName":"Zoeken op naam","byLocation":"Zoeken op locatie","byCategory":"Zoeken op categorie","byService":"Zoeken op service","noResults":"Geen resultaten gevonden","filterByCategory":"Filter op categorie","filterByLocation":"Filter op locatie","filterByRating":"Filteren op beoordeling","results":"Zoekresultaten","resultCount":"{count} bedrijven gevonden","refineSearch":"Verfijn uw zoekopdracht","clearFilters":"Filters wissen","searchBusinesses":"Bedrijven zoeken","advancedSearch":"Geavanceerd zoeken","recentSearches":"Recente zoekopdrachten"}}
+
+{
+  "search": {
+    "search": "Zoeken",
+    "businessOrService": "Zoek naar een bedrijf of dienst...",
+    "byName": "Zoeken op naam",
+    "byLocation": "Zoeken op locatie",
+    "byCategory": "Zoeken op categorie",
+    "byService": "Zoeken op dienst",
+    "noResults": "Geen resultaten gevonden",
+    "filterByCategory": "Filteren op categorie",
+    "filterByLocation": "Filteren op locatie",
+    "filterByRating": "Filteren op beoordeling",
+    "results": "Zoekresultaten",
+    "resultCount": "{count} bedrijven gevonden",
+    "refineSearch": "Verfijn Je Zoekopdracht",
+    "clearFilters": "Filters Wissen",
+    "searchBusinesses": "Zoek Bedrijven",
+    "advancedSearch": "Geavanceerd Zoeken",
+    "recentSearches": "Recente Zoekopdrachten"
+  }
+}

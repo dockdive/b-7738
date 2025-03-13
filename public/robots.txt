@@ -27,7 +27,7 @@ User-agent: Googlebot-Mobile
 Allow: /
 
 # Sitemap location
-Sitemap: https://compass.dockdive.com/sitemap.xml
+Sitemap: https://yourdomain.com/sitemap.xml
 
 # Rate limiting for aggressive bots
 User-agent: AhrefsBot

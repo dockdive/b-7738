@@ -14,7 +14,7 @@ import AccountSettings from "@/components/profile/AccountSettings";
 import NotificationSettings from "@/components/profile/NotificationSettings";
 
 const Profile = () => {
-  const { t, language, setLanguage, supportedLanguages } = useLanguage();
+  const { t, language, changeLanguage } = useLanguage();
   const { toast } = useToast();
   
   const [profile, setProfile] = useState<ProfileType | null>(null);
@@ -91,7 +91,7 @@ const Profile = () => {
       setProfile(updatedProfile);
       
       if (selectedLanguage !== language) {
-        // changeLanguage(selectedLanguage);
+        changeLanguage(selectedLanguage);
       }
       
       toast({

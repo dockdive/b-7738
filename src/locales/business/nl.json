@@ -1,1 +1,86 @@
-{"business":{"title":"Bedrijvengids","subtitle":"Vind maritieme bedrijven wereldwijd","filter":{"title":"Filter Bedrijven","category":"Categorie","location":"Plaats","rating":"Beoordeling","services":"Diensten","apply":"Filters toepassen","reset":"Filters resetten","noResults":"Geen enkel bedrijf komt overeen met uw filters","loading":"Bedrijven laden..."},"sort":{"title":"Sorteren op","name":"Naam","rating":"Beoordeling","newest":"Nieuwste","oldest":"Oudst"},"businessCard":{"viewDetails":"Details bekijken","contact":"Contact","website":"Bezoek Website","reviews":"Beoordelingen","showOnMap":"Toon op kaart","featured":"Aanbevolen"},"view":{"grid":"Raster weergave","list":"Lijst weergave","map":"Kaartweergave"},"details":{"about":"Over","services":"Aangeboden diensten","location":"Plaats","contact":"Contactgegevens","reviews":"Beoordelingen","hours":"Openingstijden","established":"Vastgesteld","employees":"Medewerkers","languages":"Talen","writeReview":"Schrijf een review","claimBusiness":"Claim dit bedrijf","report":"Meld dit bedrijf","share":"Delen","verifiedListing":"Geverifieerde vermelding","lastUpdated":"Laatst bijgewerkt","joinedPlatform":"Lid geworden platform"},"featured":"Aanbevolen bedrijven","viewAllBusinesses":"Bekijk alle bedrijven","viewDetails":"Details bekijken"}}
+
+{
+  "business": {
+    "title": "Bedrijvengids",
+    "subtitle": "Vind maritieme bedrijven wereldwijd",
+    "filter": {
+      "title": "Bedrijven Filteren",
+      "category": "Categorie",
+      "location": "Locatie",
+      "rating": "Beoordeling",
+      "services": "Diensten",
+      "apply": "Filters Toepassen",
+      "reset": "Filters Resetten",
+      "noResults": "Geen bedrijven voldoen aan je filters",
+      "loading": "Bedrijven laden..."
+    },
+    "sort": {
+      "title": "Sorteren Op",
+      "name": "Naam",
+      "rating": "Beoordeling",
+      "newest": "Nieuwste",
+      "oldest": "Oudste"
+    },
+    "businessCard": {
+      "viewDetails": "Details Bekijken",
+      "contact": "Contact",
+      "website": "Bezoek Website",
+      "reviews": "Beoordelingen",
+      "showOnMap": "Toon op Kaart",
+      "featured": "Uitgelicht"
+    },
+    "view": {
+      "grid": "Rasterweergave",
+      "list": "Lijstweergave",
+      "map": "Kaartweergave"
+    },
+    "details": {
+      "about": "Over",
+      "services": "Aangeboden Diensten",
+      "location": "Locatie",
+      "contact": "Contactinformatie",
+      "reviews": "Beoordelingen",
+      "hours": "Openingstijden",
+      "established": "Opgericht",
+      "employees": "Werknemers",
+      "languages": "Talen",
+      "writeReview": "Schrijf een Beoordeling",
+      "claimBusiness": "Claim dit Bedrijf",
+      "report": "Rapporteer dit Bedrijf",
+      "share": "Delen",
+      "verifiedListing": "Geverifieerde Vermelding",
+      "lastUpdated": "Laatst Bijgewerkt",
+      "joinedPlatform": "Toegetreden tot Platform"
+    },
+    "featured": "Uitgelichte Bedrijven",
+    "viewAllBusinesses": "Alle Bedrijven Bekijken",
+    "viewDetails": "Details Bekijken",
+    "overview": "Overzicht",
+    "reviews": "Beoordelingen",
+    "services": "Diensten",
+    "gallery": "Galerij",
+    "aboutBusiness": "Over het Bedrijf",
+    "keyServices": "Belangrijkste Diensten",
+    "contactInformation": "Contactinformatie",
+    "address": "Adres",
+    "phone": "Telefoon",
+    "email": "E-mail",
+    "website": "Website",
+    "openingHours": "Openingstijden",
+    "customerReviews": "Klantbeoordelingen",
+    "averageRating": "Gemiddelde Beoordeling",
+    "anonymousUser": "Anonieme Gebruiker",
+    "ownerResponse": "Reactie van Eigenaar",
+    "noReviews": "Nog geen beoordelingen",
+    "writeFirstReview": "Schrijf de Eerste Beoordeling",
+    "servicesOffered": "Aangeboden Diensten",
+    "serviceDescription": "Meer informatie over deze dienst is beschikbaar op aanvraag.",
+    "noServicesListed": "Geen diensten vermeld",
+    "photoGallery": "Fotogalerij",
+    "noPhotosAvailable": "Geen foto's beschikbaar",
+    "memberSince": "Lid sinds",
+    "visitWebsite": "Bezoek Website",
+    "contactBusiness": "Contact Opnemen",
+    "featured": "Uitgelicht"
+  }
+}

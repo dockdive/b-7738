@@ -3,7 +3,7 @@
   "name": "Maritime Directory",
   "short_name": "MaritimeDir",
   "description": "Find and connect with maritime businesses worldwide",
-  "start_url": "./",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#396796",

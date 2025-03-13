@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from '@/contexts/LanguageContext';
 import { UseFormReturn } from 'react-hook-form';
 import { Building2, Upload } from 'lucide-react';
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form';

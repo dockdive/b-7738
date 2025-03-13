@@ -1,1 +1,73 @@
-{"home":{"heroTitle":"Maritieme bedrijvengids","heroSubtitle":"Kom in contact met vertrouwde maritieme bedrijven en diensten over de hele wereld","hero":{"title":"De Maritieme Bedrijvengids","subtitle":"Kom in contact met de toonaangevende bedrijven en dienstverleners van de wereldwijde maritieme industrie","trustedBy":"Vertrouwd door toonaangevende maritieme bedrijven"},"findBusiness":"Zoek een bedrijf","listBusiness":"Vermeld uw bedrijf","businessesRegistered":"Geregistreerde bedrijven","monthlyUsers":"Maandelijkse gebruikers","monthlySearches":"Maandelijkse zoekopdrachten","featuredBusinesses":"Aanbevolen bedrijven","viewAllBusinesses":"Bekijk alle bedrijven","categories":{"title":"Blader op categorie","subtitle":"Ontdek ons uitgebreide aanbod van maritieme bedrijven per categorie","viewAll":"Bekijk alle categorieën"},"featured":{"title":"Aanbevolen bedrijven","subtitle":"Ontdek onze best beoordeelde maritieme bedrijven en dienstverleners","viewAllBusinesses":"Bekijk alle bedrijven"},"cta":{"title":"Word lid van onze Maritieme Directory","subtitle":"Maak een lijst van uw maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap","addBusiness":"Voeg uw bedrijf toe","exploreBusiness":"Ontdek bedrijven"},"testimonials":"Wat onze gebruikers zeggen","latestListings":"Laatste aanbiedingen","joinDirectory":"Word lid van onze Maritieme Directory","joinDescription":"Maak een lijst van uw maritieme bedrijf en krijg zichtbaarheid binnen de wereldwijde maritieme gemeenschap","joinCTA":"Ga nu aan de slag","searchPlaceholder":"Zoeken naar maritieme bedrijven...","popularSearches":"Populair: scheepsreparatie, uitrusting van zeeschepen, chandlery"}}
+
+{
+  "home": {
+    "hero": {
+      "title": "De Maritieme Zakengids",
+      "subtitle": "Verbind met maritieme bedrijven wereldwijd",
+      "cta": "Zoek Bedrijven"
+    },
+    "categories": {
+      "title": "Verken per Categorie",
+      "seeAll": "Bekijk alle categorieën"
+    },
+    "features": {
+      "title": "Wat We Bieden",
+      "tabs": {
+        "business": "Voor Bedrijven",
+        "owners": "Voor Booteigenaren",
+        "community": "Voor Gemeenschap"
+      },
+      "business": {
+        "exposure": {
+          "title": "Maximale Zichtbaarheid",
+          "description": "Laat uw maritieme diensten zien aan potentiële klanten en vergroot uw bereik in de sector.",
+          "action": "Bedrijf Toevoegen"
+        },
+        "insights": {
+          "title": "Bedrijfsinzichten",
+          "description": "Krijg toegang tot waardevolle gegevens en analyses om uw maritieme zakelijke activiteiten te verbeteren.",
+          "action": "Dashboard Bekijken"
+        },
+        "tools": {
+          "title": "Effectieve Tools",
+          "description": "Beheer uw aanbiedingen en communiceer met klanten via ons gespecialiseerde platform.",
+          "action": "Bulk Upload"
+        }
+      },
+      "owners": {
+        "search": {
+          "title": "Vind Diensten",
+          "description": "Zoek geverifieerde maritieme diensten en bedrijven voor al uw behoeften op het water.",
+          "action": "Zoek Bedrijven"
+        },
+        "reviews": {
+          "title": "Betrouwbare Beoordelingen",
+          "description": "Bekijk en deel ervaringen om de beste maritieme dienstverleners te vinden.",
+          "action": "Bekijk Beoordelingen"
+        },
+        "resources": {
+          "title": "Handige Informatie",
+          "description": "Toegang tot gidsen en tips om geïnformeerde beslissingen te nemen voor uw boot.",
+          "action": "Ontdek Hulpmiddelen"
+        }
+      },
+      "community": {
+        "events": {
+          "title": "Maritieme Evenementen",
+          "description": "Blijf op de hoogte van de nieuwste maritieme evenementen, bootshows en netwerkmogelijkheden.",
+          "action": "Evenementen Bekijken"
+        },
+        "forums": {
+          "title": "Gemeenschapsforum",
+          "description": "Neem deel aan discussies met andere booteigenaren en maritieme professionals.",
+          "action": "Word Lid van Forum"
+        },
+        "newsletter": {
+          "title": "Nieuwsbrief",
+          "description": "Ontvang het laatste nieuws en updates uit de maritieme sector direct in uw inbox.",
+          "action": "Abonneren"
+        }
+      }
+    }
+  }
+}
