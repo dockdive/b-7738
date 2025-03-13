@@ -68,7 +68,7 @@ export const useCSVServiceAdapter = () => {
   };
 
   // Handle the new methods from our wrapper
-  const handleProcessCSV = async (file: File, templateType: string) => {
+  const handleProcessCSV = async (file: File, templateType: string, onProgress?: ProgressCallback) => {
     try {
       logger.info('Processing CSV file', { fileName: file.name, templateType });
       return await csvServiceWrapper.processCSV(file, templateType);

@@ -14,6 +14,15 @@ export const createBusiness = async (businessData: BusinessCreate) => {
   
   // The API doesn't directly match our BusinessCreate type, so we need to adapt it
   const adaptedData: Record<string, any> = { ...businessData };
+
+  // Ensure required fields exist
+  if (!adaptedData.name) {
+    adaptedData.name = 'Untitled Business';
+  }
+  
+  if (!adaptedData.owner_id) {
+    throw new Error('Owner ID is required');
+  }
   
   // Remove any properties that don't exist in the businesses table
   // This helps prevent the 'status' property error specifically
