@@ -2,6 +2,7 @@
 import { useCSVAdapter } from './useCSVAdapter';
 import csvService from '@/services/csvService';
 
+// Export both the hook function and a default export for backward compatibility
 export const useCSVServiceAdapter = () => {
   const { logger } = useCSVAdapter();
   
@@ -73,3 +74,6 @@ export const useCSVServiceAdapter = () => {
     generateExampleData: handleGenerateExampleData
   };
 };
+
+// Add default export for backwards compatibility with existing import in CSVUploader.tsx
+export default useCSVServiceAdapter;
