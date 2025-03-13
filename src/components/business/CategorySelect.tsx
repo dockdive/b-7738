@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Category } from '@/types';
 import LoadingIndicator from '@/components/ui/loading-indicator';
+import logger from '@/services/loggerService';
 
 interface CategorySelectProps {
   value: number | string | null;
@@ -34,16 +35,19 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
   const { data: categories, isLoading, error } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
+      logger.info('Fetching categories from Supabase');
+      
       const { data, error } = await supabase
         .from('categories')
         .select('*')
         .order('name');
         
       if (error) {
-        console.error('Error fetching categories:', error);
+        logger.error('Error fetching categories:', error);
         throw error;
       }
       
+      logger.info(`Fetched ${data?.length || 0} categories`);
       return adaptCategories(data || []);
     },
   });
@@ -54,6 +58,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
   }, [value]);
 
   const handleValueChange = (newValue: string) => {
+    logger.info(`Category selected: ${newValue}`);
     setSelectedValue(newValue);
     onChange(newValue ? parseInt(newValue, 10) : null);
   };
@@ -63,13 +68,14 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
   }
 
   if (error) {
-    console.error('Error loading categories:', error);
+    logger.error('Error loading categories:', error);
     return <p className="text-red-500">Error loading categories</p>;
   }
 
-  // If we have no categories, show a helpful message
+  // Log if we have no categories to help with debugging
   if (!categories || categories.length === 0) {
-    return <p className="text-gray-500">No categories available</p>;
+    logger.warn('No categories available to display');
+    return <p className="text-gray-500">No categories available. Please check the database.</p>;
   }
 
   return (

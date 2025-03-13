@@ -19,11 +19,13 @@ import NotFound from "./pages/NotFound";
 import { CSVAdapterProvider } from "./hooks/useCSVAdapter";
 import BusinessMapInjector from "./components/business/BusinessMapInjector";
 
+// Configure React Query with better defaults for debugging
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
       retry: 1,
+      refetchOnWindowFocus: false, // Disable refetching when window regains focus
     },
   },
 });
