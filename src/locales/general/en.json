@@ -1,7 +1,6 @@
 
 {
   "general": {
-    "appName": "DockDive",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",

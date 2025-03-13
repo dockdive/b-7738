@@ -1,195 +1,133 @@
 
-import { LanguageCode } from '@/constants/languageConstants';
+// Import the LanguageCode type from the LanguageContext
+import { LanguageCode } from "@/contexts/LanguageContext";
 
-// This file adds or updates types needed by the application
+// Business-related types
+export type BusinessStatus = "pending" | "approved" | "rejected";
 
-export interface Category {
+// Re-export the LanguageCode type
+export type { LanguageCode };
+
+export type Business = {
+  id: string;
+  name: string;
+  description: string;
+  logo_url: string | null;
+  category_id: number | null;
+  subcategory_id: number | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  owner_id: string;
+  status: BusinessStatus;
+  is_featured: boolean;
+  rating: number;
+  review_count: number;
+  views: number;
+  created_at: string;
+  updated_at: string;
+  services?: string[]; // Services as optional array
+  images?: string[]; // Images as optional array
+  opening_hours?: string; // Opening hours as optional
+};
+
+export type BusinessImage = {
+  id: string;
+  business_id: string;
+  url: string;
+  created_at: string;
+};
+
+export type BusinessService = {
+  id: string;
+  business_id: string;
+  name: string;
+  created_at: string;
+};
+
+// Category-related types
+export type Category = {
   id: number;
   name: string;
   icon: string;
-  description: string; // Required description field
-  created_at?: string;
-}
+  created_at: string;
+};
 
-// Add Subcategory type that was missing
-export interface Subcategory {
+export type Subcategory = {
   id: number;
-  name: string;
   category_id: number;
-  description?: string;
-  created_at?: string;
-}
-
-// Update BusinessStatus to be a union type consistently
-export type BusinessStatusUnion = 'pending' | 'approved' | 'rejected';
-
-// For backward compatibility with existing code
-export type BusinessStatus = BusinessStatusUnion;
-
-export interface BusinessStatusObject {
-  status: BusinessStatusUnion;
-  reason?: string;
-}
-
-export interface Business {
-  id: string;
   name: string;
-  description: string;
-  logo?: string;
-  logo_url?: string;
-  website?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  country?: string;
-  category_id: number;
-  subcategory_id?: number;
-  user_id?: string;
-  created_at?: string;
-  updated_at?: string;
-  status?: BusinessStatusUnion;
-  featured?: boolean;
-  is_featured?: boolean; // Alias for featured (for compatibility)
-  rating?: number;
-  review_count?: number;
-  services?: string[];
-  images?: string[];
-  opening_hours?: Record<string, string>;
-  owner_id: string; // Required - don't change this to optional
-  latitude?: number;
-  longitude?: number;
-}
+  created_at: string;
+};
 
-// Update BusinessCreate to ensure it matches the API requirements
-export interface BusinessCreate {
-  name: string;
-  description: string;
-  logo?: File;
-  logo_url?: string;
-  website?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  country?: string;
-  category_id: number;
-  subcategory_id?: number;
-  owner_id: string; // This must be required to match API requirements
-  user_id?: string;
-  status?: BusinessStatusUnion;
-  opening_hours?: Record<string, string>;
-  is_featured?: boolean;
-  latitude?: number;
-  longitude?: number;
-}
-
-// Add BusinessFilter type
-export interface BusinessFilter {
-  category_id?: number;
-  subcategory_id?: number;
-  search?: string;
-  featured?: boolean;
-  status?: BusinessStatusUnion;
-  sort?: 'newest' | 'oldest' | 'name_asc' | 'name_desc' | 'rating' | 'rating_high' | 'rating_low' | 'most_reviewed';
-  country?: string;
-  city?: string;
-  rating?: number;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  first_name?: string;
-  last_name?: string;
-  avatar_url?: string;
-  company_name?: string;
-  phone?: string;
-  country?: string;
-  language?: LanguageCode;
-  created_at?: string;
-  updated_at?: string;
-}
-
-// Update Profile to make it fully compatible with API and User
-export interface Profile {
-  id: string;
-  email: string; // Required email
-  first_name?: string;
-  last_name?: string;
-  avatar_url?: string;
-  company_name?: string;
-  phone?: string;
-  country?: string;
-  language?: LanguageCode;
-  created_at?: string;
-  updated_at?: string;
-  bio?: string;
-  website?: string;
-  is_admin?: boolean;
-  social_links?: {
-    twitter?: string;
-    facebook?: string;
-    linkedin?: string;
-    instagram?: string;
-  };
-}
-
-export interface ProfileUpdate {
-  first_name?: string;
-  last_name?: string;
-  phone?: string;
-  company_name?: string;
-  country?: string;
-  language?: LanguageCode;
-  bio?: string;
-  website?: string;
-  avatar_url?: string;
-  email?: string;
-  social_links?: {
-    twitter?: string;
-    facebook?: string;
-    linkedin?: string;
-    instagram?: string;
-  };
-}
-
-export interface Review {
+// Review-related types
+export type Review = {
   id: string;
   business_id: string;
   user_id: string;
-  user_name?: string;
+  user_name?: string; // Add user_name as optional
   rating: number;
-  comment: string;
-  reply?: string;
-  created_at?: string;
-  updated_at?: string;
-}
+  comment: string | null;
+  reply: string | null;
+  is_reported: boolean;
+  created_at: string;
+  updated_at: string;
+};
 
-// Wiki types to address the WikiContext errors
-export interface WikiPage {
+// Profile-related types
+export type Profile = {
   id: string;
-  title: string;
-  content: string;
-  category_id: number;
-  created_at?: string;
-  updated_at?: string;
-  author_id?: string;
-  status?: 'draft' | 'published' | 'archived';
-  tags?: string[];
-}
+  first_name: string | null;
+  last_name: string | null;
+  avatar_url: string | null;
+  company_name: string | null;
+  phone: string | null;
+  country: string | null;
+  language: LanguageCode;
+  is_admin: boolean;
+  created_at: string;
+  updated_at: string;
+};
 
-export interface WikiSearchResult {
-  id: string;
-  title: string;
-  excerpt: string;
-  created_at?: string;
-  author_id?: string;
-}
+// For search and filtering
+export type BusinessFilter = {
+  category_id?: number;
+  subcategory_id?: number;
+  country?: string;
+  city?: string;
+  rating?: number;
+  search?: string;
+  sort?: "name_asc" | "name_desc" | "rating_high" | "rating_low" | "newest" | "oldest" | "most_reviewed";
+};
 
-// Re-export LanguageCode for global use
-export type { LanguageCode };
+// Profile update
+export type ProfileUpdate = {
+  first_name?: string;
+  last_name?: string;
+  company_name?: string;
+  phone?: string;
+  country?: string;
+  language?: LanguageCode;
+  avatar_url?: string;
+};
+
+// Business creation and update
+export type BusinessCreate = Omit<Business, "id" | "rating" | "review_count" | "views" | "created_at" | "updated_at">;
+
+export type BusinessUpdate = Partial<Omit<Business, "id" | "owner_id" | "created_at" | "updated_at">>;
+
+// Add BusinessInput type for the AddBusiness page
+export type BusinessInput = Omit<Business, "id" | "rating" | "review_count" | "views" | "created_at" | "updated_at" | "owner_id"> & {
+  services: string[];
+  primary_language: LanguageCode;
+  additional_languages: LanguageCode[];
+  opening_hours: string;
+  images: string[];
+};

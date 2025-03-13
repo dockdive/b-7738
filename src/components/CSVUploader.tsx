@@ -4,8 +4,12 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { LogOut, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { 
+  uploadCSV,
+  generateCSVTemplate,
+  loadSampleBusinessData
+} from '@/services/csvService';
 import logger from '@/services/loggerService';
-import useCSVServiceAdapter from '@/hooks/useCSVServiceAdapter';
 
 // Import refactored components
 import CSVFileInput from '@/components/csv/CSVFileInput';
@@ -20,7 +24,6 @@ type CSVUploaderProps = {
 
 const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => {
   const { t } = useLanguage();
-  const { processCSV, downloadTemplate, loadSampleData } = useCSVServiceAdapter();
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +49,7 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
 
     try {
       logger.info(`Starting upload of file: ${file.name}`);
-      const result = await processCSV(file, entityType, (progress) => {
+      const result = await uploadCSV(file, entityType, (progress) => {
         setProgress(progress);
       });
       
@@ -83,8 +86,10 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
     try {
       logger.info(`Downloading template for entity type: ${entityType}`);
       
-      const csvContent = downloadTemplate(entityType);
+      // Generate the CSV content
+      const csvContent = generateCSVTemplate(entityType);
       
+      // Create a blob and download link
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -113,7 +118,7 @@ const CSVUploader: React.FC<CSVUploaderProps> = ({ onComplete, entityType }) => 
     try {
       logger.info('Starting sample business data loading');
       
-      const result = await loadSampleData((progress) => {
+      const result = await loadSampleBusinessData((progress) => {
         setProgress(progress);
       });
       

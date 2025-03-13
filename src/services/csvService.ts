@@ -198,8 +198,7 @@ const processCategories = async (
       // Create category object
       const category: Omit<Category, 'id' | 'created_at'> = {
         name: row.name,
-        icon: row.icon,
-        description: ''
+        icon: row.icon
       };
       
       // Insert into database

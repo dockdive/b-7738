@@ -1,1 +1,40 @@
-{"profile":{"title":"Jouw profiel","personalInfo":"Persoonlijke informatie","personalInfoDescription":"Werk uw persoonlijke gegevens en contactgegevens bij","accountSettings":"Accountinstellingen","accountSettingsDescription":"Beheer uw accountinstellingen en voorkeuren","notifications":"Meldingen","notificationsDescription":"Configureer hoe we contact met u opnemen","notificationsComingSoon":"Meldingsvoorkeuren zijn binnenkort beschikbaar","profilePicture":"Profielfoto","profilePictureDescription":"Dit is je openbare profielfoto die zichtbaar is voor anderen","firstName":"Voornaam","firstNamePlaceholder":"Vul je voornaam in","lastName":"Achternaam","lastNamePlaceholder":"Vul uw achternaam in","companyName":"Bedrijfsnaam","companyNamePlaceholder":"Vul uw bedrijfsnaam in","phone":"Telefoon","phonePlaceholder":"Vul je telefoonnummer in","country":"Land","countryPlaceholder":"Voer uw land in","language":"Taal","selectLanguage":"Selecteer uw voorkeurstaal","email":"E-mailadres","emailChangeDescription":"Als u uw e-mailadres wilt wijzigen, neemt u contact op met de ondersteuning","password":"Wachtwoord","changePassword":"Wachtwoord wijzigen","dangerZone":"Gevarenzone","deleteAccount":"Account verwijderen","uploadNewPicture":"Upload nieuwe foto","updateSuccess":"Profiel bijgewerkt","updateSuccessDescription":"Uw profiel is succesvol bijgewerkt","updateError":"Update mislukt","updateErrorDescription":"Er is een fout opgetreden bij het bijwerken van uw profiel","loadError":"Laden mislukt","loadErrorDescription":"Er is een fout opgetreden bij het laden van uw profiel"}}
+
+{
+  "profile": {
+    "title": "Jouw Profiel",
+    "personalInfo": "Persoonlijke Informatie",
+    "personalInfoDescription": "Update je persoonlijke gegevens en contactinformatie",
+    "accountSettings": "Accountinstellingen",
+    "accountSettingsDescription": "Beheer je accountinstellingen en voorkeuren",
+    "notifications": "Meldingen",
+    "notificationsDescription": "Configureer hoe we contact met je opnemen",
+    "notificationsComingSoon": "Meldingsvoorkeuren zijn binnenkort beschikbaar",
+    "profilePicture": "Profielfoto",
+    "profilePictureDescription": "Dit is je openbare profielfoto die zichtbaar is voor anderen",
+    "firstName": "Voornaam",
+    "firstNamePlaceholder": "Voer je voornaam in",
+    "lastName": "Achternaam",
+    "lastNamePlaceholder": "Voer je achternaam in",
+    "companyName": "Bedrijfsnaam",
+    "companyNamePlaceholder": "Voer je bedrijfsnaam in",
+    "phone": "Telefoon",
+    "phonePlaceholder": "Voer je telefoonnummer in",
+    "country": "Land",
+    "countryPlaceholder": "Voer je land in",
+    "language": "Taal",
+    "selectLanguage": "Selecteer je voorkeurstaal",
+    "email": "E-mailadres",
+    "emailChangeDescription": "Neem contact op met de support om je e-mailadres te wijzigen",
+    "password": "Wachtwoord",
+    "changePassword": "Wijzig Wachtwoord",
+    "dangerZone": "Gevaarlijke Zone",
+    "deleteAccount": "Account Verwijderen",
+    "uploadNewPicture": "Nieuwe Foto Uploaden",
+    "updateSuccess": "Profiel Bijgewerkt",
+    "updateSuccessDescription": "Je profiel is succesvol bijgewerkt",
+    "updateError": "Update Mislukt",
+    "updateErrorDescription": "Er is een fout opgetreden bij het bijwerken van je profiel",
+    "loadError": "Laden Mislukt",
+    "loadErrorDescription": "Er is een fout opgetreden bij het laden van je profiel"
+  }
+}

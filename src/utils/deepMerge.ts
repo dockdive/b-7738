@@ -13,4 +13,4 @@ export function deepMerge(target: Record<string, any>, ...sources: Record<string
   return target;
 }
 
-export default deepMerge; // Add default export to resolve the import error
+export default deepMerge;

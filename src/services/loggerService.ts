@@ -1,9 +1,4 @@
-
-/**
- * Simple logger service for application-wide logging
- */
-
-// Define log levels
+// Logger levels for different types of messages
 export enum LogLevel {
   DEBUG = 'debug',
   INFO = 'info',
@@ -11,67 +6,111 @@ export enum LogLevel {
   ERROR = 'error'
 }
 
-// Store for logs
-interface LogEntry {
+// Interface for log messages
+interface LogMessage {
   level: LogLevel;
   message: string;
-  timestamp: number;
+  timestamp: Date;
   data?: any;
 }
 
-const logs: LogEntry[] = [];
+// Store logs in memory for the current session
+const logs: LogMessage[] = [];
 
-const logger = {
-  info: (message: string, ...args: any[]) => {
-    console.info(`[INFO] ${message}`, ...args);
-    logs.push({
-      level: LogLevel.INFO,
-      message,
-      timestamp: Date.now(),
-      data: args.length > 0 ? args[0] : undefined
-    });
-  },
+// Maximum number of logs to keep in memory
+const MAX_LOGS = 1000;
+
+/**
+ * Add a log entry
+ */
+const log = (level: LogLevel, message: string, data?: any): void => {
+  const logEntry: LogMessage = {
+    level,
+    message,
+    timestamp: new Date(),
+    data
+  };
   
-  warning: (message: string, ...args: any[]) => {
-    console.warn(`[WARNING] ${message}`, ...args);
-    logs.push({
-      level: LogLevel.WARNING,
-      message,
-      timestamp: Date.now(),
-      data: args.length > 0 ? args[0] : undefined
-    });
-  },
+  // Add to in-memory logs
+  logs.unshift(logEntry);
   
-  error: (message: string, ...args: any[]) => {
-    console.error(`[ERROR] ${message}`, ...args);
-    logs.push({
-      level: LogLevel.ERROR,
-      message,
-      timestamp: Date.now(),
-      data: args.length > 0 ? args[0] : undefined
-    });
-  },
-  
-  debug: (message: string, ...args: any[]) => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.debug(`[DEBUG] ${message}`, ...args);
-      logs.push({
-        level: LogLevel.DEBUG,
-        message,
-        timestamp: Date.now(),
-        data: args.length > 0 ? args[0] : undefined
-      });
-    }
+  // Trim logs if they exceed the maximum
+  if (logs.length > MAX_LOGS) {
+    logs.length = MAX_LOGS;
   }
-};
+  
+  // Also log to console
+  switch (level) {
+    case LogLevel.DEBUG:
+      console.debug(`[DEBUG] ${message}`, data || '');
+      break;
+    case LogLevel.INFO:
+      console.info(`[INFO] ${message}`, data || '');
+      break;
+    case LogLevel.WARNING:
+      console.warn(`[WARNING] ${message}`, data || '');
+      break;
+    case LogLevel.ERROR:
+      console.error(`[ERROR] ${message}`, data || '');
+      break;
+  }
+}
 
-// Helper functions for accessing logs
-export const getLogs = (): LogEntry[] => {
-  return [...logs].sort((a, b) => b.timestamp - a.timestamp);
-};
+/**
+ * Debug level logging
+ */
+export const debug = (message: string, data?: any): void => {
+  log(LogLevel.DEBUG, message, data);
+}
 
-export const getLogsByLevel = (level: LogLevel): LogEntry[] => {
-  return getLogs().filter(log => log.level === level);
-};
+/**
+ * Info level logging
+ */
+export const info = (message: string, data?: any): void => {
+  log(LogLevel.INFO, message, data);
+}
 
-export default logger;
+/**
+ * Warning level logging
+ */
+export const warning = (message: string, data?: any): void => {
+  log(LogLevel.WARNING, message, data);
+}
+
+/**
+ * Error level logging
+ */
+export const error = (message: string, data?: any): void => {
+  log(LogLevel.ERROR, message, data);
+}
+
+/**
+ * Get all logs
+ */
+export const getLogs = (): LogMessage[] => {
+  return [...logs];
+}
+
+/**
+ * Clear all logs
+ */
+export const clearLogs = (): void => {
+  logs.length = 0;
+}
+
+/**
+ * Get logs filtered by level
+ */
+export const getLogsByLevel = (level: LogLevel): LogMessage[] => {
+  return logs.filter(log => log.level === level);
+}
+
+export default {
+  debug,
+  info,
+  warning,
+  error,
+  getLogs,
+  clearLogs,
+  getLogsByLevel
+};

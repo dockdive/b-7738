@@ -1,1 +1,16 @@
-{"footer":{"boatselling":"Boot verkopen","categories":"Categorieën","legal":"Legaal","terms":"Algemene voorwaarden","privacy":"Privacybeleid","cookies":"Cookiebeleid","allRightsReserved":"Alle rechten voorbehouden","contactUs":"Neem contact met ons op","aboutUs":"Informatie","helpCenter":"Helpcentrum","faq":"Veelgestelde vragen","partners":"Partners"}}
+
+{
+  "footer": {
+    "categories": "Categorieën",
+    "legal": "Juridisch",
+    "terms": "Servicevoorwaarden",
+    "privacy": "Privacybeleid",
+    "cookies": "Cookiebeleid",
+    "allRightsReserved": "Alle Rechten Voorbehouden",
+    "contactUs": "Neem Contact Op",
+    "aboutUs": "Over Ons",
+    "helpCenter": "Helpcentrum",
+    "faq": "Veelgestelde Vragen",
+    "partners": "Partners"
+  }
+}

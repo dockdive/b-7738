@@ -1,42 +1,59 @@
 
 {
-  "businessDetails": {
-    "title": "Bedrijfsdetails",
-    "description": "Informatie over dit bedrijf",
-    "contactInfo": "Contactgegevens",
-    "address": "Adres",
-    "phone": "Telefoon",
-    "email": "E-mail",
-    "website": "Website",
-    "openingHours": "Openingstijden",
-    "openingHoursTitle": "Openingstijden",
-    "closed": "Gesloten",
-    "openFrom": "Open van",
-    "openTo": "tot",
-    "monday": "Maandag",
-    "tuesday": "Dinsdag",
-    "wednesday": "Woensdag",
-    "thursday": "Donderdag",
-    "friday": "Vrijdag",
-    "saturday": "Zaterdag",
-    "sunday": "Zondag",
-    "reviews": "Beoordelingen",
-    "noReviews": "Nog geen beoordelingen",
-    "writeReview": "Schrijf een beoordeling",
-    "services": "Diensten",
-    "noServices": "Geen diensten vermeld",
-    "category": "Categorie",
-    "subcategory": "Subcategorie",
-    "location": "Locatie",
-    "featured": "Uitgelicht",
-    "rating": "Beoordeling",
-    "reviewCount": "Aantal beoordelingen",
-    "share": "Delen",
-    "report": "Rapporteren",
-    "edit": "Bewerken",
-    "delete": "Verwijderen",
-    "deleteConfirm": "Weet je zeker dat je dit bedrijf wilt verwijderen?",
-    "deleteSuccess": "Bedrijf verwijderd",
-    "deleteError": "Fout bij het verwijderen van bedrijf"
+  "business": {
+    "title": "Bedrijvengids",
+    "subtitle": "Vind maritieme bedrijven wereldwijd",
+    "filter": {
+      "title": "Bedrijven Filteren",
+      "category": "Categorie",
+      "location": "Locatie",
+      "rating": "Beoordeling",
+      "services": "Diensten",
+      "apply": "Filters Toepassen",
+      "reset": "Filters Resetten",
+      "noResults": "Geen bedrijven voldoen aan je filters",
+      "loading": "Bedrijven laden..."
+    },
+    "sort": {
+      "title": "Sorteren Op",
+      "name": "Naam",
+      "rating": "Beoordeling",
+      "newest": "Nieuwste",
+      "oldest": "Oudste"
+    },
+    "businessCard": {
+      "viewDetails": "Details Bekijken",
+      "contact": "Contact",
+      "website": "Bezoek Website",
+      "reviews": "Beoordelingen",
+      "showOnMap": "Toon op Kaart",
+      "featured": "Uitgelicht"
+    },
+    "view": {
+      "grid": "Rasterweergave",
+      "list": "Lijstweergave",
+      "map": "Kaartweergave"
+    },
+    "details": {
+      "about": "Over",
+      "services": "Aangeboden Diensten",
+      "location": "Locatie",
+      "contact": "Contactinformatie",
+      "reviews": "Beoordelingen",
+      "hours": "Openingstijden",
+      "established": "Opgericht",
+      "employees": "Werknemers",
+      "languages": "Talen",
+      "writeReview": "Schrijf een Beoordeling",
+      "claimBusiness": "Claim dit Bedrijf",
+      "report": "Rapporteer dit Bedrijf",
+      "share": "Delen",
+      "verifiedListing": "Geverifieerde Vermelding",
+      "lastUpdated": "Laatst Bijgewerkt",
+      "joinedPlatform": "Toegetreden tot Platform"
+    },
+    "featured": "Uitgelichte Bedrijven",
+    "viewAllBusinesses": "Alle Bedrijven Bekijken",
+    "viewDetails": "Details Bekijken"
   }
 }
