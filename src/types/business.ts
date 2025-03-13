@@ -57,3 +57,14 @@ export interface BusinessFormData {
   services?: string[];
   state?: string;
 }
+
+// Export ProgressCallback for CSV operations
+export type ProgressCallback = (progress: number) => void;
+
+// Define result type for business operations
+export interface BusinessResult {
+  success: boolean;
+  data?: any[];
+  count?: number;
+  error?: string;
+}

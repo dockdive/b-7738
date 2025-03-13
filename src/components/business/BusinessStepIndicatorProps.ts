@@ -1,9 +1,8 @@
 
 export interface BusinessStepIndicatorProps {
-  activeStep?: number; // Make optional for backward compatibility
-  currentStep?: number; // Add for backward compatibility
-  onStepClick?: (step: number) => void; // Make optional for backward compatibility
-  steps?: string[]; // Add steps array for backward compatibility
+  activeStep?: number; // Support both activeStep and currentStep for compatibility
+  currentStep?: number; // Added for backward compatibility
+  totalSteps?: number;
 }
 
 export default BusinessStepIndicatorProps;

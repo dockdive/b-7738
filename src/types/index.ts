@@ -31,38 +31,12 @@ export interface BusinessStatusObject {
   reason?: string;
 }
 
-export interface Business {
-  id: string;
-  name: string;
-  description: string;
-  logo?: string;
-  logo_url?: string;
-  website?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  postal_code?: string; // Alias for zip (for backward compatibility)
-  country?: string;
-  category_id: number;
-  subcategory_id?: number;
-  user_id?: string;
-  created_at?: string;
-  updated_at?: string;
-  status?: BusinessStatusUnion;
-  featured?: boolean;
-  is_featured?: boolean; // Alias for featured (for compatibility)
-  rating?: number;
-  review_count?: number;
-  services?: string[];
-  images?: string[];
-  opening_hours?: Record<string, string>;
-  owner_id?: string; // Make owner_id optional to match database
-  latitude?: number;
-  longitude?: number;
-}
+// Import from business.ts to ensure consistency
+import { Business as BusinessType, BusinessFormData } from './business';
+
+// Re-export for backward compatibility
+export type Business = BusinessType;
+export type { BusinessFormData };
 
 // Update BusinessCreate to ensure it matches the API requirements
 export interface BusinessCreate {
@@ -198,3 +172,13 @@ export interface WikiSearchResult {
 
 // Re-export LanguageCode for global use
 export type { LanguageCode };
+
+// CSV and Progress-related types
+export type ProgressCallback = (progress: number) => void;
+
+export interface CSVResult {
+  success: boolean;
+  data?: any[] | string[][];
+  count?: number;
+  error?: string;
+}

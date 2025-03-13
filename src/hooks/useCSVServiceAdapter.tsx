@@ -1,6 +1,7 @@
 
 import { useCSVAdapter } from './useCSVAdapter';
 import csvServiceWrapper, { ProgressCallback } from '@/utils/csvServiceWrapper';
+import { CSVResult } from '@/types/csv';
 
 export const useCSVServiceAdapter = () => {
   const { logger } = useCSVAdapter();
