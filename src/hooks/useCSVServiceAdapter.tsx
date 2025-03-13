@@ -1,7 +1,9 @@
 
+import React from 'react';
 import { useCSVAdapter } from './useCSVAdapter';
-import csvServiceWrapper, { ProgressCallback } from '@/utils/csvServiceWrapper';
+import csvServiceWrapper from '@/utils/csvServiceWrapper';
 import { CSVResult } from '@/types/csv';
+import { ProgressCallback } from '@/types/business';
 
 export const useCSVServiceAdapter = () => {
   const { logger } = useCSVAdapter();
@@ -90,7 +92,6 @@ export const useCSVServiceAdapter = () => {
     try {
       logger.info('Loading sample business data');
       
-      // Since we can't modify the csvServiceWrapper, we'll implement the functionality here
       // Simulate progress
       if (onProgress) {
         onProgress(10);

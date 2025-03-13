@@ -32,42 +32,12 @@ export interface BusinessStatusObject {
 }
 
 // Import from business.ts to ensure consistency
-import { Business as BusinessType, BusinessFormData, ProgressCallback as ProgressCallbackType } from './business';
+import { Business as BusinessType, BusinessCreate as BusinessCreateType, ProgressCallback as ProgressCallbackType } from './business';
 
 // Re-export for backward compatibility
 export type Business = BusinessType;
-export type { BusinessFormData };
+export type BusinessCreate = BusinessCreateType;
 export type ProgressCallback = ProgressCallbackType;
-
-// Update BusinessCreate to ensure it matches the API requirements
-export interface BusinessCreate {
-  name: string;
-  description: string;
-  logo?: File;
-  logo_url?: string;
-  website?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  postal_code?: string; // Alias for zip
-  country?: string;
-  category_id: number;
-  subcategory_id?: number;
-  owner_id?: string; // Make owner_id optional to match database
-  user_id?: string;
-  status?: BusinessStatusUnion;
-  opening_hours?: Record<string, string>;
-  is_featured?: boolean;
-  services?: string[];
-  latitude?: number;
-  longitude?: number;
-  rating?: number;
-  review_count?: number;
-  images?: string[];
-}
 
 // Add BusinessFilter type
 export interface BusinessFilter {

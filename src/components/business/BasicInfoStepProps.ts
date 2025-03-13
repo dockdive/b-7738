@@ -21,3 +21,5 @@ export interface BasicInfoStepProps {
   updateFormData?: (data: Partial<any>) => void;
   onNext?: () => void;
 }
+
+export default BasicInfoStepProps;

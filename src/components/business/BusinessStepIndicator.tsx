@@ -2,7 +2,7 @@
 import React from 'react';
 import { Info, MapPin, ListChecks } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import BusinessStepIndicatorProps from './BusinessStepIndicatorProps';
+import { BusinessStepIndicatorProps } from './BusinessStepIndicatorProps';
 
 const BusinessStepIndicator: React.FC<BusinessStepIndicatorProps> = ({ 
   activeStep, 

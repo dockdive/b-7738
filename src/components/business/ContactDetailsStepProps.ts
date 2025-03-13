@@ -22,3 +22,5 @@ export interface ContactDetailsStepProps {
   onBack?: () => void;
   onNext?: () => void;
 }
+
+export default ContactDetailsStepProps;

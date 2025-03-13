@@ -29,6 +29,28 @@ export interface Business {
   opening_hours?: Record<string, string>;
   services?: string[];
   postal_code?: string; // Alternative to zip
+  user_id?: string; // Added to match database usage
+}
+
+// Add a type for form data used in business components
+export interface BusinessFormData {
+  name: string;
+  description: string;
+  category_id: number | null;
+  subcategory_id?: number | null;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postal_code?: string;
+  zip?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  opening_hours?: Record<string, string>;
+  services?: any[];
+  logo_url?: string;
+  logo?: File;
 }
 
 export type BusinessCreate = Omit<Business, 'id' | 'created_at' | 'updated_at'> & {
@@ -46,3 +68,6 @@ export enum BusinessStatus {
   APPROVED = 'approved',
   REJECTED = 'rejected'
 }
+
+// Add progress callback type
+export type ProgressCallback = (progress: number) => void;

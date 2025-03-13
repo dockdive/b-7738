@@ -148,3 +148,6 @@ export function useCSVServiceAdapter() {
     result
   };
 }
+
+// Add a default export for backward compatibility
+export default useCSVServiceAdapter;
