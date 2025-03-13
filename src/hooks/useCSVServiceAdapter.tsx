@@ -1,13 +1,6 @@
 
 import { useCSVAdapter } from './useCSVAdapter';
-import { 
-  parseCSV,
-  validateCSV,
-  importCSV, 
-  downloadTemplate, 
-  prepareDataForImport, 
-  generateExampleData 
-} from '@/services/csvService';
+import csvService from '@/services/csvService';
 
 export const useCSVServiceAdapter = () => {
   const { logger } = useCSVAdapter();
@@ -15,7 +8,7 @@ export const useCSVServiceAdapter = () => {
   const handleParseCSV = async (file: File) => {
     try {
       logger.info('Starting CSV parsing', { fileName: file.name });
-      return await parseCSV(file);
+      return await csvService.parseCSV(file);
     } catch (error) {
       logger.error('Error parsing CSV', error);
       throw error;
@@ -25,7 +18,7 @@ export const useCSVServiceAdapter = () => {
   const handleValidateCSV = async (records: any[], templateType: string) => {
     try {
       logger.info('Validating CSV data', { recordCount: records.length, templateType });
-      return await validateCSV(records, templateType);
+      return await csvService.validateCSV(records, templateType);
     } catch (error) {
       logger.error('Error validating CSV', error);
       throw error;
@@ -35,7 +28,7 @@ export const useCSVServiceAdapter = () => {
   const handleImportCSV = async (records: any[], templateType: string) => {
     try {
       logger.info('Importing CSV data to database', { recordCount: records.length, templateType });
-      return await importCSV(records, templateType);
+      return await csvService.importCSV(records, templateType);
     } catch (error) {
       logger.error('Error importing CSV', error);
       throw error;
@@ -45,7 +38,7 @@ export const useCSVServiceAdapter = () => {
   const handleDownloadTemplate = (templateType: string) => {
     try {
       logger.warn('Downloading template', { templateType });
-      return downloadTemplate(templateType);
+      return csvService.downloadTemplate(templateType);
     } catch (error) {
       logger.error('Error downloading template', error);
       throw error;
@@ -54,7 +47,7 @@ export const useCSVServiceAdapter = () => {
 
   const handlePrepareDataForImport = (records: any[], templateType: string) => {
     try {
-      return prepareDataForImport(records, templateType);
+      return csvService.prepareDataForImport(records, templateType);
     } catch (error) {
       logger.error('Error preparing data for import', error);
       throw error;
@@ -64,7 +57,7 @@ export const useCSVServiceAdapter = () => {
   const handleGenerateExampleData = (templateType: string, count = 5) => {
     try {
       logger.warn('Generating example data', { templateType, count });
-      return generateExampleData(templateType, count);
+      return csvService.generateExampleData(templateType, count);
     } catch (error) {
       logger.error('Error generating example data', error);
       throw error;
